@@ -32,7 +32,9 @@ import ServicosPage from './ServicosPage';
 import CaixaPage from './CaixaPage';
 import ConfiguracoesPage from './ConfiguracoesPage';
 import SystemIntegrationPage from './SystemIntegrationPage';
-import LoginPage from './LoginPage';
+import MultiLevelLogin from './MultiLevelLogin';
+import SuperAdminDashboard from './SuperAdminDashboard';
+import { useAuth, UserType } from '@/lib/auth';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -238,20 +240,16 @@ function DashboardContent() {
 }
 
 export default function MainApp() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const { user, logout, checkAuth } = useAuth();
 
   useEffect(() => {
-    // Verificar se o usuário está logado
-    const user = localStorage.getItem('user');
-    if (user) {
-      setIsAuthenticated(true);
-    }
+    // Verificar se há usuário logado
+    checkAuth();
   }, []);
 
-  // Fechar dropdown quando clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userDropdownOpen) {
@@ -268,14 +266,12 @@ export default function MainApp() {
     };
   }, [userDropdownOpen]);
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
+  const handleLogin = (userType: UserType) => {
     setCurrentPage('dashboard');
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    setIsAuthenticated(false);
+    logout();
     setCurrentPage('dashboard');
   };
 
@@ -283,8 +279,14 @@ export default function MainApp() {
     setSidebarOpen(!sidebarOpen);
   };
 
-  if (!isAuthenticated) {
-    return <LoginPage />;
+  // Se não está autenticado, mostrar tela de login
+  if (!user) {
+    return <MultiLevelLogin onLogin={handleLogin} />;
+  }
+
+  // Se é super admin, mostrar dashboard específico
+  if (user.type === 'super_admin') {
+    return <SuperAdminDashboard />;
   }
 
   const renderCurrentPage = () => {
