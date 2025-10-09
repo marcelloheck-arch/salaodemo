@@ -240,14 +240,24 @@ function DashboardContent() {
 }
 
 export default function MainApp() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userType, setUserType] = useState<'super_admin' | 'salon_admin'>('salon_admin');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const { user, logout, checkAuth } = useAuth();
 
   useEffect(() => {
-    // Verificar se há usuário logado
-    checkAuth();
+    // Verificar se há usuário logado no localStorage
+    const user = localStorage.getItem('authUser');
+    if (user) {
+      try {
+        const authUser = JSON.parse(user);
+        setIsAuthenticated(true);
+        setUserType(authUser.type || 'salon_admin');
+      } catch {
+        localStorage.removeItem('authUser');
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -266,12 +276,15 @@ export default function MainApp() {
     };
   }, [userDropdownOpen]);
 
-  const handleLogin = (userType: UserType) => {
+  const handleLogin = (type: UserType) => {
+    setIsAuthenticated(true);
+    setUserType(type === 'super_admin' ? 'super_admin' : 'salon_admin');
     setCurrentPage('dashboard');
   };
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('authUser');
+    setIsAuthenticated(false);
     setCurrentPage('dashboard');
   };
 
@@ -280,12 +293,12 @@ export default function MainApp() {
   };
 
   // Se não está autenticado, mostrar tela de login
-  if (!user) {
+  if (!isAuthenticated) {
     return <MultiLevelLogin onLogin={handleLogin} />;
   }
 
   // Se é super admin, mostrar dashboard específico
-  if (user.type === 'super_admin') {
+  if (userType === 'super_admin') {
     return <SuperAdminDashboard />;
   }
 
