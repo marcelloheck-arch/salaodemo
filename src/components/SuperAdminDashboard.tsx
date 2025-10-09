@@ -20,7 +20,8 @@ import {
   MapPin,
   Phone,
   Mail,
-  Building
+  Building,
+  LogOut
 } from 'lucide-react';
 import { License, Client, PlanConfig } from '@/types/license';
 import { LicenseGenerator, PLAN_CONFIGS } from '@/lib/licenseGenerator';
@@ -68,7 +69,11 @@ const mockClients: Client[] = [
   }
 ];
 
-export default function SuperAdminDashboard() {
+interface SuperAdminDashboardProps {
+  onLogout: () => void;
+}
+
+export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardProps) {
   const [currentTab, setCurrentTab] = useState<'overview' | 'clients' | 'licenses' | 'plans'>('overview');
   const [clients, setClients] = useState<Client[]>(mockClients);
   const [searchTerm, setSearchTerm] = useState('');
@@ -341,6 +346,15 @@ export default function SuperAdminDashboard() {
               </div>
               <h1 className="text-xl font-bold text-gray-900">Super Admin - Agenda Salão</h1>
             </div>
+            
+            {/* Botão de Sair */}
+            <button
+              onClick={onLogout}
+              className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-red-600 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sair</span>
+            </button>
           </div>
         </div>
       </header>

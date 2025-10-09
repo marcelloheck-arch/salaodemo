@@ -276,15 +276,28 @@ export default function MainApp() {
     };
   }, [userDropdownOpen]);
 
-  const handleLogin = (type: UserType) => {
+  const handleLogin = (userData: { 
+    type: 'superadmin' | 'salon';
+    name: string;
+    email: string;
+    salonName?: string;
+    licenseKey?: string;
+  }) => {
     setIsAuthenticated(true);
-    setUserType(type === 'super_admin' ? 'super_admin' : 'salon_admin');
+    setUserType(userData.type === 'superadmin' ? 'super_admin' : 'salon_admin');
     setCurrentPage('dashboard');
+    
+    // Salvar dados do usuário no localStorage
+    localStorage.setItem('userData', JSON.stringify(userData));
+    localStorage.setItem('isAuthenticated', 'true');
   };
 
   const handleLogout = () => {
     localStorage.removeItem('authUser');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('isAuthenticated');
     setIsAuthenticated(false);
+    setUserType('salon_admin');
     setCurrentPage('dashboard');
   };
 
@@ -299,7 +312,7 @@ export default function MainApp() {
 
   // Se é super admin, mostrar dashboard específico
   if (userType === 'super_admin') {
-    return <SuperAdminDashboard />;
+    return <SuperAdminDashboard onLogout={handleLogout} />;
   }
 
   const renderCurrentPage = () => {
