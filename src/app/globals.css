@@ -16,6 +16,17 @@
   }
 }
 
+/* Base responsive styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -24,6 +35,32 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Mobile-first responsive typography */
+@media (max-width: 320px) {
+  html { font-size: 14px; }
+}
+
+@media (min-width: 768px) {
+  html { font-size: 16px; }
+}
+
+@media (min-width: 1024px) {
+  html { font-size: 18px; }
+}
+
+/* Touch-friendly buttons for mobile */
+@media (max-width: 768px) {
+  button, .btn {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
 }
 
 /* Glassmorphism utilities */

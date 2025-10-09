@@ -42,6 +42,15 @@ interface SidebarProps {
 }
 
 function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const menuItems = [
     { 
       icon: BarChart3, 
@@ -113,33 +122,40 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
   return (
     <>
       {/* Backdrop for mobile */}
-      {isOpen && (
+      {isOpen && isMobile && (
         <div 
-          className="fixed inset-0 bg-black/50 lg:hidden z-40"
+          className="fixed inset-0 bg-black/50 z-40"
           onClick={onToggle}
         />
       )}
       
       {/* Sidebar */}
       <div className={cn(
-        "fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out z-50",
-        isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        "fixed left-0 top-0 h-full transition-all duration-300 ease-in-out z-50 bg-white border-r border-gray-200",
+        // Mobile: slide in/out, Desktop: always visible
+        isMobile 
+          ? `w-80 transform ${isOpen ? "translate-x-0" : "-translate-x-full"}`
+          : "w-64"
       )}>
         <div className="flex flex-col h-full">
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-8">
+          <div className={cn("p-4", isMobile ? "p-6" : "p-4")}>
+            <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-white" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-800">Agenda Salão</h1>
+                <h1 className={cn("font-bold text-gray-800", isMobile ? "text-lg" : "text-xl")}>
+                  Agenda Salão
+                </h1>
               </div>
-              <button 
-                onClick={onToggle}
-                className="lg:hidden text-gray-500 hover:text-gray-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              {isMobile && (
+                <button 
+                  onClick={onToggle}
+                  className="text-gray-500 hover:text-gray-700 p-2"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
 
             <nav className="space-y-2 overflow-y-auto flex-1 pr-2 max-h-96">
@@ -149,15 +165,20 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
               {menuItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => onPageChange(item.id)}
+                  onClick={() => {
+                    onPageChange(item.id);
+                    // Auto-close on mobile after selection
+                    if (isMobile) onToggle();
+                  }}
                   className={cn(
-                    "w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors",
+                    "w-full flex items-center space-x-3 rounded-lg text-left transition-colors",
+                    isMobile ? "px-6 py-4 text-base" : "px-4 py-3 text-sm",
                     currentPage === item.id 
                       ? "bg-primary text-white" 
                       : "text-gray-600 hover:bg-gray-100"
                   )}
                 >
-                  <item.icon className="w-5 h-5" />
+                  <item.icon className={cn("", isMobile ? "w-6 h-6" : "w-5 h-5")} />
                   <span className="font-medium">{item.label}</span>
                 </button>
               ))}
@@ -304,27 +325,28 @@ export default function MainApp() {
       
       <div className="lg:ml-64">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
+        <header className="bg-white border-b border-gray-200 px-4 py-3 md:px-6 md:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4">
               <button
                 onClick={toggleSidebar}
-                className="lg:hidden text-gray-500 hover:text-gray-700"
+                className="md:hidden text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100"
               >
                 <Menu className="w-6 h-6" />
               </button>
-              <div className="flex items-center space-x-3">
+              
+              {/* Logo - Show only on mobile when sidebar is closed */}
+              <div className="flex items-center space-x-3 md:hidden">
                 <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-white" />
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-800">Agenda Salão</h1>
-                </div>
+                <h1 className="text-lg font-bold text-gray-800">Agenda Salão</h1>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <button className="text-gray-500 hover:text-gray-700">
-                <Bell className="w-6 h-6" />
+            
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <button className="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100">
+                <Bell className="w-5 h-5 md:w-6 md:h-6" />
               </button>
               
               {/* User Dropdown */}
