@@ -1,0 +1,9 @@
+{
+  "timestamp": "20251006_004407",
+  "node_version": "v24.9.0",
+  "npm_version": "Erro ao executar: [WinError 2] O sistema não pode encontrar o arquivo especificado",
+  "python_version": "Python 3.11.6",
+  "pip_version": "pip 25.2 from C:\\Users\\desha\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\pip (python 3.11)",
+  "npm_packages": "Erro ao executar: [WinError 2] O sistema não pode encontrar o arquivo especificado",
+  "python_packages": "Erro ao executar: Command '['pip', 'list']' timed out after 10 seconds"
+}

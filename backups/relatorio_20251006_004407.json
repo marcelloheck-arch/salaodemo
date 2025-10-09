@@ -1,0 +1,37 @@
+{
+  "backup_info": {
+    "nome": "backup_completo_20251006_004407",
+    "timestamp": "20251006_004407",
+    "data_legivel": "06/10/2025 00:44:23",
+    "tamanho_mb": 0.23,
+    "hash_sha256": "4ed41ffc64f082cdf3e4a39bc38a66c9c3a16c2cd40505859bf08bd62ec165b2"
+  },
+  "estatisticas": {
+    "typescript": 4,
+    "tsx": 17,
+    "javascript": 1,
+    "python": 27,
+    "json": 8,
+    "css": 1,
+    "md": 3,
+    "total": 95
+  },
+  "estrutura": {
+    "frontend": "Código fonte Next.js/React",
+    "python_systems": "7 microserviços Python",
+    "configuracoes": "Arquivos de configuração",
+    "dependencias": "Informações de dependências",
+    "scripts": "Scripts de inicialização"
+  },
+  "sistemas_incluidos": [
+    "Frontend Next.js com TypeScript",
+    "Sistema Caixa (Python + FastAPI)",
+    "Sistema Analytics (Python + Pandas)",
+    "Sistema Relatórios (Python + NumPy)",
+    "Sistema ML (Python + Scikit-learn)",
+    "Sistema Imagens (Python + OpenCV)",
+    "Sistema Big Data (Python + SciPy)",
+    "Sistema Automação (Python + APScheduler)",
+    "AI Agent (Python + NLP)"
+  ]
+}

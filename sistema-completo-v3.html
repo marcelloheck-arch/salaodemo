@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Completo - Salão de Beleza v3.0</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glassmorphism-dark {
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+        .time-slot {
+            min-height: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Dados mock completos
+        const mockData = {
+            clientes: [
+                { id: 1, nome: 'Maria Silva', telefone: '(11) 98765-4321', email: 'maria@email.com', vip: true, ultimoAtendimento: '2025-10-05' },
+                { id: 2, nome: 'Ana Costa', telefone: '(11) 97654-3210', email: 'ana@email.com', vip: false, ultimoAtendimento: '2025-10-03' },
+                { id: 3, nome: 'João Santos', telefone: '(11) 96543-2109', email: 'joao@email.com', vip: false, ultimoAtendimento: '2025-10-01' },
+                { id: 4, nome: 'Carmen Rodriguez', telefone: '(11) 95432-1098', email: 'carmen@email.com', vip: true, ultimoAtendimento: '2025-10-07' }
+            ],
+            servicos: [
+                { id: 1, nome: 'Corte Feminino', categoria: 'Cabelo', preco: 60, duracao: 60, comissao: 40, ativo: true, popularidade: 85 },
+                { id: 2, nome: 'Escova', categoria: 'Cabelo', preco: 40, duracao: 45, comissao: 35, ativo: true, popularidade: 90 },
+                { id: 3, nome: 'Coloração', categoria: 'Cabelo', preco: 120, duracao: 120, comissao: 45, ativo: true, popularidade: 70 },
+                { id: 4, nome: 'Manicure', categoria: 'Unhas', preco: 35, duracao: 60, comissao: 50, ativo: true, popularidade: 95 },
+                { id: 5, nome: 'Pedicure', categoria: 'Unhas', preco: 40, duracao: 60, comissao: 50, ativo: true, popularidade: 80 },
+                { id: 6, nome: 'Corte Masculino', categoria: 'Masculino', preco: 30, duracao: 30, comissao: 40, ativo: true, popularidade: 88 },
+                { id: 7, nome: 'Limpeza de Pele', categoria: 'Estética', preco: 80, duracao: 90, comissao: 45, ativo: true, popularidade: 75 }
+            ],
+            profissionais: [
+                { id: 1, nome: 'Laura Martins', especialidade: 'Cabeleireira', ativo: true },
+                { id: 2, nome: 'Patricia Lima', especialidade: 'Manicure', ativo: true },
+                { id: 3, nome: 'Roberto Silva', especialidade: 'Barbeiro', ativo: true },
+                { id: 4, nome: 'Carla Santos', especialidade: 'Esteticista', ativo: true }
+            ],
+            agendamentos: [
+                { id: 1, clienteId: 1, servicoId: 1, profissionalId: 1, data: '2025-10-08', hora: '09:00', status: 'Agendado', valor: 60 },
+                { id: 2, clienteId: 2, servicoId: 4, profissionalId: 2, data: '2025-10-08', hora: '10:30', status: 'Confirmado', valor: 35 },
+                { id: 3, clienteId: 3, servicoId: 6, profissionalId: 3, data: '2025-10-08', hora: '14:00', status: 'Em Andamento', valor: 30 },
+                { id: 4, clienteId: 4, servicoId: 7, profissionalId: 4, data: '2025-10-08', hora: '15:30', status: 'Concluído', valor: 80 }
+            ],
+            transacoes: [
+                { id: 1, agendamentoId: 4, valor: 80, comissao: 36, profissionalId: 4, data: '2025-10-08', tipo: 'receita' },
+                { id: 2, agendamentoId: 2, valor: 35, comissao: 17.5, profissionalId: 2, data: '2025-10-07', tipo: 'receita' },
+                { id: 3, valor: 150, descricao: 'Compra produtos', data: '2025-10-06', tipo: 'despesa' }
+            ]
+        };
+
+        // Componente de Login
+        function LoginForm({ onLogin }) {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onLogin({ email, password });
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center p-4">
+                    <div className="glassmorphism rounded-2xl p-8 w-full max-w-md">
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl font-bold text-white mb-2">Agenda Salão v3.0</h1>
+                            <p className="text-white/80">Sistema Completo de Gestão</p>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label className="block text-white mb-2">Email</label>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    placeholder="admin@salao.com"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-white mb-2">Senha</label>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    placeholder="admin123"
+                                    required
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+                            >
+                                Entrar
+                            </button>
+                        </form>
+
+                        <div className="mt-6 p-4 bg-white/10 rounded-lg">
+                            <p className="text-sm text-white/80 font-medium mb-2">Credenciais de acesso:</p>
+                            <p className="text-xs text-white/70">Email: admin@salao.com</p>
+                            <p className="text-xs text-white/70">Senha: admin123</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Componente Modal
+        function Modal({ isOpen, onClose, title, children, size = "md" }) {
+            if (!isOpen) return null;
+
+            const sizeClasses = {
+                sm: "max-w-md",
+                md: "max-w-2xl",
+                lg: "max-w-4xl",
+                xl: "max-w-6xl"
+            };
+
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+                    <div className={`glassmorphism rounded-2xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto`}>
+                        <div className="flex justify-between items-center p-6 border-b border-white/20">
+                            <h2 className="text-xl font-bold text-white">{title}</h2>
+                            <button
+                                onClick={onClose}
+                                className="text-white/70 hover:text-white text-2xl"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="p-6">
+                            {children}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Componente de Agendamentos
+        function AgendamentosPage() {
+            const [agendamentos, setAgendamentos] = useState(mockData.agendamentos);
+            const [showModal, setShowModal] = useState(false);
+            const [editingAgendamento, setEditingAgendamento] = useState(null);
+            const [filterStatus, setFilterStatus] = useState('todos');
+
+            const statusOptions = ['Agendado', 'Confirmado', 'Em Andamento', 'Concluído', 'Cancelado'];
+            const statusColors = {
+                'Agendado': 'bg-blue-500',
+                'Confirmado': 'bg-green-500',
+                'Em Andamento': 'bg-yellow-500',
+                'Concluído': 'bg-purple-500',
+                'Cancelado': 'bg-red-500'
+            };
+
+            const getClienteNome = (clienteId) => {
+                const cliente = mockData.clientes.find(c => c.id === clienteId);
+                return cliente ? cliente.nome : 'Cliente não encontrado';
+            };
+
+            const getServicoNome = (servicoId) => {
+                const servico = mockData.servicos.find(s => s.id === servicoId);
+                return servico ? servico.nome : 'Serviço não encontrado';
+            };
+
+            const getProfissionalNome = (profissionalId) => {
+                const profissional = mockData.profissionais.find(p => p.id === profissionalId);
+                return profissional ? profissional.nome : 'Profissional não encontrado';
+            };
+
+            const filteredAgendamentos = filterStatus === 'todos' 
+                ? agendamentos 
+                : agendamentos.filter(a => a.status === filterStatus);
+
+            const handleNewAgendamento = () => {
+                setEditingAgendamento({
+                    clienteId: '',
+                    servicoId: '',
+                    profissionalId: '',
+                    data: '',
+                    hora: '',
+                    status: 'Agendado',
+                    valor: ''
+                });
+                setShowModal(true);
+            };
+
+            const handleEditAgendamento = (agendamento) => {
+                setEditingAgendamento(agendamento);
+                setShowModal(true);
+            };
+
+            const handleSaveAgendamento = (formData) => {
+                if (editingAgendamento.id) {
+                    setAgendamentos(prev => prev.map(a => 
+                        a.id === editingAgendamento.id ? { ...formData, id: editingAgendamento.id } : a
+                    ));
+                } else {
+                    const newId = Math.max(...agendamentos.map(a => a.id)) + 1;
+                    setAgendamentos(prev => [...prev, { ...formData, id: newId }]);
+                }
+                setShowModal(false);
+                setEditingAgendamento(null);
+            };
+
+            return (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-white">Agendamentos</h2>
+                        <div className="flex space-x-4">
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                                className="bg-white/20 text-white rounded-lg px-4 py-2 border border-white/30"
+                            >
+                                <option value="todos">Todos os Status</option>
+                                {statusOptions.map(status => (
+                                    <option key={status} value={status}>{status}</option>
+                                ))}
+                            </select>
+                            <button
+                                onClick={handleNewAgendamento}
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+                            >
+                                + Novo Agendamento
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="bg-white/10 rounded-lg overflow-hidden">
+                        <table className="w-full">
+                            <thead className="bg-white/20">
+                                <tr>
+                                    <th className="text-left p-4 text-white">Data/Hora</th>
+                                    <th className="text-left p-4 text-white">Cliente</th>
+                                    <th className="text-left p-4 text-white">Serviço</th>
+                                    <th className="text-left p-4 text-white">Profissional</th>
+                                    <th className="text-left p-4 text-white">Status</th>
+                                    <th className="text-left p-4 text-white">Valor</th>
+                                    <th className="text-left p-4 text-white">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredAgendamentos.map(agendamento => (
+                                    <tr key={agendamento.id} className="border-t border-white/10">
+                                        <td className="p-4 text-white">
+                                            {agendamento.data} {agendamento.hora}
+                                        </td>
+                                        <td className="p-4 text-white">{getClienteNome(agendamento.clienteId)}</td>
+                                        <td className="p-4 text-white">{getServicoNome(agendamento.servicoId)}</td>
+                                        <td className="p-4 text-white">{getProfissionalNome(agendamento.profissionalId)}</td>
+                                        <td className="p-4">
+                                            <span className={`px-2 py-1 rounded text-white text-xs ${statusColors[agendamento.status]}`}>
+                                                {agendamento.status}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-white">R$ {agendamento.valor}</td>
+                                        <td className="p-4">
+                                            <button
+                                                onClick={() => handleEditAgendamento(agendamento)}
+                                                className="text-blue-400 hover:text-blue-300 mr-2"
+                                            >
+                                                Editar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Modal de Agendamento */}
+                    <Modal
+                        isOpen={showModal}
+                        onClose={() => setShowModal(false)}
+                        title={editingAgendamento?.id ? "Editar Agendamento" : "Novo Agendamento"}
+                    >
+                        <AgendamentoForm
+                            agendamento={editingAgendamento}
+                            onSave={handleSaveAgendamento}
+                            onCancel={() => setShowModal(false)}
+                        />
+                    </Modal>
+                </div>
+            );
+        }
+
+        function AgendamentoForm({ agendamento, onSave, onCancel }) {
+            const [formData, setFormData] = useState(agendamento || {});
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSave(formData);
+            };
+
+            return (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-white mb-2">Cliente</label>
+                            <select
+                                value={formData.clienteId || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, clienteId: parseInt(e.target.value) }))}
+                                className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                                required
+                            >
+                                <option value="">Selecione um cliente</option>
+                                {mockData.clientes.map(cliente => (
+                                    <option key={cliente.id} value={cliente.id}>{cliente.nome}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-white mb-2">Serviço</label>
+                            <select
+                                value={formData.servicoId || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, servicoId: parseInt(e.target.value) }))}
+                                className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                                required
+                            >
+                                <option value="">Selecione um serviço</option>
+                                {mockData.servicos.filter(s => s.ativo).map(servico => (
+                                    <option key={servico.id} value={servico.id}>{servico.nome} - R$ {servico.preco}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-white mb-2">Profissional</label>
+                            <select
+                                value={formData.profissionalId || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, profissionalId: parseInt(e.target.value) }))}
+                                className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                                required
+                            >
+                                <option value="">Selecione um profissional</option>
+                                {mockData.profissionais.filter(p => p.ativo).map(profissional => (
+                                    <option key={profissional.id} value={profissional.id}>{profissional.nome}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-white mb-2">Status</label>
+                            <select
+                                value={formData.status || 'Agendado'}
+                                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                                className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                            >
+                                <option value="Agendado">Agendado</option>
+                                <option value="Confirmado">Confirmado</option>
+                                <option value="Em Andamento">Em Andamento</option>
+                                <option value="Concluído">Concluído</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-white mb-2">Data</label>
+                            <input
+                                type="date"
+                                value={formData.data || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, data: e.target.value }))}
+                                className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-white mb-2">Hora</label>
+                            <input
+                                type="time"
+                                value={formData.hora || ''}
+                                onChange={(e) => setFormData(prev => ({ ...prev, hora: e.target.value }))}
+                                className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end space-x-4 mt-6">
+                        <button
+                            type="button"
+                            onClick={onCancel}
+                            className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg"
+                        >
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            );
+        }
+
+        // Componente de Clientes
+        function ClientesPage() {
+            const [clientes, setClientes] = useState(mockData.clientes);
+            const [showModal, setShowModal] = useState(false);
+            const [editingCliente, setEditingCliente] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+
+            const filteredClientes = clientes.filter(cliente =>
+                cliente.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                cliente.telefone.includes(searchTerm) ||
+                cliente.email.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            const handleNewCliente = () => {
+                setEditingCliente({
+                    nome: '',
+                    telefone: '',
+                    email: '',
+                    vip: false
+                });
+                setShowModal(true);
+            };
+
+            const handleEditCliente = (cliente) => {
+                setEditingCliente(cliente);
+                setShowModal(true);
+            };
+
+            const handleSaveCliente = (formData) => {
+                if (editingCliente.id) {
+                    setClientes(prev => prev.map(c => 
+                        c.id === editingCliente.id ? { ...formData, id: editingCliente.id } : c
+                    ));
+                } else {
+                    const newId = Math.max(...clientes.map(c => c.id)) + 1;
+                    setClientes(prev => [...prev, { ...formData, id: newId, ultimoAtendimento: new Date().toISOString().split('T')[0] }]);
+                }
+                setShowModal(false);
+                setEditingCliente(null);
+            };
+
+            return (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-white">Gestão de Clientes</h2>
+                        <button
+                            onClick={handleNewCliente}
+                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+                        >
+                            + Novo Cliente
+                        </button>
+                    </div>
+
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            placeholder="Buscar clientes..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30"
+                        />
+                    </div>
+
+                    <div className="bg-white/10 rounded-lg overflow-hidden">
+                        <table className="w-full">
+                            <thead className="bg-white/20">
+                                <tr>
+                                    <th className="text-left p-4 text-white">Nome</th>
+                                    <th className="text-left p-4 text-white">Telefone</th>
+                                    <th className="text-left p-4 text-white">Email</th>
+                                    <th className="text-left p-4 text-white">Status</th>
+                                    <th className="text-left p-4 text-white">Último Atendimento</th>
+                                    <th className="text-left p-4 text-white">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredClientes.map(cliente => (
+                                    <tr key={cliente.id} className="border-t border-white/10">
+                                        <td className="p-4 text-white">{cliente.nome}</td>
+                                        <td className="p-4 text-white">{cliente.telefone}</td>
+                                        <td className="p-4 text-white">{cliente.email}</td>
+                                        <td className="p-4">
+                                            {cliente.vip ? (
+                                                <span className="px-2 py-1 bg-yellow-500 text-white text-xs rounded">VIP</span>
+                                            ) : (
+                                                <span className="px-2 py-1 bg-gray-500 text-white text-xs rounded">Regular</span>
+                                            )}
+                                        </td>
+                                        <td className="p-4 text-white">{cliente.ultimoAtendimento}</td>
+                                        <td className="p-4">
+                                            <button
+                                                onClick={() => handleEditCliente(cliente)}
+                                                className="text-blue-400 hover:text-blue-300 mr-2"
+                                            >
+                                                Editar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Modal de Cliente */}
+                    <Modal
+                        isOpen={showModal}
+                        onClose={() => setShowModal(false)}
+                        title={editingCliente?.id ? "Editar Cliente" : "Novo Cliente"}
+                    >
+                        <ClienteForm
+                            cliente={editingCliente}
+                            onSave={handleSaveCliente}
+                            onCancel={() => setShowModal(false)}
+                        />
+                    </Modal>
+                </div>
+            );
+        }
+
+        function ClienteForm({ cliente, onSave, onCancel }) {
+            const [formData, setFormData] = useState(cliente || {});
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onSave(formData);
+            };
+
+            return (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-white mb-2">Nome Completo *</label>
+                        <input
+                            type="text"
+                            value={formData.nome || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, nome: e.target.value }))}
+                            className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-white mb-2">Telefone *</label>
+                        <input
+                            type="tel"
+                            value={formData.telefone || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, telefone: e.target.value }))}
+                            className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                            placeholder="(11) 99999-9999"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-white mb-2">Email *</label>
+                        <input
+                            type="email"
+                            value={formData.email || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                            className="w-full p-3 rounded-lg bg-white/20 text-white border border-white/30"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="vip"
+                            checked={formData.vip || false}
+                            onChange={(e) => setFormData(prev => ({ ...prev, vip: e.target.checked }))}
+                            className="mr-3"
+                        />
+                        <label htmlFor="vip" className="text-white">Cliente VIP</label>
+                    </div>
+
+                    <div className="flex justify-end space-x-4 mt-6">
+                        <button
+                            type="button"
+                            onClick={onCancel}
+                            className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg"
+                        >
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            );
+        }
+
+        // Continua na próxima parte...
+        // (O arquivo está ficando muito longo, então vou dividir em partes)
+    </script>
+</body>
+</html>

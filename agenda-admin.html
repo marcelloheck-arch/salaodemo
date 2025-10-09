@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Agenda - Salão de Beleza</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Componente de Login
+        function LoginForm({ onLogin }) {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                onLogin({ email, password });
+            };
+
+            return (
+                <div className="min-h-screen flex items-center justify-center p-4">
+                    <div className="glassmorphism rounded-2xl p-8 w-full max-w-md">
+                        <div className="text-center mb-8">
+                            <h1 className="text-3xl font-bold text-white mb-2">Agenda Salão</h1>
+                            <p className="text-white/80">Sistema de Gestão</p>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label className="block text-white mb-2">Email</label>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30"
+                                    placeholder="admin@salao.com"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-white mb-2">Senha</label>
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full p-3 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30"
+                                    placeholder="admin123"
+                                    required
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+                            >
+                                Entrar
+                            </button>
+                        </form>
+
+                        <div className="mt-6 p-4 bg-white/10 rounded-lg">
+                            <p className="text-sm text-white/80 font-medium mb-2">Credenciais de acesso:</p>
+                            <p className="text-xs text-white/70">Email: admin@salao.com</p>
+                            <p className="text-xs text-white/70">Senha: admin123</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Componente Principal do Dashboard
+        function Dashboard({ user, onLogout }) {
+            const [currentPage, setCurrentPage] = useState('agenda');
+
+            const menuItems = [
+                { id: 'agenda', label: 'Agenda', icon: '📅' },
+                { id: 'clientes', label: 'Clientes', icon: '👥' },
+                { id: 'servicos', label: 'Serviços', icon: '✂️' },
+                { id: 'financeiro', label: 'Financeiro', icon: '💰' },
+                { id: 'relatorios', label: 'Relatórios', icon: '📊' }
+            ];
+
+            return (
+                <div className="min-h-screen">
+                    {/* Header */}
+                    <header className="glassmorphism border-b border-white/20">
+                        <div className="flex items-center justify-between p-4">
+                            <h1 className="text-2xl font-bold text-white">Agenda Salão</h1>
+                            <div className="flex items-center space-x-4">
+                                <span className="text-white/80">Olá, {user.name}</span>
+                                <button
+                                    onClick={onLogout}
+                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                                >
+                                    Sair
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="flex">
+                        {/* Sidebar */}
+                        <nav className="w-64 glassmorphism h-screen border-r border-white/20">
+                            <div className="p-4">
+                                <div className="space-y-2">
+                                    {menuItems.map(item => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => setCurrentPage(item.id)}
+                                            className={`w-full text-left p-3 rounded-lg transition duration-200 ${
+                                                currentPage === item.id
+                                                    ? 'bg-white/20 text-white'
+                                                    : 'text-white/70 hover:bg-white/10'
+                                            }`}
+                                        >
+                                            <span className="mr-3">{item.icon}</span>
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </nav>
+
+                        {/* Main Content */}
+                        <main className="flex-1 p-8">
+                            <div className="glassmorphism rounded-2xl p-6">
+                                {currentPage === 'agenda' && <AgendaPage />}
+                                {currentPage === 'clientes' && <ClientesPage />}
+                                {currentPage === 'servicos' && <ServicosPage />}
+                                {currentPage === 'financeiro' && <FinanceiroPage />}
+                                {currentPage === 'relatorios' && <RelatoriosPage />}
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        }
+
+        // Páginas do sistema
+        function AgendaPage() {
+            const [appointments, setAppointments] = useState([
+                { id: 1, time: '09:00', client: 'Maria Silva', service: 'Corte + Escova', price: 'R$ 80,00' },
+                { id: 2, time: '10:30', client: 'Ana Costa', service: 'Manicure', price: 'R$ 35,00' },
+                { id: 3, time: '14:00', client: 'João Santos', service: 'Corte Masculino', price: 'R$ 30,00' }
+            ]);
+
+            return (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-white">Agenda do Dia</h2>
+                        <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                            + Novo Agendamento
+                        </button>
+                    </div>
+
+                    <div className="bg-white/10 rounded-lg overflow-hidden">
+                        <table className="w-full">
+                            <thead className="bg-white/20">
+                                <tr>
+                                    <th className="text-left p-4 text-white">Horário</th>
+                                    <th className="text-left p-4 text-white">Cliente</th>
+                                    <th className="text-left p-4 text-white">Serviço</th>
+                                    <th className="text-left p-4 text-white">Valor</th>
+                                    <th className="text-left p-4 text-white">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {appointments.map(apt => (
+                                    <tr key={apt.id} className="border-t border-white/10">
+                                        <td className="p-4 text-white">{apt.time}</td>
+                                        <td className="p-4 text-white">{apt.client}</td>
+                                        <td className="p-4 text-white">{apt.service}</td>
+                                        <td className="p-4 text-white">{apt.price}</td>
+                                        <td className="p-4">
+                                            <button className="text-blue-400 hover:text-blue-300 mr-2">Editar</button>
+                                            <button className="text-red-400 hover:text-red-300">Excluir</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        function ClientesPage() {
+            return (
+                <div>
+                    <h2 className="text-2xl font-bold text-white mb-6">Clientes</h2>
+                    <p className="text-white/80">Gerencie seus clientes aqui.</p>
+                </div>
+            );
+        }
+
+        function ServicosPage() {
+            return (
+                <div>
+                    <h2 className="text-2xl font-bold text-white mb-6">Serviços</h2>
+                    <p className="text-white/80">Configure os serviços oferecidos.</p>
+                </div>
+            );
+        }
+
+        function FinanceiroPage() {
+            return (
+                <div>
+                    <h2 className="text-2xl font-bold text-white mb-6">Financeiro</h2>
+                    <p className="text-white/80">Controle financeiro do salão.</p>
+                </div>
+            );
+        }
+
+        function RelatoriosPage() {
+            return (
+                <div>
+                    <h2 className="text-2xl font-bold text-white mb-6">Relatórios</h2>
+                    <p className="text-white/80">Visualize relatórios e estatísticas.</p>
+                </div>
+            );
+        }
+
+        // Aplicação Principal
+        function App() {
+            const [user, setUser] = useState(null);
+
+            useEffect(() => {
+                const savedUser = localStorage.getItem('user');
+                if (savedUser) {
+                    setUser(JSON.parse(savedUser));
+                }
+            }, []);
+
+            const handleLogin = (credentials) => {
+                if (credentials.email === 'admin@salao.com' && credentials.password === 'admin123') {
+                    const userData = {
+                        email: credentials.email,
+                        name: 'Admin do Salão',
+                        role: 'owner'
+                    };
+                    setUser(userData);
+                    localStorage.setItem('user', JSON.stringify(userData));
+                } else {
+                    alert('Credenciais inválidas! Use: admin@salao.com / admin123');
+                }
+            };
+
+            const handleLogout = () => {
+                setUser(null);
+                localStorage.removeItem('user');
+            };
+
+            return (
+                <div>
+                    {user ? (
+                        <Dashboard user={user} onLogout={handleLogout} />
+                    ) : (
+                        <LoginForm onLogin={handleLogin} />
+                    )}
+                </div>
+            );
+        }
+
+        // Renderizar a aplicação
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
