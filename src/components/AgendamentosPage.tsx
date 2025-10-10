@@ -18,10 +18,12 @@ import {
   Trash2,
   MoreVertical,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Eye
 } from "lucide-react";
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isToday, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import CalendarViewModal from './CalendarViewModal';
 
 interface Appointment {
   id: string;
@@ -356,6 +358,7 @@ export default function AgendamentosPage() {
   const [showNewAppointment, setShowNewAppointment] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [showActionMenu, setShowActionMenu] = useState<string | null>(null);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
 
   // Ações de agendamentos
   const updateAppointmentStatus = (appointmentId: string, newStatus: Appointment['status']) => {
@@ -443,13 +446,26 @@ export default function AgendamentosPage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Agendamentos</h2>
             <p className="text-gray-600">Gerencie todos os agendamentos do salão</p>
           </div>
-          <button
-            onClick={() => setShowNewAppointment(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
-          >
-            <Plus className="w-5 h-5" />
-            <span>Novo Agendamento</span>
-          </button>
+          
+          <div className="flex items-center space-x-3">
+            {/* Botão Visualizar Agenda */}
+            <button
+              onClick={() => setShowCalendarModal(true)}
+              className="bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+            >
+              <Eye className="w-5 h-5" />
+              <span>Visualizar Agenda</span>
+            </button>
+            
+            {/* Botão Novo Agendamento */}
+            <button
+              onClick={() => setShowNewAppointment(true)}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Novo Agendamento</span>
+            </button>
+          </div>
         </div>
 
         {/* Controls */}
@@ -712,6 +728,13 @@ export default function AgendamentosPage() {
           </div>
         </div>
       )}
+
+      {/* Modal de Visualização da Agenda */}
+      <CalendarViewModal
+        isOpen={showCalendarModal}
+        onClose={() => setShowCalendarModal(false)}
+        appointments={appointments}
+      />
     </div>
   );
 }
