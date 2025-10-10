@@ -25,9 +25,8 @@ import {
 } from "lucide-react";
 import { format, addMonths, isAfter, isBefore, differenceInDays } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { License, PlanConfig, LicenseFeature } from '@/types/license';
+import { LicenseWithFeatures as License, SimpleClient as LicenseClient } from '@/lib/licenseDatabase';
 import { LicenseGenerator, PLAN_CONFIGS } from '@/lib/licenseGenerator';
-import { DataStore, triggerDataSync } from '@/lib/dataStore';
 
 // Mock data para licenças
 const mockLicenses: License[] = [
@@ -86,6 +85,7 @@ const mockLicenses: License[] = [
       { id: '3', name: 'Suporte Prioritário', enabled: true, description: 'Suporte 24/7 prioritário' }
     ],
     paymentStatus: 'failed',
+    renewalDate: null
   }
 ];
 
@@ -307,28 +307,49 @@ export default function LicenseManagementPage() {
   const [selectedLicense, setSelectedLicense] = useState<License | null>(null);
   const [showLicenseDetails, setShowLicenseDetails] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [stats, setStats] = useState({ total: 0, active: 0, expired: 0, expiringSoon: 0 });
 
-  // Carregar licenças do localStorage ao montar o componente
+  // Carregar licenças do banco de dados
+  const loadLicenses = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/licenses');
+      if (response.ok) {
+        const data = await response.json();
+        // Converter strings de data para objetos Date
+        const licensesWithDates = data.map((license: any) => ({
+          ...license,
+          createdAt: new Date(license.createdAt),
+          expiresAt: new Date(license.expiresAt),
+          renewalDate: license.renewalDate ? new Date(license.renewalDate) : null
+        }));
+        setLicenses(licensesWithDates);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar licenças:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Carregar estatísticas
+  const loadStats = async () => {
+    try {
+      const response = await fetch('/api/licenses?action=stats');
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar estatísticas:', error);
+    }
+  };
+
+  // Carregar dados ao montar o componente
   useEffect(() => {
-    const loadedLicenses = DataStore.getLicenses();
-    setLicenses(loadedLicenses);
-  }, []);
-
-  // Configurar sincronização de dados
-  useEffect(() => {
-    const handleSync = () => {
-      const loadedLicenses = DataStore.getLicenses();
-      setLicenses(loadedLicenses);
-    };
-
-    // Escutar mudanças no storage
-    window.addEventListener('dataStoreUpdate', handleSync);
-    window.addEventListener('storage', handleSync);
-
-    return () => {
-      window.removeEventListener('dataStoreUpdate', handleSync);
-      window.removeEventListener('storage', handleSync);
-    };
+    loadLicenses();
+    loadStats();
   }, []);
 
   const getStatusColor = (status: string) => {
@@ -376,48 +397,141 @@ export default function LicenseManagementPage() {
     return matchesSearch && matchesStatus && matchesPlan;
   });
 
-  const handleNewLicense = (newLicense: License) => {
-    // Salvar no localStorage
-    DataStore.saveLicense(newLicense);
-    
-    // Atualizar estado local
-    setLicenses(prev => [...prev, newLicense]);
-    
-    // Disparar sincronização
-    triggerDataSync();
-    
-    setShowNewLicense(false);
-  };
+  const handleNewLicense = async (newLicense: License) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/licenses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          licenseKey: newLicense.licenseKey,
+          planType: newLicense.planType,
+          clientId: newLicense.clientId,
+          clientName: newLicense.clientName,
+          clientEmail: newLicense.clientEmail,
+          expiresAt: newLicense.expiresAt,
+          maxUsers: newLicense.maxUsers,
+          features: newLicense.features
+        })
+      });
 
-  const handleDeleteLicense = (licenseId: string) => {
-    if (confirm('Tem certeza que deseja excluir esta licença?')) {
-      // Remover do localStorage
-      DataStore.deleteLicense(licenseId);
-      
-      // Atualizar estado local
-      setLicenses(prev => prev.filter(l => l.id !== licenseId));
-      
-      // Disparar sincronização
-      triggerDataSync();
+      if (response.ok) {
+        const savedLicense = await response.json();
+        // Converter datas
+        const licenseWithDates = {
+          ...savedLicense,
+          createdAt: new Date(savedLicense.createdAt),
+          expiresAt: new Date(savedLicense.expiresAt),
+          renewalDate: savedLicense.renewalDate ? new Date(savedLicense.renewalDate) : null
+        };
+        
+        setLicenses(prev => [licenseWithDates, ...prev]);
+        setShowNewLicense(false);
+        loadStats(); // Atualizar estatísticas
+      } else {
+        alert('Erro ao salvar licença');
+      }
+    } catch (error) {
+      console.error('Erro ao criar licença:', error);
+      alert('Erro ao salvar licença');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleRenewLicense = (license: License) => {
-    const renewedLicense = {
-      ...license,
-      status: 'active' as const,
-      expiresAt: addMonths(new Date(), 12),
-      renewalDate: addMonths(new Date(), 12)
-    };
-    
-    // Salvar no localStorage
-    DataStore.saveLicense(renewedLicense);
-    
-    // Atualizar estado local
-    setLicenses(prev => prev.map(l => l.id === license.id ? renewedLicense : l));
-    
-    // Disparar sincronização
-    triggerDataSync();
+  const handleDeleteLicense = async (licenseId: string) => {
+    if (confirm('Tem certeza que deseja excluir esta licença?')) {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/licenses?id=${licenseId}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          setLicenses(prev => prev.filter(l => l.id !== licenseId));
+          loadStats(); // Atualizar estatísticas
+        } else {
+          alert('Erro ao excluir licença');
+        }
+      } catch (error) {
+        console.error('Erro ao excluir licença:', error);
+        alert('Erro ao excluir licença');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleRenewLicense = async (license: License) => {
+    try {
+      setIsLoading(true);
+      const renewedData = {
+        status: 'active',
+        expiresAt: addMonths(new Date(), 12),
+        renewalDate: addMonths(new Date(), 12)
+      };
+
+      const response = await fetch(`/api/licenses?id=${license.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(renewedData)
+      });
+
+      if (response.ok) {
+        const updatedLicense = await response.json();
+        const licenseWithDates = {
+          ...updatedLicense,
+          createdAt: new Date(updatedLicense.createdAt),
+          expiresAt: new Date(updatedLicense.expiresAt),
+          renewalDate: updatedLicense.renewalDate ? new Date(updatedLicense.renewalDate) : null
+        };
+        
+        setLicenses(prev => prev.map(l => l.id === license.id ? licenseWithDates : l));
+        if (selectedLicense?.id === license.id) {
+          setSelectedLicense(licenseWithDates);
+        }
+        loadStats(); // Atualizar estatísticas
+      } else {
+        alert('Erro ao renovar licença');
+      }
+    } catch (error) {
+      console.error('Erro ao renovar licença:', error);
+      alert('Erro ao renovar licença');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdateLicenseStatus = async (license: License, newStatus: string) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/licenses?id=${license.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      if (response.ok) {
+        const updatedLicense = await response.json();
+        const licenseWithDates = {
+          ...updatedLicense,
+          createdAt: new Date(updatedLicense.createdAt),
+          expiresAt: new Date(updatedLicense.expiresAt),
+          renewalDate: updatedLicense.renewalDate ? new Date(updatedLicense.renewalDate) : null
+        };
+        
+        setLicenses(prev => prev.map(l => l.id === license.id ? licenseWithDates : l));
+        setSelectedLicense(licenseWithDates);
+        loadStats(); // Atualizar estatísticas
+      } else {
+        alert('Erro ao atualizar licença');
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar licença:', error);
+      alert('Erro ao atualizar licença');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOpenSettings = (license: License) => {
@@ -430,12 +544,7 @@ export default function LicenseManagementPage() {
     setShowLicenseDetails(true);
   };
 
-  const activeStats = {
-    total: licenses.length,
-    active: licenses.filter(l => l.status === 'active').length,
-    expired: licenses.filter(l => l.status === 'expired').length,
-    expiringSoon: licenses.filter(l => l.status === 'active' && getDaysUntilExpiry(l.expiresAt) <= 30).length
-  };
+  const activeStats = stats;
 
   return (
     <div className="p-6 space-y-6">
@@ -765,12 +874,30 @@ export default function LicenseManagementPage() {
                         name="licenseStatus"
                         value={status}
                         checked={selectedLicense.status === status}
-                        onChange={(e) => {
-                          const updatedLicense = { ...selectedLicense, status: e.target.value as any };
-                          DataStore.saveLicense(updatedLicense);
-                          setSelectedLicense(updatedLicense);
-                          setLicenses(prev => prev.map(l => l.id === updatedLicense.id ? updatedLicense : l));
-                          triggerDataSync();
+                        onChange={async (e) => {
+                          try {
+                            setIsLoading(true);
+                            const updatedLicense = { ...selectedLicense, status: e.target.value as any };
+                            
+                            const response = await fetch('/api/licenses', {
+                              method: 'PUT',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify(updatedLicense),
+                            });
+
+                            if (!response.ok) {
+                              throw new Error('Falha ao atualizar status da licença');
+                            }
+
+                            const updatedData = await response.json();
+                            setSelectedLicense(updatedData);
+                            setLicenses(prev => prev.map(l => l.id === updatedData.id ? updatedData : l));
+                          } catch (error) {
+                            console.error('Erro ao atualizar status:', error);
+                            alert('Erro ao atualizar status da licença');
+                          } finally {
+                            setIsLoading(false);
+                          }
                         }}
                         className="text-purple-600"
                       />
@@ -797,12 +924,30 @@ export default function LicenseManagementPage() {
                   </button>
                   
                   <button
-                    onClick={() => {
-                      const suspendedLicense = { ...selectedLicense, status: 'suspended' as const };
-                      DataStore.saveLicense(suspendedLicense);
-                      setSelectedLicense(suspendedLicense);
-                      setLicenses(prev => prev.map(l => l.id === suspendedLicense.id ? suspendedLicense : l));
-                      triggerDataSync();
+                    onClick={async () => {
+                      try {
+                        setIsLoading(true);
+                        const suspendedLicense = { ...selectedLicense, status: 'suspended' as const };
+                        
+                        const response = await fetch('/api/licenses', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(suspendedLicense),
+                        });
+
+                        if (!response.ok) {
+                          throw new Error('Falha ao suspender licença');
+                        }
+
+                        const updatedData = await response.json();
+                        setSelectedLicense(updatedData);
+                        setLicenses(prev => prev.map(l => l.id === updatedData.id ? updatedData : l));
+                      } catch (error) {
+                        console.error('Erro ao suspender licença:', error);
+                        alert('Erro ao suspender licença');
+                      } finally {
+                        setIsLoading(false);
+                      }
                     }}
                     className="w-full px-4 py-2 text-left text-sm text-yellow-700 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition-colors"
                   >

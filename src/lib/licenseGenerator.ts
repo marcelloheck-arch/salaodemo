@@ -1,6 +1,24 @@
 'use client'
 
-import { License, PlanConfig } from '@/types/license';
+import { LicenseWithFeatures as License } from '@/lib/licenseDatabase';
+
+// Tipos locais para configuração de planos
+export interface PlanConfig {
+  id: string;
+  name: string;
+  type: 'basic' | 'premium' | 'enterprise';
+  price: number;
+  duration: number;
+  maxUsers: number;
+  description: string;
+  popular?: boolean;
+  features: {
+    id: string;
+    name: string;
+    enabled: boolean;
+    description: string;
+  }[];
+}
 
 export class LicenseGenerator {
   private static generateLicenseKey(): string {
@@ -53,7 +71,7 @@ export class LicenseGenerator {
   }
 
   static calculateRevenue(licenses: License[]): number {
-    const planPrices = {
+    const planPrices: Record<string, number> = {
       basic: 29.90,
       premium: 49.90,
       enterprise: 99.90
@@ -61,7 +79,7 @@ export class LicenseGenerator {
 
     return licenses.reduce((total, license) => {
       if (license.paymentStatus === 'paid') {
-        return total + planPrices[license.planType];
+        return total + (planPrices[license.planType] || 0);
       }
       return total;
     }, 0);

@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 // Modelos do banco de dados
@@ -83,7 +82,7 @@ model Service {
   id          String   @id @default(cuid())
   name        String
   description String?
-  price       Decimal  @db.Decimal(10,2)
+  price       Float        // em SQLite usamos Float ao invés de Decimal
   duration    Int      // em minutos
   category    String
   isActive    Boolean  @default(true)
@@ -105,7 +104,7 @@ model Appointment {
   endTime     DateTime
   status      AppointmentStatus @default(SCHEDULED)
   notes       String?
-  totalPrice  Decimal           @db.Decimal(10,2)
+  totalPrice  Float             // em SQLite usamos Float
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
   
@@ -125,7 +124,7 @@ model Appointment {
 model Transaction {
   id          String          @id @default(cuid())
   type        TransactionType
-  amount      Decimal         @db.Decimal(10,2)
+  amount      Float           // em SQLite usamos Float
   description String
   category    String
   paymentMethod PaymentMethod
@@ -206,4 +205,93 @@ enum IntegrationType {
   WHATSAPP
   GOOGLE_CALENDAR
   PAYMENT_GATEWAY
+}
+
+// Modelos para sistema de licenças
+model License {
+  id              String          @id @default(cuid())
+  licenseKey      String          @unique
+  planType        LicensePlanType
+  status          LicenseStatus   @default(PENDING)
+  clientId        String
+  clientName      String
+  clientEmail     String
+  createdAt       DateTime        @default(now())
+  expiresAt       DateTime
+  maxUsers        Int
+  paymentStatus   PaymentStatus   @default(PENDING)
+  renewalDate     DateTime?
+  updatedAt       DateTime        @updatedAt
+  
+  // Relacionamento com recursos
+  features        LicenseFeature[]
+  
+  @@map("licenses")
+}
+
+model LicenseFeature {
+  id          String   @id @default(cuid())
+  name        String
+  enabled     Boolean  @default(true)
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relacionamentos
+  licenseId   String
+  license     License  @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  
+  @@map("license_features")
+}
+
+// Modelo estendido de Cliente para sistema de licenças
+model LicenseClient {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  company     String?
+  cnpj        String?
+  licenseKey  String?
+  totalRevenue Float?   @default(0) // em SQLite usamos Float
+  status      ClientStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Endereço
+  street      String?
+  number      String?
+  city        String?
+  state       String?
+  zipCode     String?
+  country     String?
+  
+  @@map("license_clients")
+}
+
+// Enums para sistema de licenças
+enum LicensePlanType {
+  BASIC
+  PREMIUM
+  ENTERPRISE
+}
+
+enum LicenseStatus {
+  ACTIVE
+  EXPIRED
+  SUSPENDED
+  PENDING
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  FAILED
+  CANCELLED
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  VIP
 }

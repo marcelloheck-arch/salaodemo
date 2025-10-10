@@ -1,6 +1,6 @@
 'use client';
 
-import { License } from '@/types/license';
+import { LicenseWithFeatures as License } from '@/lib/licenseDatabase';
 
 // Interface para um cliente simplificado
 export interface SimpleClient {

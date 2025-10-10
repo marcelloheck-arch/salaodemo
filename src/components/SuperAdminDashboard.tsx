@@ -23,12 +23,28 @@ import {
   Building,
   LogOut
 } from 'lucide-react';
-import { License, Client, PlanConfig } from '@/types/license';
-import { LicenseGenerator, PLAN_CONFIGS } from '@/lib/licenseGenerator';
+import { LicenseWithFeatures as License, SimpleClient as Client } from '@/lib/licenseDatabase';
+import { LicenseGenerator, PLAN_CONFIGS, PlanConfig } from '@/lib/licenseGenerator';
 import LicenseManagementPage from './LicenseManagementPage';
 
+// Tipos expandidos para o dashboard
+interface ExtendedClient extends Client {
+  phone?: string;
+  company?: string;
+  cnpj?: string;
+  address?: {
+    street: string;
+    number: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  licenses: License[];
+  totalRevenue: number;
+}
+
 // Mock data - em produção viria do banco de dados
-const mockClients: Client[] = [
+const mockClients: ExtendedClient[] = [
   {
     id: '1',
     name: 'Salão Beleza Total',
@@ -41,8 +57,7 @@ const mockClients: Client[] = [
       number: '123',
       city: 'São Paulo',
       state: 'SP',
-      zipCode: '01234-567',
-      country: 'Brasil'
+      zip: '01234-567'
     },
     licenses: [],
     createdAt: new Date('2024-01-15'),
@@ -60,8 +75,7 @@ const mockClients: Client[] = [
       number: '456',
       city: 'São Paulo',
       state: 'SP',
-      zipCode: '01310-100',
-      country: 'Brasil'
+      zip: '01310-100'
     },
     licenses: [],
     createdAt: new Date('2024-02-20'),
@@ -79,13 +93,13 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
   const [clients, setClients] = useState<Client[]>(mockClients);
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateLicense, setShowCreateLicense] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [selectedClient, setSelectedClient] = useState<ExtendedClient | null>(null);
 
   // Estatísticas gerais
   const totalClients = clients.length;
-  const totalRevenue = clients.reduce((sum, client) => sum + client.totalRevenue, 0);
-  const totalLicenses = clients.reduce((sum, client) => sum + client.licenses.length, 0);
-  const activeClients = clients.filter(client => client.status === 'active').length;
+  const totalRevenue = (clients as ExtendedClient[]).reduce((sum, client) => sum + client.totalRevenue, 0);
+  const totalLicenses = (clients as ExtendedClient[]).reduce((sum, client) => sum + client.licenses.length, 0);
+  const activeClients = clients.filter(client => (client as any).status === 'active').length;
 
   const OverviewTab = () => (
     <div className="space-y-6">
@@ -229,15 +243,15 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{client.company}</div>
-                    <div className="text-sm text-gray-500">{client.cnpj}</div>
+                    <div className="text-sm text-gray-900">{(client as ExtendedClient).company || 'N/A'}</div>
+                    <div className="text-sm text-gray-500">{(client as ExtendedClient).cnpj || 'N/A'}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{client.licenses.length}</div>
+                    <div className="text-sm text-gray-900">{(client as ExtendedClient).licenses.length}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      R$ {client.totalRevenue.toFixed(2)}
+                      R$ {(client as ExtendedClient).totalRevenue.toFixed(2)}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -252,7 +266,7 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex items-center space-x-2">
                       <button
-                        onClick={() => setSelectedClient(client)}
+                        onClick={() => setSelectedClient(client as ExtendedClient)}
                         className="text-primary hover:text-primary-dark"
                       >
                         <Eye className="w-4 h-4" />

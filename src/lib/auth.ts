@@ -1,9 +1,24 @@
 'use client'
 
 import { useState } from 'react';
-import { License, SalonUser, SuperAdmin } from '@/types/license';
+import { LicenseWithFeatures as License } from '@/lib/licenseDatabase';
 
 export type UserType = 'super_admin' | 'salon_admin' | 'salon_user';
+
+export interface SalonUser {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
+  licenseId: string;
+}
+
+export interface SuperAdmin {
+  id: string;
+  name: string;
+  email: string;
+  permissions: string[];
+}
 
 export interface AuthUser {
   id: string;
@@ -45,7 +60,8 @@ export class AuthService {
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias
             maxUsers: 10,
             features: [],
-            paymentStatus: 'paid'
+            paymentStatus: 'paid',
+            renewalDate: null
           });
         } else {
           resolve(null);
