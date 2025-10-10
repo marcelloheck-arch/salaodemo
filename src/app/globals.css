@@ -22,7 +22,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 14px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
 }
@@ -39,15 +39,22 @@ body {
   padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* Mobile-first responsive typography */
 @media (max-width: 320px) {
-  html { font-size: 14px; }
+  html { font-size: 13px; }
 }
 
 @media (min-width: 768px) {
-  html { font-size: 16px; }
+  html { font-size: 14px; }
+}
+
+@media (min-width: 1024px) {
+  html { font-size: 15px; }
+}
 }
 
 @media (min-width: 1024px) {

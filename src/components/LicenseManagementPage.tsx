@@ -547,86 +547,86 @@ export default function LicenseManagementPage() {
   const activeStats = stats;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Gestão de Licenças</h2>
-          <p className="text-gray-600">Gerencie todas as licenças do sistema</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Gestão de Licenças</h2>
+          <p className="text-gray-600 text-sm">Gerencie todas as licenças do sistema</p>
         </div>
         <button
           onClick={() => setShowNewLicense(true)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4" />
           <span>Nova Licença</span>
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-xl">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm">Total de Licenças</p>
-              <p className="text-3xl font-bold">{activeStats.total}</p>
+              <p className="text-blue-100 text-xs">Total de Licenças</p>
+              <p className="text-2xl font-bold">{activeStats.total}</p>
             </div>
-            <Key className="w-8 h-8 text-blue-200" />
+            <Key className="w-6 h-6 text-blue-200" />
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl">
+        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm">Licenças Ativas</p>
-              <p className="text-3xl font-bold">{activeStats.active}</p>
+              <p className="text-green-100 text-xs">Licenças Ativas</p>
+              <p className="text-2xl font-bold">{activeStats.active}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-200" />
+            <CheckCircle className="w-6 h-6 text-green-200" />
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6 rounded-xl">
+        <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-red-100 text-sm">Licenças Expiradas</p>
-              <p className="text-3xl font-bold">{activeStats.expired}</p>
+              <p className="text-red-100 text-xs">Licenças Expiradas</p>
+              <p className="text-2xl font-bold">{activeStats.expired}</p>
             </div>
-            <XCircle className="w-8 h-8 text-red-200" />
+            <XCircle className="w-6 h-6 text-red-200" />
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white p-6 rounded-xl">
+        <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white p-4 rounded-xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-yellow-100 text-sm">Expirando em 30 dias</p>
-              <p className="text-3xl font-bold">{activeStats.expiringSoon}</p>
+              <p className="text-yellow-100 text-xs">Expirando em 30 dias</p>
+              <p className="text-2xl font-bold">{activeStats.expiringSoon}</p>
             </div>
-            <AlertCircle className="w-8 h-8 text-yellow-200" />
+            <AlertCircle className="w-6 h-6 text-yellow-200" />
           </div>
         </div>
       </div>
 
       {/* Filtros */}
-      <div className="bg-white rounded-xl p-6 border border-gray-200">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+      <div className="bg-white rounded-xl p-4 border border-gray-200">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
               placeholder="Buscar por cliente, licença ou email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             {/* Status Filter */}
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">Todos os Status</option>
               <option value="active">Ativas</option>
@@ -639,7 +639,7 @@ export default function LicenseManagementPage() {
             <select
               value={planFilter}
               onChange={(e) => setPlanFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="all">Todos os Planos</option>
               <option value="basic">Básico</option>
@@ -656,13 +656,13 @@ export default function LicenseManagementPage() {
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="text-left p-4 font-medium text-gray-700">Cliente</th>
-                <th className="text-left p-4 font-medium text-gray-700">Licença</th>
-                <th className="text-left p-4 font-medium text-gray-700">Plano</th>
-                <th className="text-left p-4 font-medium text-gray-700">Status</th>
-                <th className="text-left p-4 font-medium text-gray-700">Expira em</th>
-                <th className="text-left p-4 font-medium text-gray-700">Usuários</th>
-                <th className="text-center p-4 font-medium text-gray-700">Ações</th>
+                <th className="text-left p-3 font-medium text-gray-700 text-sm">Cliente</th>
+                <th className="text-left p-3 font-medium text-gray-700 text-sm">Licença</th>
+                <th className="text-left p-3 font-medium text-gray-700 text-sm">Plano</th>
+                <th className="text-left p-3 font-medium text-gray-700 text-sm">Status</th>
+                <th className="text-left p-3 font-medium text-gray-700 text-sm">Expira em</th>
+                <th className="text-left p-3 font-medium text-gray-700 text-sm">Usuários</th>
+                <th className="text-center p-3 font-medium text-gray-700 text-sm">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -671,29 +671,29 @@ export default function LicenseManagementPage() {
                 
                 return (
                   <tr key={license.id} className="hover:bg-gray-50">
-                    <td className="p-4">
+                    <td className="p-3">
                       <div>
-                        <div className="font-medium text-gray-900">{license.clientName}</div>
-                        <div className="text-sm text-gray-600">{license.clientEmail}</div>
+                        <div className="font-medium text-gray-900 text-sm">{license.clientName}</div>
+                        <div className="text-xs text-gray-600">{license.clientEmail}</div>
                       </div>
                     </td>
-                    <td className="p-4">
-                      <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                    <td className="p-3">
+                      <code className="bg-gray-100 px-2 py-1 rounded text-xs">
                         {license.licenseKey}
                       </code>
                     </td>
-                    <td className="p-4">
+                    <td className="p-3">
                       <span className={`px-2 py-1 text-xs rounded-full border capitalize ${getPlanColor(license.planType)}`}>
                         {license.planType}
                       </span>
                     </td>
-                    <td className="p-4">
+                    <td className="p-3">
                       <span className={`px-2 py-1 text-xs rounded-full border ${getStatusColor(license.status)}`}>
                         {getStatusText(license.status)}
                       </span>
                     </td>
-                    <td className="p-4">
-                      <div className="text-sm">
+                    <td className="p-3">
+                      <div className="text-xs">
                         <div className={daysUntilExpiry <= 30 && daysUntilExpiry > 0 ? 'text-yellow-600' : daysUntilExpiry <= 0 ? 'text-red-600' : 'text-gray-900'}>
                           {format(license.expiresAt, 'dd/MM/yyyy', { locale: ptBR })}
                         </div>
