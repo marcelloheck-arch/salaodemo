@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isToday, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import CalendarViewModal from './CalendarViewModal';
+import CalendarViewModal from './CalendarViewModalSimple';
 
 interface Appointment {
   id: string;
@@ -450,7 +450,10 @@ export default function AgendamentosPage() {
           <div className="flex items-center space-x-3">
             {/* Botão Visualizar Agenda */}
             <button
-              onClick={() => setShowCalendarModal(true)}
+              onClick={() => {
+                console.log('Clicou em Visualizar Agenda');
+                setShowCalendarModal(true);
+              }}
               className="bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center space-x-2 shadow-lg"
             >
               <Eye className="w-5 h-5" />

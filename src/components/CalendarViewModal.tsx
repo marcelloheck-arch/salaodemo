@@ -58,6 +58,8 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  console.log('CalendarViewModal renderizando:', { isOpen, viewMode, appointmentsCount: appointments.length });
+
   if (!isOpen) return null;
 
   const getStatusColor = (status: string) => {
@@ -252,9 +254,9 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl h-[90vh] flex flex-col">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl h-[90vh] flex flex-col relative">
         {/* Header do Modal */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white rounded-t-xl">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <CalendarIcon className="w-6 h-6 text-purple-600" />
@@ -262,24 +264,32 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
             </div>
             
             {/* Toggle de visualização */}
-            <div className="flex rounded-lg border border-gray-300">
+            <div className="flex rounded-lg border border-gray-300 bg-white">
               <button
-                onClick={() => setViewMode('week')}
-                className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
+                onClick={() => {
+                  console.log('Clicou em Semana');
+                  setViewMode('week');
+                }}
+                className={`px-4 py-2 text-sm font-medium rounded-l-lg transition-all ${
                   viewMode === 'week'
                     ? 'bg-purple-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
+                style={{ position: 'relative', zIndex: 10 }}
               >
                 Semana
               </button>
               <button
-                onClick={() => setViewMode('month')}
-                className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
+                onClick={() => {
+                  console.log('Clicou em Mês');
+                  setViewMode('month');
+                }}
+                className={`px-4 py-2 text-sm font-medium rounded-r-lg transition-all ${
                   viewMode === 'month'
                     ? 'bg-purple-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
+                style={{ position: 'relative', zIndex: 10 }}
               >
                 Mês
               </button>
@@ -287,18 +297,26 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
           </div>
 
           <button
-            onClick={onClose}
+            onClick={() => {
+              console.log('Clicou em fechar modal');
+              onClose();
+            }}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            style={{ position: 'relative', zIndex: 10 }}
           >
             <X className="w-6 h-6 text-gray-600" />
           </button>
         </div>
 
         {/* Navegação */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
           <button
-            onClick={() => navigateDate('prev')}
+            onClick={() => {
+              console.log('Navegando para período anterior');
+              navigateDate('prev');
+            }}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            style={{ position: 'relative', zIndex: 10 }}
           >
             <ChevronLeft className="w-5 h-5 text-gray-600" />
           </button>
@@ -308,15 +326,43 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
           </h3>
 
           <button
-            onClick={() => navigateDate('next')}
+            onClick={() => {
+              console.log('Navegando para próximo período');
+              navigateDate('next');
+            }}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            style={{ position: 'relative', zIndex: 10 }}
           >
             <ChevronRight className="w-5 h-5 text-gray-600" />
           </button>
         </div>
 
         {/* Conteúdo da agenda */}
-        {viewMode === 'week' ? renderWeekView() : renderMonthView()}
+        <div className="flex-1 overflow-auto bg-gray-50 p-4">
+          <div className="bg-white rounded-lg p-4 mb-4">
+            <h4 className="text-lg font-semibold mb-2">
+              Visualização: {viewMode === 'week' ? 'Semana' : 'Mês'}
+            </h4>
+            <p className="text-gray-600 mb-4">
+              Período: {getPeriodText()}
+            </p>
+            <p className="text-sm text-gray-500">
+              Total de agendamentos: {appointments.length}
+            </p>
+          </div>
+          
+          {viewMode === 'week' ? (
+            <div className="bg-white rounded-lg p-4">
+              <h5 className="font-medium mb-2">Vista Semanal</h5>
+              {renderWeekView()}
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg p-4">
+              <h5 className="font-medium mb-2">Vista Mensal</h5>
+              {renderMonthView()}
+            </div>
+          )}
+        </div>
 
         {/* Legenda de status */}
         <div className="flex items-center justify-center space-x-4 p-4 border-t border-gray-200 bg-gray-50">
