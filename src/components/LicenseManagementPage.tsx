@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Key, 
   Plus, 
@@ -27,6 +27,7 @@ import { format, addMonths, isAfter, isBefore, differenceInDays } from 'date-fns
 import { ptBR } from 'date-fns/locale';
 import { License, PlanConfig, LicenseFeature } from '@/types/license';
 import { LicenseGenerator, PLAN_CONFIGS } from '@/lib/licenseGenerator';
+import { DataStore, triggerDataSync } from '@/lib/dataStore';
 
 // Mock data para licenças
 const mockLicenses: License[] = [
@@ -298,13 +299,37 @@ function NewLicenseForm({ onSave, onCancel }: NewLicenseFormProps) {
 }
 
 export default function LicenseManagementPage() {
-  const [licenses, setLicenses] = useState<License[]>(mockLicenses);
+  const [licenses, setLicenses] = useState<License[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [planFilter, setPlanFilter] = useState<string>('all');
   const [showNewLicense, setShowNewLicense] = useState(false);
   const [selectedLicense, setSelectedLicense] = useState<License | null>(null);
   const [showLicenseDetails, setShowLicenseDetails] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  // Carregar licenças do localStorage ao montar o componente
+  useEffect(() => {
+    const loadedLicenses = DataStore.getLicenses();
+    setLicenses(loadedLicenses);
+  }, []);
+
+  // Configurar sincronização de dados
+  useEffect(() => {
+    const handleSync = () => {
+      const loadedLicenses = DataStore.getLicenses();
+      setLicenses(loadedLicenses);
+    };
+
+    // Escutar mudanças no storage
+    window.addEventListener('dataStoreUpdate', handleSync);
+    window.addEventListener('storage', handleSync);
+
+    return () => {
+      window.removeEventListener('dataStoreUpdate', handleSync);
+      window.removeEventListener('storage', handleSync);
+    };
+  }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -352,8 +377,52 @@ export default function LicenseManagementPage() {
   });
 
   const handleNewLicense = (newLicense: License) => {
+    // Salvar no localStorage
+    DataStore.saveLicense(newLicense);
+    
+    // Atualizar estado local
     setLicenses(prev => [...prev, newLicense]);
+    
+    // Disparar sincronização
+    triggerDataSync();
+    
     setShowNewLicense(false);
+  };
+
+  const handleDeleteLicense = (licenseId: string) => {
+    if (confirm('Tem certeza que deseja excluir esta licença?')) {
+      // Remover do localStorage
+      DataStore.deleteLicense(licenseId);
+      
+      // Atualizar estado local
+      setLicenses(prev => prev.filter(l => l.id !== licenseId));
+      
+      // Disparar sincronização
+      triggerDataSync();
+    }
+  };
+
+  const handleRenewLicense = (license: License) => {
+    const renewedLicense = {
+      ...license,
+      status: 'active' as const,
+      expiresAt: addMonths(new Date(), 12),
+      renewalDate: addMonths(new Date(), 12)
+    };
+    
+    // Salvar no localStorage
+    DataStore.saveLicense(renewedLicense);
+    
+    // Atualizar estado local
+    setLicenses(prev => prev.map(l => l.id === license.id ? renewedLicense : l));
+    
+    // Disparar sincronização
+    triggerDataSync();
+  };
+
+  const handleOpenSettings = (license: License) => {
+    setSelectedLicense(license);
+    setShowSettings(true);
   };
 
   const handleViewLicense = (license: License) => {
@@ -537,16 +606,25 @@ export default function LicenseManagementPage() {
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
+                          onClick={() => handleRenewLicense(license)}
                           className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
                           title="Renovar"
                         >
                           <RefreshCw className="w-4 h-4" />
                         </button>
                         <button
+                          onClick={() => handleOpenSettings(license)}
                           className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
                           title="Configurações"
                         >
                           <Settings className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteLicense(license.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Excluir"
+                        >
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -654,6 +732,113 @@ export default function LicenseManagementPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Configurações da Licença */}
+      {showSettings && selectedLicense && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Configurações da Licença</h3>
+              <button
+                onClick={() => setShowSettings(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-600" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Status da Licença */}
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">Status da Licença</h4>
+                <div className="space-y-2">
+                  {['active', 'suspended', 'expired'].map((status) => (
+                    <label key={status} className="flex items-center space-x-3">
+                      <input
+                        type="radio"
+                        name="licenseStatus"
+                        value={status}
+                        checked={selectedLicense.status === status}
+                        onChange={(e) => {
+                          const updatedLicense = { ...selectedLicense, status: e.target.value as any };
+                          DataStore.saveLicense(updatedLicense);
+                          setSelectedLicense(updatedLicense);
+                          setLicenses(prev => prev.map(l => l.id === updatedLicense.id ? updatedLicense : l));
+                          triggerDataSync();
+                        }}
+                        className="text-purple-600"
+                      />
+                      <span className="text-sm capitalize">
+                        {status === 'active' ? 'Ativa' : status === 'suspended' ? 'Suspensa' : 'Expirada'}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Ações Rápidas */}
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">Ações Rápidas</h4>
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      handleRenewLicense(selectedLicense);
+                      setShowSettings(false);
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-green-700 bg-green-50 hover:bg-green-100 rounded-lg transition-colors"
+                  >
+                    🔄 Renovar por 12 meses
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      const suspendedLicense = { ...selectedLicense, status: 'suspended' as const };
+                      DataStore.saveLicense(suspendedLicense);
+                      setSelectedLicense(suspendedLicense);
+                      setLicenses(prev => prev.map(l => l.id === suspendedLicense.id ? suspendedLicense : l));
+                      triggerDataSync();
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-yellow-700 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition-colors"
+                  >
+                    ⏸️ Suspender temporariamente
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      if (confirm('Tem certeza que deseja excluir esta licença? Esta ação não pode ser desfeita.')) {
+                        handleDeleteLicense(selectedLicense.id);
+                        setShowSettings(false);
+                      }
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-red-700 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+                  >
+                    🗑️ Excluir licença
+                  </button>
+                </div>
+              </div>
+
+              {/* Informações da Licença */}
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">Informações</h4>
+                <div className="bg-gray-50 rounded-lg p-3 space-y-2 text-sm">
+                  <div>
+                    <span className="text-gray-600">ID:</span>
+                    <span className="ml-2 font-mono">{selectedLicense.id}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Criada em:</span>
+                    <span className="ml-2">{format(selectedLicense.createdAt, 'dd/MM/yyyy HH:mm', { locale: ptBR })}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Última atualização:</span>
+                    <span className="ml-2">{format(new Date(), 'dd/MM/yyyy HH:mm', { locale: ptBR })}</span>
+                  </div>
                 </div>
               </div>
             </div>
