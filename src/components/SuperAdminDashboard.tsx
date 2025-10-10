@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { License, Client, PlanConfig } from '@/types/license';
 import { LicenseGenerator, PLAN_CONFIGS } from '@/lib/licenseGenerator';
+import LicenseManagementPage from './LicenseManagementPage';
 
 // Mock data - em produção viria do banco de dados
 const mockClients: Client[] = [
@@ -273,15 +274,6 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
     </div>
   );
 
-  const LicensesTab = () => (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-900">Gestão de Licenças</h2>
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <p className="text-gray-600">Sistema de licenças será implementado aqui</p>
-      </div>
-    </div>
-  );
-
   const PlansTab = () => (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-gray-900">Planos Disponíveis</h2>
@@ -390,7 +382,7 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {currentTab === 'overview' && <OverviewTab />}
         {currentTab === 'clients' && <ClientsTab />}
-        {currentTab === 'licenses' && <LicensesTab />}
+        {currentTab === 'licenses' && <LicenseManagementPage />}
         {currentTab === 'plans' && <PlansTab />}
       </main>
     </div>

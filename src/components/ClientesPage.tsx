@@ -22,7 +22,8 @@ import {
   X,
   Check,
   AlertCircle,
-  UserPlus
+  UserPlus,
+  Key
 } from "lucide-react";
 import { format, parseISO, differenceInYears } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -46,6 +47,7 @@ interface Client {
   averageTicket: number;
   status: 'active' | 'inactive' | 'vip';
   createdAt: string;
+  licenseKey?: string; // Nova propriedade para licença
 }
 
 interface NewClientFormData {
@@ -54,6 +56,7 @@ interface NewClientFormData {
   email: string;
   birthday?: string;
   notes?: string;
+  licenseKey?: string; // Campo para nova licença
 }
 
 // Dados iniciais simulados
@@ -119,7 +122,8 @@ export default function ClientesPage() {
     phone: '',
     email: '',
     birthday: '',
-    notes: ''
+    notes: '',
+    licenseKey: ''
   });
 
   // Filtrar clientes
@@ -147,6 +151,7 @@ export default function ClientesPage() {
       email: newClientData.email,
       birthday: newClientData.birthday,
       notes: newClientData.notes,
+      licenseKey: newClientData.licenseKey,
       preferences: [],
       totalSpent: 0,
       totalVisits: 0,
@@ -156,7 +161,7 @@ export default function ClientesPage() {
     };
 
     setClients(prev => [newClient, ...prev]);
-    setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '' });
+    setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '', licenseKey: '' });
     setShowNewClientForm(false);
   };
 
@@ -168,7 +173,8 @@ export default function ClientesPage() {
       phone: client.phone,
       email: client.email,
       birthday: client.birthday || '',
-      notes: client.notes || ''
+      notes: client.notes || '',
+      licenseKey: client.licenseKey || ''
     });
     setShowNewClientForm(true);
   };
@@ -188,13 +194,14 @@ export default function ClientesPage() {
             phone: newClientData.phone,
             email: newClientData.email,
             birthday: newClientData.birthday,
-            notes: newClientData.notes
+            notes: newClientData.notes,
+            licenseKey: newClientData.licenseKey
           }
         : client
     ));
 
     setEditingClient(null);
-    setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '' });
+    setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '', licenseKey: '' });
     setShowNewClientForm(false);
   };
 
@@ -216,7 +223,7 @@ export default function ClientesPage() {
   const handleCloseForm = () => {
     setShowNewClientForm(false);
     setEditingClient(null);
-    setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '' });
+    setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '', licenseKey: '' });
   };
 
   return (
@@ -548,6 +555,23 @@ export default function ClientesPage() {
                     placeholder="Preferências, alergias, observações especiais..."
                   />
                 </div>
+
+                {/* Nova Licença */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nova Licença
+                  </label>
+                  <input
+                    type="text"
+                    value={newClientData.licenseKey || ''}
+                    onChange={(e) => setNewClientData(prev => ({ ...prev, licenseKey: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    placeholder="Ex: SALAO-PREMIUM-2024-001"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Insira a chave da licença se este cliente possui uma licença do sistema
+                  </p>
+                </div>
               </div>
 
               {/* Botões */}
@@ -672,6 +696,22 @@ export default function ClientesPage() {
                   <div className="space-y-3">
                     <h5 className="font-semibold text-gray-800">Observações</h5>
                     <p className="text-gray-700 bg-gray-50 p-3 rounded-lg text-sm">{selectedClient.notes}</p>
+                  </div>
+                )}
+
+                {/* Licença */}
+                {selectedClient.licenseKey && (
+                  <div className="space-y-3">
+                    <h5 className="font-semibold text-gray-800">Licença do Sistema</h5>
+                    <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-200">
+                      <div className="flex items-center space-x-2">
+                        <Key className="w-5 h-5 text-purple-600" />
+                        <span className="text-sm font-medium text-gray-700">Chave da Licença:</span>
+                      </div>
+                      <code className="block mt-2 bg-white px-3 py-2 rounded border text-sm font-mono">
+                        {selectedClient.licenseKey}
+                      </code>
+                    </div>
                   </div>
                 )}
               </div>
