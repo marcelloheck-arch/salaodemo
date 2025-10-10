@@ -438,13 +438,13 @@ export default function AgendamentosPage() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Agendamentos</h2>
-            <p className="text-gray-600">Gerencie todos os agendamentos do salão</p>
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">Agendamentos</h2>
+            <p className="text-gray-600 text-sm">Gerencie todos os agendamentos do salão</p>
           </div>
           
           <div className="flex items-center space-x-3">
@@ -454,18 +454,18 @@ export default function AgendamentosPage() {
                 console.log('Clicou em Visualizar Agenda');
                 setShowCalendarModal(true);
               }}
-              className="bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              className="bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
             >
-              <Eye className="w-5 h-5" />
+              <Eye className="w-4 h-4" />
               <span>Visualizar Agenda</span>
             </button>
             
             {/* Botão Novo Agendamento */}
             <button
               onClick={() => setShowNewAppointment(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-4 h-4" />
               <span>Novo Agendamento</span>
             </button>
           </div>

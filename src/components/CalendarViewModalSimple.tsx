@@ -110,53 +110,65 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
 
   const renderSimpleContent = () => {
     return (
-      <div className="flex-1 p-6 bg-gray-50">
-        <div className="bg-white rounded-lg p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="flex-1 p-3 md:p-6 bg-gray-50 overflow-y-auto min-h-0">
+        <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm h-full">
+          <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">
             Visualização de Agenda - {viewMode === 'week' ? 'Semana' : 'Mês'}
           </h3>
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <span className="text-gray-700">Período atual:</span>
-              <span className="font-medium text-gray-900">{getPeriodText()}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center justify-between p-3 md:p-4 bg-gray-50 rounded-lg">
+                <span className="text-sm md:text-base text-gray-700">Período atual:</span>
+                <span className="font-medium text-sm md:text-base text-gray-900">{getPeriodText()}</span>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 md:p-4 bg-gray-50 rounded-lg">
+                <span className="text-sm md:text-base text-gray-700">Total de agendamentos:</span>
+                <span className="font-medium text-sm md:text-base text-gray-900">{appointments.length}</span>
+              </div>
             </div>
             
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <span className="text-gray-700">Total de agendamentos:</span>
-              <span className="font-medium text-gray-900">{appointments.length}</span>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {appointments.slice(0, 6).map((appointment) => (
-                <div key={appointment.id} className="p-4 border border-gray-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium text-gray-900">{appointment.clientName}</span>
-                    <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(appointment.status)}`}>
-                      {appointment.status}
-                    </span>
+            {appointments.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 max-h-96 overflow-y-auto">
+                {appointments.map((appointment) => (
+                  <div key={appointment.id} className="p-3 md:p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-sm md:text-base text-gray-900 truncate">{appointment.clientName}</span>
+                      <span className={`px-2 py-1 text-xs rounded-full border ${getStatusColor(appointment.status)}`}>
+                        {appointment.status}
+                      </span>
+                    </div>
+                    <div className="text-xs md:text-sm text-gray-600 space-y-1">
+                      <div className="flex items-center">
+                        <CalendarIcon className="w-3 h-3 md:w-4 md:h-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">{appointment.date} às {appointment.time}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Scissors className="w-3 h-3 md:w-4 md:h-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">{appointment.service}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Clock className="w-3 h-3 md:w-4 md:h-4 mr-2 flex-shrink-0" />
+                          <span>{appointment.duration} min</span>
+                        </div>
+                        <div className="flex items-center">
+                          <DollarSign className="w-3 h-3 md:w-4 md:h-4 mr-1 flex-shrink-0" />
+                          <span className="font-medium">R$ {appointment.price}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <div className="flex items-center">
-                      <CalendarIcon className="w-4 h-4 mr-2" />
-                      {appointment.date} às {appointment.time}
-                    </div>
-                    <div className="flex items-center">
-                      <Scissors className="w-4 h-4 mr-2" />
-                      {appointment.service}
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-2" />
-                      {appointment.duration} min
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {appointments.length > 6 && (
-              <div className="text-center text-gray-500 text-sm">
-                E mais {appointments.length - 6} agendamentos...
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <CalendarIcon className="w-12 h-12 md:w-16 md:h-16 text-gray-400 mx-auto mb-4" />
+                <h4 className="text-base md:text-lg font-medium text-gray-900 mb-2">Nenhum agendamento encontrado</h4>
+                <p className="text-sm md:text-base text-gray-500">
+                  Não há agendamentos para o período selecionado.
+                </p>
               </div>
             )}
           </div>
@@ -181,19 +193,19 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4"
       onClick={handleBackdropClick}
     >
       <div 
-        className="bg-white rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col relative"
+        className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[95vh] flex flex-col relative overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white rounded-t-xl shrink-0">
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200 bg-white rounded-t-xl shrink-0">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <CalendarIcon className="w-6 h-6 text-purple-600" />
-              <h2 className="text-2xl font-bold text-gray-900">Visualização de Agenda</h2>
+              <CalendarIcon className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
+              <h2 className="text-lg md:text-2xl font-bold text-gray-900">Visualização de Agenda</h2>
             </div>
             
             {/* Toggle Views */}
@@ -201,7 +213,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
               <button
                 type="button"
                 onClick={() => handleViewModeChange('week')}
-                className={`px-4 py-2 text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium transition-all ${
                   viewMode === 'week'
                     ? 'bg-purple-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
@@ -212,7 +224,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
               <button
                 type="button"
                 onClick={() => handleViewModeChange('month')}
-                className={`px-4 py-2 text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium transition-all ${
                   viewMode === 'month'
                     ? 'bg-purple-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
@@ -226,32 +238,32 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
           <button
             type="button"
             onClick={handleCloseModal}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <X className="w-6 h-6 text-gray-600" />
+            <X className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
           </button>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white shrink-0">
+        <div className="flex items-center justify-between p-3 md:p-4 border-b border-gray-200 bg-white shrink-0">
           <button
             type="button"
             onClick={() => handleNavigation('prev')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
           </button>
 
-          <h3 className="text-xl font-semibold text-gray-900 capitalize">
+          <h3 className="text-base md:text-xl font-semibold text-gray-900 capitalize">
             {getPeriodText()}
           </h3>
 
           <button
             type="button"
             onClick={() => handleNavigation('next')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 md:p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+            <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
           </button>
         </div>
 
@@ -259,7 +271,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
         {renderSimpleContent()}
 
         {/* Footer com legenda */}
-        <div className="flex items-center justify-center space-x-4 p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl shrink-0">
+        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 p-3 md:p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl shrink-0">
           {[
             { status: 'confirmed', label: 'Confirmado' },
             { status: 'pending', label: 'Pendente' },
@@ -267,9 +279,9 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
             { status: 'cancelled', label: 'Cancelado' },
             { status: 'no_show', label: 'Não compareceu' }
           ].map(({ status, label }) => (
-            <div key={status} className="flex items-center space-x-2">
-              <div className={`w-3 h-3 rounded border ${getStatusColor(status)}`}></div>
-              <span className="text-sm text-gray-700">{label}</span>
+            <div key={status} className="flex items-center space-x-1 md:space-x-2">
+              <div className={`w-2 h-2 md:w-3 md:h-3 rounded border ${getStatusColor(status)}`}></div>
+              <span className="text-xs md:text-sm text-gray-700">{label}</span>
             </div>
           ))}
         </div>

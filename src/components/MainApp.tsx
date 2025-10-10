@@ -31,6 +31,8 @@ import ClientesPage from './ClientesPage';
 import ServicosPage from './ServicosPage';
 import CaixaPage from './CaixaPage';
 import ConfiguracoesPage from './ConfiguracoesPage';
+import HorariosPage from './HorariosPage';
+import ProdutosPage from './ProdutosPage';
 import SystemIntegrationPage from './SystemIntegrationPage';
 import MultiLevelLogin from './MultiLevelLogin';
 import SuperAdminDashboard from './SuperAdminDashboard';
@@ -192,7 +194,7 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
   );
 }
 
-function DashboardContent() {
+function DashboardContent({ onPageChange }: { onPageChange: (page: string) => void }) {
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <div className="mb-6">
@@ -220,14 +222,15 @@ function DashboardContent() {
         <h3 className="text-lg font-semibold text-gray-800 mb-4">Ações Rápidas</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Novo Agendamento", icon: Calendar },
-            { label: "Cadastrar Cliente", icon: Users },
-            { label: "Ver Caixa", icon: DollarSign },
-            { label: "Configurações", icon: Settings },
+            { label: "Novo Agendamento", icon: Calendar, page: "agendamentos" },
+            { label: "Cadastrar Cliente", icon: Users, page: "clientes" },
+            { label: "Ver Caixa", icon: DollarSign, page: "caixa" },
+            { label: "Configurações", icon: Settings, page: "configuracoes" },
           ].map((action, index) => (
             <button
               key={index}
-              className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              onClick={() => onPageChange(action.page)}
+              className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors hover:border-primary"
             >
               <action.icon className="w-8 h-8 text-primary mb-2" />
               <span className="text-sm font-medium text-gray-700">{action.label}</span>
@@ -318,7 +321,7 @@ export default function MainApp() {
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'dashboard':
-        return <DashboardContent />;
+        return <DashboardContent onPageChange={setCurrentPage} />;
       case 'caixa':
         return <CaixaPage />;
       case 'analytics':
@@ -337,8 +340,12 @@ export default function MainApp() {
         return <ServicosPage />;
       case 'configuracoes':
         return <ConfiguracoesPage />;
+      case 'horarios':
+        return <HorariosPage />;
+      case 'produtos':
+        return <ProdutosPage />;
       default:
-        return <DashboardContent />;
+        return <DashboardContent onPageChange={setCurrentPage} />;
     }
   };
 
