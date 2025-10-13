@@ -1,37 +1,116 @@
-# 💅 Agenda Salão - Sistema de Gerenciamento de Salão de Beleza
+# 💅 Agenda Salão - Sistema Completo de Gerenciamento
 
-Sistema web completo para gerenciamento de salão de beleza com design moderno glassmorphism, desenvolvido com Next.js 14, TypeScript e Tailwind CSS.
+Sistema web empresarial completo para gerenciamento de salões de beleza com sistema de licenciamento, relatórios avançados e design moderno glassmorphism, desenvolvido com Next.js 14, TypeScript e Tailwind CSS.
 
 ## ✨ Características Principais
 
-- **Design Moderno**: Interface glassmorphism com paleta de cores roxo/rosa
-- **Dashboard Interativo**: Métricas em tempo real e visualizações
+### 🔐 Sistema de Licenciamento
+- **Registro Público**: Formulário multi-step para novos salões
+- **Painel Administrativo**: Aprovação e gestão de licenças
+- **Editor de Planos**: Criação e edição de planos de assinatura
+- **Geração Automática**: Criação automática de licenças após aprovação
+- **Validação Dinâmica**: Sistema de autenticação por email/licença
+
+### 📊 Relatórios e Analytics
+- **Dashboard Interativo**: KPIs e métricas em tempo real
+- **Relatórios Financeiros**: Receitas, despesas e comissões
+- **Análise Operacional**: Ocupação, serviços e performance
+- **Gestão de Clientes**: Segmentação e análise de comportamento
+- **Gráficos Interativos**: Visualizações com Chart.js
+- **Exportação de Dados**: Relatórios em PDF e Excel
+
+### 🎯 Gestão Completa
+- **Dashboard Personalizado**: Dados dinâmicos do usuário logado
 - **Sistema de Agendamentos**: Gestão completa de horários e serviços
-- **Controle Financeiro**: Comissões, pagamentos e relatórios
+- **Controle Financeiro**: Comissões, pagamentos e caixa
 - **Gestão de Clientes**: Cadastro completo com histórico
-- **Integração WhatsApp**: Confirmações e lembretes automáticos
-- **Google Calendar**: Sincronização bidirecional
+- **Sistema de Avaliações**: Coleta e exibição de feedback público
+- **Perfil Dinâmico**: Informações personalizadas por salão
+
+### 🎨 Interface e UX
+- **Design Moderno**: Interface glassmorphism com cores neutras
+- **Dados Dinâmicos**: Nome, email e informações reais do usuário
+- **Avatar Personalizado**: Iniciais dinâmicas do usuário logado
+- **Responsive Design**: Otimizado para todos os dispositivos
+- **Navegação Intuitiva**: Menu lateral com categorização clara
 
 ## 🚀 Tecnologias Utilizadas
 
 ### Frontend
 - **Next.js 14** - Framework React com App Router
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização utilitária
-- **Framer Motion** - Animações fluidas
-- **Lucide React** - Ícones modernos
-- **Zustand** - Gerenciamento de estado
-- **React Query** - Cache e sincronização de dados
-- **React Hook Form + Zod** - Formulários com validação
+- **TypeScript** - Tipagem estática e interfaces completas
+- **Tailwind CSS** - Estilização utilitária responsiva
+- **Chart.js** - Gráficos interativos para relatórios
+- **Lucide React** - Ícones modernos e consistentes
+- **LocalStorage** - Persistência de dados do cliente
 
-### Funcionalidades
-- **Glassmorphism UI** - Design moderno com efeitos de vidro
-- **Responsive Design** - Otimizado para todos os dispositivos
-- **Real-time Updates** - Atualizações em tempo real
-- **Dark/Light Mode** - Suporte a temas
-- **PWA Ready** - Progressive Web App
+### Arquitetura e Padrões
+- **Component-Based Architecture** - Componentes reutilizáveis
+- **TypeScript Interfaces** - Tipagem forte para licenças e relatórios
+- **Service Layer** - LocalStorageService para persistência
+- **Custom Hooks** - Lógica reutilizável para autenticação
+- **Responsive Design** - Mobile-first approach
 
-## 📦 Instalação e Configuração
+### Funcionalidades Técnicas
+- **Sistema Multi-nível**: Autenticação para admins e usuários
+- **Validação Dinâmica**: Credenciais flexíveis com debug
+- **Dados Persistentes**: Sistema robusto de localStorage
+- **Debug Tools** - Scripts de teste e diagnóstico
+- **Hot Reload** - Desenvolvimento com atualizações instantâneas
+
+## � Sistema de Licenciamento
+
+### Fluxo Completo de Registro
+1. **Registro Público**: Novos salões se cadastram via formulário multi-step
+2. **Seleção de Plano**: Escolha entre 4 tiers de pricing (Starter, Professional, Premium, Enterprise)
+3. **Aprovação Admin**: Administradores revisam e aprovam/rejeitam registros
+4. **Geração de Licença**: Sistema gera automaticamente chaves de licença
+5. **Acesso ao Sistema**: Login com email + chave de licença
+
+### Credenciais de Teste
+
+#### Super Admin
+```
+Email: superadmin@agendusalao.com
+Senha: SuperAdmin@2024
+```
+
+#### Salão Demo (sem licença)
+```
+Email: admin@salao.com
+Senha: admin123
+```
+
+#### Salão com Licença Ativa
+```
+Email: admin@salao.com
+Senha: admin123
+Licença: TEST-1234-ABCD-5678
+```
+
+### Scripts de Teste Disponíveis
+- `test-credentials.js` - Credenciais do sistema
+- `debug-system.js` - Diagnóstico completo
+- `dynamic-test.js` - Criação de usuários de teste
+
+## 📊 Sistema de Relatórios
+
+### Dashboards Disponíveis
+- **Geral**: Visão consolidada com KPIs principais
+- **Financeiro**: Receitas, despesas, comissões e lucros
+- **Operacional**: Taxa de ocupação, serviços mais solicitados
+- **Clientes**: Segmentação, retenção e análise comportamental
+- **Marketing**: Campanhas, conversões e ROI
+- **Personalizado**: Relatórios sob demanda com filtros
+
+### Tipos de Gráficos
+- Gráficos de linha para tendências temporais
+- Gráficos de barras para comparações
+- Gráficos de pizza para distribuições
+- Cards de métricas para KPIs
+- Tabelas dinâmicas para dados detalhados
+
+## �📦 Instalação e Configuração
 
 ### Pré-requisitos
 - Node.js 18+ 
@@ -52,13 +131,25 @@ npm install
 npm run dev
 ```
 
-O projeto estará disponível em `http://localhost:3000`
+O projeto estará disponível em `http://localhost:3004`
 
-### Credenciais de Demonstração
+### Como Testar o Sistema
+
+#### 1. Login Direto (Credenciais na seção acima)
+Use as credenciais fornecidas para acessar diferentes níveis do sistema.
+
+#### 2. Criação de Usuário de Teste
+```javascript
+// Abra o console do navegador (F12) e execute:
+createDynamicTestUser("Maria Silva", "maria@teste.com", "Salão Beleza", "TESTE-2024-KEY");
+loginUser("maria@teste.com", "TESTE-2024-KEY");
 ```
-Email: admin@salao.com
-Senha: admin123
-```
+
+#### 3. Registro Público
+- Acesse a tela de login
+- Clique em "Cadastrar Novo Salão"
+- Preencha o formulário multi-step
+- Aguarde aprovação do admin
 
 ## 🏗️ Estrutura do Projeto
 
@@ -102,11 +193,37 @@ src/
 
 ## 📱 Funcionalidades Implementadas
 
-### ✅ Fase 1 - MVP Completo
-- [x] **Sistema de Login** - Autenticação para proprietários
-- [x] **Dashboard Principal** - Métricas e visão geral
+### ✅ Sistema Core Completo
+- [x] **Sistema de Licenciamento** - Registro, aprovação e geração automática
+- [x] **Painel Administrativo** - Gestão completa de licenças e usuários
+- [x] **Editor de Planos** - CRUD completo para planos de assinatura
+- [x] **Criação Manual de Licenças** - Wizard em 3 etapas para admins
+- [x] **Autenticação Multi-nível** - Super admin, admins de salão e usuários
+
+### ✅ Sistema de Relatórios
+- [x] **Dashboard Interativo** - 6 abas de relatórios especializados
+- [x] **Métricas Financeiras** - Receitas, despesas, comissões e lucros
+- [x] **Analytics Operacionais** - Taxa de ocupação e performance
+- [x] **Análise de Clientes** - Segmentação e comportamento
+- [x] **Gráficos Dinâmicos** - Chart.js com visualizações interativas
+- [x] **Exportação de Dados** - Relatórios em PDF e Excel
+
+### ✅ Interface e UX
+- [x] **Dados Dinâmicos** - Informações reais do usuário logado
+- [x] **Avatar Personalizado** - Iniciais dinâmicas do nome
+- [x] **Perfil Sincronizado** - Configurações com dados do usuário
+- [x] **Design Responsivo** - Otimizado para mobile e desktop
+- [x] **Sistema de Debug** - Ferramentas completas para desenvolvimento
+
+### ✅ Funcionalidades Base
+- [x] **Sistema de Login** - Autenticação robusta com validação
+- [x] **Dashboard Principal** - Métricas e visão geral personalizada
+- [x] **Gestão de Agendamentos** - Calendário e horários
 - [x] **Controle de Caixa** - Faturamento, comissões e relatórios
-- [x] **Integração WhatsApp** - Configuração e automação
+- [x] **Gestão de Clientes** - Cadastro completo com histórico
+- [x] **Sistema de Avaliações** - Coleta e exibição de feedback
+- [x] **Controle de Produtos** - Estoque e vendas
+- [x] **Gestão de Serviços** - Catálogo completo com preços
 - [x] **Integração Google Calendar** - Sincronização bidirecional
 - [x] **Perfil do Salão** - Gestão completa de informações
 - [x] **Sistema de Notificações** - Email, push e WhatsApp
@@ -188,7 +305,7 @@ src/
 
 ```bash
 # Desenvolvimento
-npm run dev
+npm run dev           # Inicia servidor em http://localhost:3004
 
 # Build para produção
 npm run build
@@ -202,6 +319,45 @@ npm run lint
 # Verificação de tipos
 npm run type-check
 ```
+
+## 🧪 Ferramentas de Debug
+
+### Scripts de Teste (Console do Navegador)
+```javascript
+// Criar usuário de teste
+createDynamicTestUser("Nome", "email@teste.com", "Nome do Salão", "CHAVE-LICENCA");
+
+// Fazer login
+loginUser("email@teste.com", "CHAVE-LICENCA");
+
+// Limpar localStorage
+localStorage.clear();
+
+// Debug completo do sistema
+// Execute debug-system.js no console
+```
+
+### Arquivos de Documentação
+- `SISTEMA_LICENCIAMENTO.md` - Documentação completa do sistema de licenças
+- `SISTEMA_AVALIACOES.md` - Sistema de avaliações e feedback
+- `docs/RELATORIOS_SISTEMA.md` - Documentação dos relatórios
+- `BACKUP_STATUS.md` - Status de backups e versionamento
+
+## 📈 Próximas Funcionalidades
+
+### 🚧 Em Desenvolvimento
+- [ ] Integração com APIs de pagamento
+- [ ] Sistema de notificações push
+- [ ] Backup automático na nuvem
+- [ ] Chat interno para equipe
+- [ ] Sistema de comissões avançado
+
+### 🔮 Roadmap Futuro
+- [ ] App mobile companion
+- [ ] Sistema de fidelidade
+- [ ] Multi-unidades
+- [ ] IA para recomendações
+- [ ] Marketplace de produtos
 
 ## 🤝 Contribuição
 
