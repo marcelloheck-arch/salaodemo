@@ -369,162 +369,164 @@ export default function HorariosPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-        {/* Horários de Funcionamento */}
-        <div className="xl:col-span-1">
-          <div className="bg-white rounded-lg border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">
-                Horários de Funcionamento
-              </h2>
-              {isEditingHours ? (
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={handleSaveWorkingHours}
-                    className="flex items-center space-x-1 text-green-600 hover:text-green-700"
-                  >
-                    <Save className="w-4 h-4" />
-                    <span className="text-sm">Salvar</span>
-                  </button>
-                  <button
-                    onClick={() => setIsEditingHours(false)}
-                    className="flex items-center space-x-1 text-gray-600 hover:text-gray-700"
-                  >
-                    <X className="w-4 h-4" />
-                    <span className="text-sm">Cancelar</span>
-                  </button>
-                </div>
-              ) : (
+      {/* Horários de Funcionamento - Movido para cima */}
+      <div className="mb-6">
+        <div className="bg-white rounded-lg border p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Horários de Funcionamento
+            </h2>
+            {isEditingHours ? (
+              <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => setIsEditingHours(true)}
-                  className="flex items-center space-x-1 text-purple-600 hover:text-purple-700"
+                  onClick={handleSaveWorkingHours}
+                  className="flex items-center space-x-1 text-green-600 hover:text-green-700"
                 >
-                  <Edit className="w-4 h-4" />
-                  <span className="text-sm">Editar</span>
+                  <Save className="w-4 h-4" />
+                  <span className="text-sm">Salvar</span>
                 </button>
-              )}
-            </div>
+                <button
+                  onClick={() => setIsEditingHours(false)}
+                  className="flex items-center space-x-1 text-gray-600 hover:text-gray-700"
+                >
+                  <X className="w-4 h-4" />
+                  <span className="text-sm">Cancelar</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsEditingHours(true)}
+                className="flex items-center space-x-1 text-purple-600 hover:text-purple-700"
+              >
+                <Edit className="w-4 h-4" />
+                <span className="text-sm">Editar</span>
+              </button>
+            )}
+          </div>
 
-            <div className="space-y-3">
-              {workingHours.map((day) => (
-                <div key={day.id} className="border rounded-lg p-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium text-gray-900">{day.dayName}</span>
-                    {isEditingHours ? (
-                      <label className="flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={day.isOpen}
-                          onChange={(e) => handleUpdateWorkingHours(day.id, 'isOpen', e.target.checked)}
-                          className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Aberto</span>
-                      </label>
-                    ) : (
-                      <span className={`text-sm font-medium ${
-                        day.isOpen ? 'text-green-600' : 'text-red-600'
-                      }`}>
-                        {day.isOpen ? 'Aberto' : 'Fechado'}
-                      </span>
-                    )}
-                  </div>
-                  
-                  {day.isOpen && (
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-2 gap-2">
-                        <div>
-                          <label className="block text-xs text-gray-600 mb-1">Abertura</label>
-                          {isEditingHours ? (
-                            <input
-                              type="time"
-                              value={day.openTime}
-                              onChange={(e) => handleUpdateWorkingHours(day.id, 'openTime', e.target.value)}
-                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
-                            />
-                          ) : (
-                            <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded">
-                              {day.openTime}
-                            </span>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-xs text-gray-600 mb-1">Fechamento</label>
-                          {isEditingHours ? (
-                            <input
-                              type="time"
-                              value={day.closeTime}
-                              onChange={(e) => handleUpdateWorkingHours(day.id, 'closeTime', e.target.value)}
-                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
-                            />
-                          ) : (
-                            <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded">
-                              {day.closeTime}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {day.breakStart && day.breakEnd && (
-                        <div className="grid grid-cols-2 gap-2">
-                          <div>
-                            <label className="block text-xs text-gray-600 mb-1">Pausa início</label>
-                            {isEditingHours ? (
-                              <input
-                                type="time"
-                                value={day.breakStart}
-                                onChange={(e) => handleUpdateWorkingHours(day.id, 'breakStart', e.target.value)}
-                                className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
-                              />
-                            ) : (
-                              <span className="text-sm font-mono bg-orange-100 px-2 py-1 rounded">
-                                {day.breakStart}
-                              </span>
-                            )}
-                          </div>
-                          <div>
-                            <label className="block text-xs text-gray-600 mb-1">Pausa fim</label>
-                            {isEditingHours ? (
-                              <input
-                                type="time"
-                                value={day.breakEnd}
-                                onChange={(e) => handleUpdateWorkingHours(day.id, 'breakEnd', e.target.value)}
-                                className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
-                              />
-                            ) : (
-                              <span className="text-sm font-mono bg-orange-100 px-2 py-1 rounded">
-                                {day.breakEnd}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                      
+          {/* Grid responsivo para os horários */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {workingHours.map((day) => (
+              <div key={day.id} className="border rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-medium text-gray-900">{day.dayName}</span>
+                  {isEditingHours ? (
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={day.isOpen}
+                        onChange={(e) => handleUpdateWorkingHours(day.id, 'isOpen', e.target.checked)}
+                        className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-600">Aberto</span>
+                    </label>
+                  ) : (
+                    <span className={`text-sm font-medium ${
+                      day.isOpen ? 'text-green-600' : 'text-red-600'
+                    }`}>
+                      {day.isOpen ? 'Aberto' : 'Fechado'}
+                    </span>
+                  )}
+                </div>
+                
+                {day.isOpen && (
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">Máx. atendimentos simultâneos</label>
+                        <label className="block text-xs text-gray-600 mb-1">Abertura</label>
                         {isEditingHours ? (
                           <input
-                            type="number"
-                            min="1"
-                            max="10"
-                            value={day.maxConcurrentAppointments}
-                            onChange={(e) => handleUpdateWorkingHours(day.id, 'maxConcurrentAppointments', parseInt(e.target.value))}
+                            type="time"
+                            value={day.openTime}
+                            onChange={(e) => handleUpdateWorkingHours(day.id, 'openTime', e.target.value)}
                             className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
                           />
                         ) : (
-                          <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            {day.maxConcurrentAppointments} atendimentos
+                          <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded block text-center">
+                            {day.openTime}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">Fechamento</label>
+                        {isEditingHours ? (
+                          <input
+                            type="time"
+                            value={day.closeTime}
+                            onChange={(e) => handleUpdateWorkingHours(day.id, 'closeTime', e.target.value)}
+                            className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                          />
+                        ) : (
+                          <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded block text-center">
+                            {day.closeTime}
                           </span>
                         )}
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                    
+                    {day.breakStart && day.breakEnd && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Pausa início</label>
+                          {isEditingHours ? (
+                            <input
+                              type="time"
+                              value={day.breakStart}
+                              onChange={(e) => handleUpdateWorkingHours(day.id, 'breakStart', e.target.value)}
+                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                            />
+                          ) : (
+                            <span className="text-sm font-mono bg-orange-100 px-2 py-1 rounded block text-center">
+                              {day.breakStart}
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-600 mb-1">Pausa fim</label>
+                          {isEditingHours ? (
+                            <input
+                              type="time"
+                              value={day.breakEnd}
+                              onChange={(e) => handleUpdateWorkingHours(day.id, 'breakEnd', e.target.value)}
+                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                            />
+                          ) : (
+                            <span className="text-sm font-mono bg-orange-100 px-2 py-1 rounded block text-center">
+                              {day.breakEnd}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div>
+                      <label className="block text-xs text-gray-600 mb-1">Máx. atendimentos simultâneos</label>
+                      {isEditingHours ? (
+                        <input
+                          type="number"
+                          min="1"
+                          max="10"
+                          value={day.maxConcurrentAppointments}
+                          onChange={(e) => handleUpdateWorkingHours(day.id, 'maxConcurrentAppointments', parseInt(e.target.value))}
+                          className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                        />
+                      ) : (
+                        <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded block text-center">
+                          {day.maxConcurrentAppointments} atendimentos
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* Agenda Visual */}
+      {/* Agenda Visual e Google Calendar - Grid melhorado */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        {/* Agenda Visual - Agora ocupa mais espaço */}
         <div className="xl:col-span-2">
           <div className="bg-white rounded-lg border p-6">
             {/* Seletor de semana */}

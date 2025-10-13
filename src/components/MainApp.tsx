@@ -20,7 +20,9 @@ import {
   CreditCard,
   Package,
   ChevronDown,
-  UserCheck
+  UserCheck,
+  UserPlus,
+  Shield
 } from "lucide-react";
 import { cn } from '@/lib/utils';
 import IntegrationsPage from './IntegrationsPage';
@@ -33,10 +35,14 @@ import CaixaPage from './CaixaPage';
 import ConfiguracoesPage from './ConfiguracoesPage';
 import HorariosPage from './HorariosPage';
 import ProdutosPage from './ProdutosPage';
+import AvaliacoesPage from './AvaliacoesPage';
+import RelatoriosPage from './RelatoriosPage';
+import RelatoriosWidget from './RelatoriosWidget';
 import SystemIntegrationPage from './SystemIntegrationPage';
-import MultiLevelLogin from './MultiLevelLogin';
-import SuperAdminDashboard from './SuperAdminDashboard';
+import LicenseManagementApp from './LicenseManagementApp';
 import { useAuth, UserType } from '@/lib/auth';
+import { UserRegistration } from '@/types/license';
+import { EmailService } from '@/services/emailService';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -120,6 +126,16 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       icon: Settings, 
       label: "Configurações", 
       id: "configuracoes"
+    },
+    { 
+      icon: UserPlus, 
+      label: "Admin - Licenças", 
+      id: "admin-licencas"
+    },
+    { 
+      icon: Shield, 
+      label: "Cadastro Público", 
+      id: "cadastro-publico"
     },
   ];
 
@@ -218,25 +234,30 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Ações Rápidas</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: "Novo Agendamento", icon: Calendar, page: "agendamentos" },
-            { label: "Cadastrar Cliente", icon: Users, page: "clientes" },
-            { label: "Ver Caixa", icon: DollarSign, page: "caixa" },
-            { label: "Configurações", icon: Settings, page: "configuracoes" },
-          ].map((action, index) => (
-            <button
-              key={index}
-              onClick={() => onPageChange(action.page)}
-              className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors hover:border-primary"
-            >
-              <action.icon className="w-8 h-8 text-primary mb-2" />
-              <span className="text-sm font-medium text-gray-700">{action.label}</span>
-            </button>
-          ))}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Ações Rápidas</h3>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { label: "Novo Agendamento", icon: Calendar, page: "agendamentos" },
+              { label: "Cadastrar Cliente", icon: Users, page: "clientes" },
+              { label: "Ver Caixa", icon: DollarSign, page: "caixa" },
+              { label: "Configurações", icon: Settings, page: "configuracoes" },
+            ].map((action, index) => (
+              <button
+                key={index}
+                onClick={() => onPageChange(action.page)}
+                className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors hover:border-primary"
+              >
+                <action.icon className="w-8 h-8 text-primary mb-2" />
+                <span className="text-sm font-medium text-gray-700">{action.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Widget de Relatórios */}
+        <RelatoriosWidget onOpenReports={() => onPageChange('relatorios')} />
       </div>
     </div>
   );
@@ -248,19 +269,56 @@ export default function MainApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
     // Verificar se há usuário logado no localStorage
     const user = localStorage.getItem('authUser');
-    if (user) {
+    const isAuth = localStorage.getItem('isAuthenticated');
+    
+    console.log('🔍 Verificando estado de autenticação:', { user: !!user, isAuth });
+    
+    if (user && isAuth === 'true') {
       try {
         const authUser = JSON.parse(user);
+        console.log('👤 Usuário encontrado no localStorage:', authUser);
         setIsAuthenticated(true);
-        setUserType(authUser.type || 'salon_admin');
+        setCurrentUser(authUser); // Armazenar dados do usuário no estado
+        
+        // Definir tipo de usuário baseado no campo 'type'
+        console.log('🔍 Analisando tipo de usuário:', {
+          authUser_type: authUser.type,
+          authUser_name: authUser.name,
+          authUser_email: authUser.email
+        });
+        
+        if (authUser.type === 'superadmin' || authUser.type === 'super_admin') {
+          setUserType('super_admin');
+          console.log('🔧 Usuário identificado como Super Admin');
+        } else {
+          setUserType('salon_admin');
+          console.log('🏪 Usuário identificado como Salão Admin');
+        }
       } catch {
+        console.log('❌ Erro ao recuperar dados do usuário, limpando localStorage');
         localStorage.removeItem('authUser');
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('userData');
       }
+    } else {
+      console.log('🔓 Nenhum usuário logado, redirecionando para login');
     }
+
+    // Atalho de teclado: Ctrl+Shift+L para logout rápido
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.shiftKey && event.key === 'L') {
+        event.preventDefault();
+        handleLogout();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -296,27 +354,78 @@ export default function MainApp() {
   };
 
   const handleLogout = () => {
+    console.log('🚪 Fazendo logout e limpando todos os dados');
+    
+    // Limpar TODOS os dados de autenticação
     localStorage.removeItem('authUser');
     localStorage.removeItem('userData');
     localStorage.removeItem('isAuthenticated');
+    
+    // Reset completo dos estados
     setIsAuthenticated(false);
     setUserType('salon_admin');
     setCurrentPage('dashboard');
+    setUserDropdownOpen(false);
+    setSidebarOpen(false);
+    setCurrentUser(null); // Limpar dados do usuário
+    
+    console.log('✅ Logout completo realizado');
   };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Se não está autenticado, mostrar tela de login
+  // Função para gerar iniciais do usuário
+  const getUserInitials = () => {
+    if (!currentUser?.name) return 'AS';
+    return currentUser.name
+      .split(' ')
+      .map((word: string) => word[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  // Função para obter nome de exibição
+  const getDisplayName = () => {
+    if (!currentUser?.name) return 'Admin do Salão';
+    return currentUser.name;
+  };
+
+  // Função para obter email de exibição
+  const getDisplayEmail = () => {
+    if (!currentUser?.email) return 'admin@salao.com';
+    return currentUser.email;
+  };
+
+  // Função para obter nome do salão
+  const getSalonName = () => {
+    if (!currentUser?.salonName) return 'Salão de Beleza';
+    return currentUser.salonName;
+  };
+
+  // Se não está autenticado, mostrar sistema de gerenciamento de licenças/login
   if (!isAuthenticated) {
-    return <MultiLevelLogin onLogin={handleLogin} />;
+    console.log('🔓 Usuário não autenticado, mostrando tela de login');
+    return <LicenseManagementApp onLogin={handleLogin} />;
   }
 
-  // Se é super admin, mostrar dashboard específico
+  console.log('🎯 DECISÃO DE RENDERIZAÇÃO:', {
+    isAuthenticated,
+    userType,
+    condition_super_admin: userType === 'super_admin',
+    localStorage_authUser: localStorage.getItem('authUser'),
+    localStorage_userData: localStorage.getItem('userData')
+  });
+
+  // Se é super admin, mostrar painel administrativo completo
   if (userType === 'super_admin') {
-    return <SuperAdminDashboard onLogout={handleLogout} />;
+    console.log('🔧 RENDERIZANDO: Painel Administrativo Completo');
+    return <LicenseManagementApp onLogin={handleLogin} showAdminPanel={true} />;
   }
+
+  console.log('🏪 RENDERIZANDO: Dashboard do Salão');
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -344,6 +453,10 @@ export default function MainApp() {
         return <HorariosPage />;
       case 'produtos':
         return <ProdutosPage />;
+      case 'avaliacoes':
+        return <AvaliacoesPage />;
+      case 'relatorios':
+        return <RelatoriosPage />;
       default:
         return <DashboardContent onPageChange={setCurrentPage} />;
     }
@@ -391,11 +504,11 @@ export default function MainApp() {
                   className="flex items-center space-x-2 px-2 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <div className="w-7 h-7 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">AS</span>
+                    <span className="text-white font-bold text-xs">{getUserInitials()}</span>
                   </div>
                   <div className="text-left hidden sm:block">
-                    <p className="text-xs font-medium text-gray-700">Admin do Salão</p>
-                    <p className="text-xs text-gray-500">Proprietário</p>
+                    <p className="text-xs font-medium text-gray-700">{getDisplayName()}</p>
+                    <p className="text-xs text-gray-500">{getSalonName()}</p>
                   </div>
                   <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
                 </button>
@@ -405,11 +518,14 @@ export default function MainApp() {
                     <div className="p-4 border-b border-gray-100">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
-                          <span className="text-white font-bold">AS</span>
+                          <span className="text-white font-bold">{getUserInitials()}</span>
                         </div>
                         <div>
-                          <p className="font-medium text-gray-800">Admin do Salão</p>
-                          <p className="text-sm text-gray-600">admin@salao.com</p>
+                          <p className="font-medium text-gray-800">{getDisplayName()}</p>
+                          <p className="text-sm text-gray-600">{getDisplayEmail()}</p>
+                          {currentUser?.salonName && (
+                            <p className="text-xs text-gray-500">{getSalonName()}</p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -424,6 +540,20 @@ export default function MainApp() {
                       >
                         <UserCheck className="w-4 h-4" />
                         <span>Trocar Usuário</span>
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setUserDropdownOpen(false);
+                          handleLogout();
+                        }}
+                        className="w-full flex items-center justify-between px-3 py-2 text-left text-blue-600 hover:bg-blue-50 rounded-lg transition-colors mb-1"
+                        title="Voltar ao Login (Ctrl+Shift+L)"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <LogOut className="w-4 h-4" />
+                          <span>Voltar ao Login</span>
+                        </div>
+                        <span className="text-xs text-blue-400">Ctrl+Shift+L</span>
                       </button>
                       <button 
                         onClick={() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Settings, 
   User,
@@ -49,6 +49,29 @@ export default function ConfiguracoesPage() {
       requirePasswordChange: false
     }
   });
+
+  // Carregar dados do usuário autenticado
+  useEffect(() => {
+    const authUser = localStorage.getItem('authUser');
+    if (authUser) {
+      try {
+        const userData = JSON.parse(authUser);
+        console.log('⚙️ Carregando dados do usuário nas configurações:', userData);
+        
+        setConfig(prevConfig => ({
+          ...prevConfig,
+          general: {
+            ...prevConfig.general,
+            salonName: userData.salonName || prevConfig.general.salonName,
+            ownerName: userData.name || prevConfig.general.ownerName,
+            email: userData.email || prevConfig.general.email,
+          }
+        }));
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error);
+      }
+    }
+  }, []);
 
   const handleSave = () => {
     // Simular salvamento

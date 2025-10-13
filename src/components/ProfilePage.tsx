@@ -59,6 +59,26 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState<'basic' | 'hours' | 'services'>('basic');
 
+  // Carregar dados do usuário autenticado
+  useEffect(() => {
+    const authUser = localStorage.getItem('authUser');
+    if (authUser) {
+      try {
+        const userData = JSON.parse(authUser);
+        console.log('📋 Carregando dados do usuário no perfil:', userData);
+        
+        setProfile(prevProfile => ({
+          ...prevProfile,
+          name: userData.salonName || prevProfile.name,
+          ownerName: userData.name || prevProfile.ownerName,
+          email: userData.email || prevProfile.email,
+        }));
+      } catch (error) {
+        console.error('Erro ao carregar dados do usuário:', error);
+      }
+    }
+  }, []);
+
   const dayNames = {
     monday: 'Segunda-feira',
     tuesday: 'Terça-feira',
