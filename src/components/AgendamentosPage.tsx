@@ -280,56 +280,17 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
 const mockAppointments: Appointment[] = [
   {
     id: "1",
-    clientName: "Maria Silva",
-    clientPhone: "(11) 99999-1234",
-    service: "Corte + Escova",
-    professional: "Ana Costa",
-    date: "2025-10-06",
-    time: "09:00",
-    duration: 90,
-    price: 85.00,
-    status: "confirmed",
-    notes: "Cliente prefere corte moderno",
-    createdAt: "2025-10-05T14:30:00"
-  },
-  {
-    id: "2", 
-    clientName: "João Santos",
-    clientPhone: "(11) 98888-5678",
-    service: "Corte Masculino",
-    professional: "Carlos Barbeiro",
-    date: "2025-10-06",
-    time: "10:30",
+    clientName: "Cliente Exemplo",
+    clientPhone: "(11) 99999-0000",
+    service: "Serviço Exemplo",
+    professional: "Profissional",
+    date: "2025-10-15",
+    time: "10:00",
     duration: 60,
-    price: 45.00,
-    status: "pending",
-    createdAt: "2025-10-06T08:15:00"
-  },
-  {
-    id: "3",
-    clientName: "Fernanda Lima",
-    clientPhone: "(11) 97777-9012",
-    service: "Manicure + Pedicure",
-    professional: "Lucia Nails",
-    date: "2025-10-06",
-    time: "14:00",
-    duration: 120,
-    price: 65.00,
+    price: 50.00,
     status: "confirmed",
-    createdAt: "2025-10-05T16:45:00"
-  },
-  {
-    id: "4",
-    clientName: "Pedro Oliveira",
-    clientPhone: "(11) 96666-3456",
-    service: "Barba",
-    professional: "Carlos Barbeiro",
-    date: "2025-10-06",
-    time: "16:00",
-    duration: 45,
-    price: 30.00,
-    status: "completed",
-    createdAt: "2025-10-05T12:20:00"
+    notes: "",
+    createdAt: "2025-10-15T08:00:00"
   }
 ];
 

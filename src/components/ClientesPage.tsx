@@ -63,48 +63,18 @@ interface NewClientFormData {
 const initialClients: Client[] = [
   {
     id: "1",
-    name: "Maria Silva",
-    phone: "(11) 99999-9999",
-    email: "maria@email.com",
-    birthday: "1990-03-15",
-    preferences: ["Corte Feminino", "Escova"],
-    notes: "Prefere horários da manhã",
-    totalSpent: 850.00,
-    totalVisits: 12,
-    lastVisit: "2025-10-01",
-    averageTicket: 70.83,
-    status: 'vip',
-    createdAt: "2024-01-15"
-  },
-  {
-    id: "2",
-    name: "João Santos",
-    phone: "(11) 88888-8888",
-    email: "joao@email.com",
-    birthday: "1985-07-22",
-    preferences: ["Corte Masculino"],
+    name: "Cliente Exemplo",
+    phone: "(11) 99999-0000",
+    email: "cliente@exemplo.com",
+    birthday: "1990-01-01",
+    preferences: ["Serviço Exemplo"],
     notes: "",
-    totalSpent: 200.00,
-    totalVisits: 4,
-    lastVisit: "2025-09-28",
+    totalSpent: 100.00,
+    totalVisits: 2,
+    lastVisit: "2025-10-15",
     averageTicket: 50.00,
     status: 'active',
-    createdAt: "2024-08-10"
-  },
-  {
-    id: "3",
-    name: "Ana Costa",
-    phone: "(11) 77777-7777",
-    email: "ana@email.com",
-    birthday: "1992-12-03",
-    preferences: ["Manicure", "Pedicure", "Sobrancelha"],
-    notes: "Cliente fidelizada há 2 anos",
-    totalSpent: 1200.00,
-    totalVisits: 20,
-    lastVisit: "2025-10-05",
-    averageTicket: 60.00,
-    status: 'vip',
-    createdAt: "2023-05-20"
+    createdAt: "2025-01-01"
   }
 ];
 

@@ -286,15 +286,13 @@ export const DADOS_FINANCEIRO_MOCK: RelatorioFinanceiro = {
     fim: new Date('2025-10-31')
   },
   receitas: {
-    total: 48500,
-    servicos: 32000,
-    produtos: 14500,
-    outros: 2000,
+    total: 1500,
+    servicos: 1000,
+    produtos: 400,
+    outros: 100,
     detalhePorDia: [
-      { data: new Date('2025-10-01'), valor: 1850, servicos: 1200, produtos: 650 },
-      { data: new Date('2025-10-02'), valor: 2100, servicos: 1400, produtos: 700 },
-      { data: new Date('2025-10-03'), valor: 1650, servicos: 1100, produtos: 550 },
-      // ... mais dados
+      { data: new Date('2025-10-15'), valor: 150, servicos: 100, produtos: 50 },
+      { data: new Date('2025-10-16'), valor: 200, servicos: 150, produtos: 50 },
     ]
   },
   despesas: {

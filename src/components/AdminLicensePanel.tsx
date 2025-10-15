@@ -523,15 +523,34 @@ export default function AdminLicensePanel() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">Licenças do Sistema</h3>
                 <span className="text-sm text-gray-500">
-                  {licenses.filter(l => {
-                    const registration = registrations.find(r => r.id === l.userId);
-                    const matchesSearch = !searchTerm || 
-                      registration?.nomeEmpresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                      registration?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                      l.chaveAtivacao.toLowerCase().includes(searchTerm.toLowerCase());
-                    const matchesStatus = statusFilter === 'all' || l.status === statusFilter;
-                    return matchesSearch && matchesStatus;
-                  }).length} licenças encontradas
+                  {(() => {
+                    const filteredLicenses = licenses.filter(l => {
+                      const registration = registrations.find(r => r.id === l.userId);
+                      
+                      const matchesSearch = !searchTerm || 
+                        (registration?.nomeEmpresa || l.clientData?.company || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        (registration?.email || l.clientData?.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        l.chaveAtivacao.toLowerCase().includes(searchTerm.toLowerCase());
+                      const matchesStatus = statusFilter === 'all' || l.status === statusFilter;
+                      return matchesSearch && matchesStatus;
+                    });
+                    
+                    console.log('📊 RENDERIZAÇÃO DA LISTA DE LICENÇAS:', {
+                      totalLicensesNoEstado: licenses.length,
+                      totalAposFiltros: filteredLicenses.length,
+                      searchTerm,
+                      statusFilter,
+                      todasAsLicencas: licenses.map(l => ({
+                        id: l.id,
+                        chave: l.chaveAtivacao,
+                        status: l.status,
+                        cliente: l.clientData?.name || l.clientData?.company,
+                        isManual: l.id.startsWith('manual-')
+                      }))
+                    });
+                    
+                    return filteredLicenses.length;
+                  })()} licenças encontradas
                 </span>
               </div>
 
@@ -551,15 +570,18 @@ export default function AdminLicensePanel() {
                     {licenses
                       .filter(license => {
                         const registration = registrations.find(r => r.id === license.userId);
+                        
                         const matchesSearch = !searchTerm || 
-                          registration?.nomeEmpresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          registration?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          (registration?.nomeEmpresa || license.clientData?.company || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          (registration?.email || license.clientData?.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                           license.chaveAtivacao.toLowerCase().includes(searchTerm.toLowerCase());
                         const matchesStatus = statusFilter === 'all' || license.status === statusFilter;
                         return matchesSearch && matchesStatus;
                       })
                       .map(license => {
                         const registration = registrations.find(r => r.id === license.userId);
+                        // Para licenças manuais, usar clientData em vez de registration
+                        const clientInfo = registration || license.clientData;
                         const plan = LICENSE_PLANS.find(p => p.id === license.planoId);
                         const isExpired = new Date(license.dataVencimento) < new Date();
                         
@@ -567,9 +589,23 @@ export default function AdminLicensePanel() {
                           <tr key={license.id} className="hover:bg-gray-50">
                             <td className="px-6 py-4">
                               <div>
-                                <div className="font-medium text-gray-900">{registration?.nomeEmpresa || 'Cliente não encontrado'}</div>
-                                <div className="text-sm text-gray-500">{registration?.email}</div>
-                                <div className="text-xs text-gray-400">{registration?.cidade}/{registration?.estado}</div>
+                                <div className="font-medium text-gray-900">
+                                  {registration?.nomeEmpresa || license.clientData?.company || 'Cliente não encontrado'}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  {registration?.email || license.clientData?.email || 'Email não disponível'}
+                                </div>
+                                <div className="text-xs text-gray-400">
+                                  {registration?.cidade && registration?.estado 
+                                    ? `${registration.cidade}/${registration.estado}`
+                                    : license.clientData?.city && license.clientData?.state
+                                    ? `${license.clientData.city}/${license.clientData.state}`
+                                    : 'Localização não disponível'
+                                  }
+                                </div>
+                                {license.id.startsWith('manual-') && (
+                                  <div className="text-xs text-blue-600 mt-1">📝 Licença Manual</div>
+                                )}
                               </div>
                             </td>
                             <td className="px-6 py-4">
@@ -685,13 +721,24 @@ export default function AdminLicensePanel() {
           
           <ManualLicenseCreator 
             onLicenseCreated={(newLicense: SystemLicense) => {
-              console.log('✅ Nova licença criada:', newLicense);
+              console.log('🆕 NOVA LICENÇA RECEBIDA DO COMPONENTE:', newLicense);
+              console.log('🆔 ID da nova licença:', newLicense.id);
+              console.log('🔑 Chave de ativação:', newLicense.chaveAtivacao);
+              
               // Recarregar licenças do localStorage
               const updatedLicenses = localStorageService.loadLicenses();
+              console.log('📊 TOTAL DE LICENÇAS APÓS RECARREGAR:', updatedLicenses.length);
+              console.log('📋 TODAS AS LICENÇAS:', updatedLicenses.map(l => ({
+                id: l.id,
+                chave: l.chaveAtivacao,
+                cliente: l.clientData?.name
+              })));
+              
               setLicenses(updatedLicenses);
+              
               // Mudar para aba de licenças para ver o resultado
               setActiveTab('licenses');
-              console.log('📊 Licenças recarregadas, total:', updatedLicenses.length);
+              console.log('✅ ESTADO ATUALIZADO E MUDOU PARA ABA LICENSES');
             }}
           />
         </div>

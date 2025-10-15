@@ -28,176 +28,38 @@ import { Professional, FinancialTransaction, Commission, Service, FinancialSumma
 const mockProfessionals: Professional[] = [
   {
     id: "1",
-    name: "Maria Silva",
-    phone: "(11) 99999-1234",
-    email: "maria@salao.com",
-    role: "Cabeleireira",
+    name: "Profissional Exemplo",
+    phone: "(11) 99999-0000",
+    email: "profissional@exemplo.com",
+    role: "Profissional",
     commissionRate: 40,
     isActive: true,
-    hireDate: "2024-01-15",
-    specialties: ["Corte", "Escova", "Coloração"],
-    createdAt: "2024-01-15T10:00:00"
-  },
-  {
-    id: "2",
-    name: "João Santos",
-    phone: "(11) 98888-5678",
-    email: "joao@salao.com",
-    role: "Barbeiro",
-    commissionRate: 45,
-    isActive: true,
-    hireDate: "2024-02-01",
-    specialties: ["Corte masculino", "Barba", "Bigode"],
-    createdAt: "2024-02-01T14:30:00"
-  },
-  {
-    id: "3",
-    name: "Ana Costa",
-    phone: "(11) 97777-9012",
-    email: "ana@salao.com",
-    role: "Manicure",
-    commissionRate: 35,
-    isActive: true,
-    hireDate: "2024-03-10",
-    specialties: ["Manicure", "Pedicure", "Nail art"],
-    createdAt: "2024-03-10T09:15:00"
-  },
-  {
-    id: "4",
-    name: "Carlos Mendes",
-    phone: "(11) 96666-3456",
-    role: "Esteticista",
-    commissionRate: 50,
-    isActive: false,
-    hireDate: "2023-11-20",
-    specialties: ["Limpeza de pele", "Hidratação"],
-    createdAt: "2023-11-20T16:00:00"
+    hireDate: "2025-01-01",
+    specialties: ["Serviço Exemplo"],
+    createdAt: "2025-01-01T10:00:00"
   }
 ];
 
 const mockServices: Service[] = [
-  { id: "1", name: "Corte feminino", category: "Cabelo", price: 80, duration: 60, commission: 40, isActive: true },
-  { id: "2", name: "Escova", category: "Cabelo", price: 50, duration: 45, commission: 35, isActive: true },
-  { id: "3", name: "Coloração", category: "Cabelo", price: 150, duration: 120, commission: 45, isActive: true },
-  { id: "4", name: "Corte masculino", category: "Cabelo", price: 35, duration: 30, commission: 45, isActive: true },
-  { id: "5", name: "Barba", category: "Cabelo", price: 25, duration: 20, commission: 45, isActive: true },
-  { id: "6", name: "Manicure", category: "Unhas", price: 30, duration: 45, commission: 35, isActive: true },
-  { id: "7", name: "Pedicure", category: "Unhas", price: 40, duration: 60, commission: 35, isActive: true },
-  { id: "8", name: "Limpeza de pele", category: "Estética", price: 120, duration: 90, commission: 50, isActive: true }
+  { id: "1", name: "Serviço Exemplo", category: "Exemplo", price: 50, duration: 60, commission: 40, isActive: true }
 ];
 
 const mockTransactions: FinancialTransaction[] = [
   {
     id: "1",
     type: "service",
-    amount: 80,
-    date: "2025-10-06",
-    clientId: "1",
-    clientName: "Fernanda Lima",
-    professionalId: "1",
-    professionalName: "Maria Silva",
-    serviceId: "1",
-    serviceName: "Corte feminino",
-    commissionAmount: 32,
-    paymentMethod: "card",
-    status: "paid",
-    createdAt: "2025-10-06T10:00:00"
-  },
-  {
-    id: "2",
-    type: "service",
     amount: 50,
-    date: "2025-10-06",
+    date: "2025-10-15",
     clientId: "1",
-    clientName: "Fernanda Lima",
+    clientName: "Cliente Exemplo",
     professionalId: "1",
-    professionalName: "Maria Silva",
-    serviceId: "2",
-    serviceName: "Escova",
-    commissionAmount: 17.5,
+    professionalName: "Profissional Exemplo",
+    serviceId: "1",
+    serviceName: "Serviço Exemplo",
+    commissionAmount: 20,
     paymentMethod: "card",
     status: "paid",
-    createdAt: "2025-10-06T11:00:00"
-  },
-  {
-    id: "3",
-    type: "service",
-    amount: 35,
-    date: "2025-10-05",
-    clientId: "2",
-    clientName: "Pedro Oliveira",
-    professionalId: "2",
-    professionalName: "João Santos",
-    serviceId: "4",
-    serviceName: "Corte masculino",
-    commissionAmount: 15.75,
-    paymentMethod: "pix",
-    status: "paid",
-    createdAt: "2025-10-05T14:30:00"
-  },
-  {
-    id: "4",
-    type: "service",
-    amount: 25,
-    date: "2025-10-05",
-    clientId: "2",
-    clientName: "Pedro Oliveira",
-    professionalId: "2",
-    professionalName: "João Santos",
-    serviceId: "5",
-    serviceName: "Barba",
-    commissionAmount: 11.25,
-    paymentMethod: "pix",
-    status: "paid",
-    createdAt: "2025-10-05T15:00:00"
-  },
-  {
-    id: "5",
-    type: "service",
-    amount: 30,
-    date: "2025-10-04",
-    clientId: "3",
-    clientName: "Ana Paula",
-    professionalId: "3",
-    professionalName: "Ana Costa",
-    serviceId: "6",
-    serviceName: "Manicure",
-    commissionAmount: 10.5,
-    paymentMethod: "cash",
-    status: "paid",
-    createdAt: "2025-10-04T16:00:00"
-  },
-  {
-    id: "6",
-    type: "service",
-    amount: 150,
-    date: "2025-10-03",
-    clientId: "4",
-    clientName: "Julia Mendes",
-    professionalId: "1",
-    professionalName: "Maria Silva",
-    serviceId: "3",
-    serviceName: "Coloração",
-    commissionAmount: 67.5,
-    paymentMethod: "card",
-    status: "paid",
-    createdAt: "2025-10-03T09:00:00"
-  },
-  {
-    id: "7",
-    type: "service",
-    amount: 40,
-    date: "2025-10-02",
-    clientId: "5",
-    clientName: "Carla Santos",
-    professionalId: "3",
-    professionalName: "Ana Costa",
-    serviceId: "7",
-    serviceName: "Pedicure",
-    commissionAmount: 14,
-    paymentMethod: "card",
-    status: "pending",
-    createdAt: "2025-10-02T11:30:00"
+    createdAt: "2025-10-15T10:00:00"
   }
 ];
 
