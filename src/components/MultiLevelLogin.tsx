@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { Eye, EyeOff, Users, Crown, Sparkles } from 'lucide-react';
-import { LocalStorageService } from '@/services/localStorageService';
+import { LocalStorageService } from '@/services/LocalStorageService';
+import PasswordSetup from './PasswordSetup';
 
 interface MultiLevelLoginProps {
   onLogin: (userData: { 
@@ -25,11 +26,43 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [debugMode, setDebugMode] = useState(false);
+  const [showPasswordSetup, setShowPasswordSetup] = useState(false);
+  const [pendingUserData, setPendingUserData] = useState<any>(null);
 
   const clearLocalStorage = () => {
     localStorage.clear();
     setError('');
     alert('✅ Dados limpos! Tente fazer login novamente.');
+  };
+
+  const handlePasswordSet = (success: boolean) => {
+    if (success && pendingUserData) {
+      // Senha definida com sucesso - fazer login
+      localStorage.setItem('userData', JSON.stringify(pendingUserData));
+      localStorage.setItem('authUser', JSON.stringify({ ...pendingUserData, type: 'salon_admin' }));
+      localStorage.setItem('isAuthenticated', 'true');
+      
+      setShowPasswordSetup(false);
+      setPendingUserData(null);
+      onLogin(pendingUserData);
+    } else {
+      setError('Erro ao definir senha. Tente novamente.');
+      setShowPasswordSetup(false);
+      setPendingUserData(null);
+    }
+  };
+
+  const handleSkipPasswordSetup = () => {
+    if (pendingUserData) {
+      // Fazer login sem definir senha
+      localStorage.setItem('userData', JSON.stringify(pendingUserData));
+      localStorage.setItem('authUser', JSON.stringify({ ...pendingUserData, type: 'salon_admin' }));
+      localStorage.setItem('isAuthenticated', 'true');
+      
+      setShowPasswordSetup(false);
+      setPendingUserData(null);
+      onLogin(pendingUserData);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -86,22 +119,63 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
           );
           
           if (userLicense) {
-            // Login com licença ativa - senha é opcional (pode ser vazia)
-            const userData = {
-              type: 'salon' as const,
-              name: registeredUser.nome,
-              email: registeredUser.email,
-              salonName: registeredUser.nomeEmpresa,
-              licenseKey: userLicense.chaveAtivacao,
-              registrationId: registeredUser.id,
-              licenseId: userLicense.id
-            };
-            
-            localStorage.setItem('userData', JSON.stringify(userData));
-            localStorage.setItem('authUser', JSON.stringify({ ...userData, type: 'salon_admin' }));
-            localStorage.setItem('isAuthenticated', 'true');
-            
-            onLogin(userData);
+            // Verificar se usuário já tem senha definida
+            if (localStorageService.hasUserPassword(email)) {
+              // Validar senha
+              if (!password) {
+                setError('❌ Digite sua senha para acessar o sistema.');
+                setLoading(false);
+                return;
+              }
+              
+              if (!localStorageService.validateUserPassword(email, password)) {
+                setError('❌ Senha incorreta.');
+                setLoading(false);
+                return;
+              }
+              
+              // Login bem-sucedido com senha
+              const userData = {
+                type: 'salon' as const,
+                name: registeredUser.nome,
+                email: registeredUser.email,
+                salonName: registeredUser.nomeEmpresa,
+                licenseKey: userLicense.chaveAtivacao,
+                registrationId: registeredUser.id,
+                licenseId: userLicense.id
+              };
+              
+              localStorage.setItem('userData', JSON.stringify(userData));
+              localStorage.setItem('authUser', JSON.stringify({ ...userData, type: 'salon_admin' }));
+              localStorage.setItem('isAuthenticated', 'true');
+              
+              onLogin(userData);
+            } else {
+              // Usuário não tem senha definida - primeiro acesso com licença
+              if (requiresLicense && licenseKey) {
+                // Validar licença para primeiro acesso
+                if (licenseKey.toUpperCase().trim() === userLicense.chaveAtivacao) {
+                  // Licença válida - mostrar modal para definir senha
+                  const userData = {
+                    type: 'salon' as const,
+                    name: registeredUser.nome,
+                    email: registeredUser.email,
+                    salonName: registeredUser.nomeEmpresa,
+                    licenseKey: userLicense.chaveAtivacao,
+                    registrationId: registeredUser.id,
+                    licenseId: userLicense.id
+                  };
+                  
+                  setPendingUserData(userData);
+                  setShowPasswordSetup(true);
+                } else {
+                  setError('❌ Chave de licença incorreta. Verifique a chave enviada por email.');
+                }
+              } else {
+                setError('❌ Para primeiro acesso, informe a chave de licença enviada por email.');
+                setRequiresLicense(true);
+              }
+            }
           } else {
             setError('❌ Licença não encontrada ou inativa. Entre em contato com o suporte.');
           }
@@ -580,6 +654,22 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
                   <span className="text-xs text-gray-600 italic">Ex: SLN-2025-X8F2-K9M3-L5P7, BEL-2026-A1B2-C3D4-E5F6</span>
                 </p>
               </div>
+              <div className="bg-white/80 rounded p-2 border border-emerald-100">
+                <p className="font-semibold text-emerald-800">🔐 Usuário com Senha Definida:</p>
+                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
+                  Email: <span className="text-green-700 font-bold">teste@agenda.com</span><br/>
+                  Senha: <span className="text-green-700 font-bold">MinhaSenh@123</span><br/>
+                  <span className="text-xs text-blue-600 italic">Login direto - sem licença necessária</span>
+                </p>
+              </div>
+              <div className="bg-white/80 rounded p-2 border border-yellow-100">
+                <p className="font-semibold text-yellow-800">🆕 Primeiro Acesso (Ana Studio):</p>
+                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
+                  Email: <span className="text-green-700 font-bold">ana@studiocharme.com</span><br/>
+                  Licença: <span className="text-green-700 font-bold">AGS-2025-PROF-1234-ABCD</span><br/>
+                  <span className="text-xs text-purple-600 italic">✅ Marcar "Requer licença" - Definir senha no primeiro acesso</span>
+                </p>
+              </div>
             </div>
             <div className="mt-3 text-xs text-red-600 bg-red-50 p-2 rounded border border-red-200">
               ⚠️ <strong>Importante:</strong> Digite exatamente como mostrado, sem espaços extras.
@@ -615,6 +705,16 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
           )}
         </form>
       </div>
+
+      {/* Modal de Definição de Senha */}
+      {showPasswordSetup && pendingUserData && (
+        <PasswordSetup
+          userEmail={pendingUserData.email}
+          userName={pendingUserData.name}
+          onPasswordSet={handlePasswordSet}
+          onSkip={handleSkipPasswordSetup}
+        />
+      )}
     </div>
   );
 }

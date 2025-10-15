@@ -60,6 +60,8 @@ export interface UserRegistration {
   dataCadastro: Date;
   status: 'pendente' | 'aprovado' | 'rejeitado';
   planoSelecionado?: string; // ID do plano escolhido
+  senha?: string; // Senha criada pelo usuário após primeiro login
+  senhaDefinida?: boolean; // Flag para saber se o usuário já definiu senha
 }
 
 export interface LicensePlan {
@@ -459,6 +461,23 @@ export const USER_REGISTRATIONS_MOCK: UserRegistration[] = [
     dataCadastro: new Date('2025-10-05'),
     status: 'rejeitado',
     planoSelecionado: 'starter'
+  },
+  {
+    id: 'reg4',
+    nome: 'Maria Silva',
+    email: 'teste@agenda.com',
+    telefone: '(11) 99999-0000',
+    nomeEmpresa: 'Salão Teste',
+    cnpj: '11.222.333/0001-44',
+    endereco: 'Rua Teste, 123',
+    cidade: 'São Paulo',
+    estado: 'SP',
+    observacoes: 'Usuário de teste para sistema de senhas',
+    dataCadastro: new Date('2025-01-01'),
+    status: 'aprovado',
+    planoSelecionado: 'professional',
+    senha: 'MinhaSenh@123',
+    senhaDefinida: true
   }
 ];
 
@@ -484,6 +503,40 @@ export const SYSTEM_LICENSES_MOCK: SystemLicense[] = [
       'backup',
       'whatsapp'
     ],
-    observacoesAdmin: 'Cliente prioritário - implementação personalizada'
+    observacoesAdmin: 'Cliente prioritário - implementação personalizada',
+    clientData: {
+      name: 'Ana Martins',
+      email: 'ana@studiocharme.com',
+      phone: '(11) 88888-8888',
+      company: 'Studio Charme',
+      city: 'São Paulo',
+      state: 'SP'
+    }
+  },
+  {
+    id: 'lic2',
+    chaveAtivacao: 'TEST-USER-PASS-5678',
+    userId: 'reg4',
+    planoId: 'professional',
+    status: 'ativa',
+    dataAtivacao: new Date('2025-01-01'),
+    dataVencimento: new Date('2026-01-01'),
+    renovacaoAutomatica: true,
+    recursosAtivos: [
+      'agenda',
+      'clientes',
+      'servicos',
+      'funcionarios',
+      'relatorios'
+    ],
+    observacoesAdmin: 'Usuário de teste para sistema de senhas',
+    clientData: {
+      name: 'Maria Silva',
+      email: 'teste@agenda.com',
+      phone: '(11) 99999-0000',
+      company: 'Salão Teste',
+      city: 'São Paulo',
+      state: 'SP'
+    }
   }
 ];

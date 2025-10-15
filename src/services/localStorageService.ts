@@ -33,7 +33,6 @@ export class LocalStorageService {
       const data = localStorage.getItem(STORAGE_KEYS.REGISTRATIONS);
       if (data) {
         const registrations = JSON.parse(data);
-        // Converter strings de data de volta para objetos Date
         return registrations.map((reg: any) => ({
           ...reg,
           dataCadastro: new Date(reg.dataCadastro)
@@ -52,16 +51,6 @@ export class LocalStorageService {
     this.saveRegistrations(registrations);
   }
 
-  // Atualizar registro existente
-  updateRegistration(id: string, updates: Partial<UserRegistration>): void {
-    const registrations = this.loadRegistrations();
-    const index = registrations.findIndex(reg => reg.id === id);
-    if (index !== -1) {
-      registrations[index] = { ...registrations[index], ...updates };
-      this.saveRegistrations(registrations);
-    }
-  }
-
   // Salvar licenças
   saveLicenses(licenses: SystemLicense[]): void {
     try {
@@ -77,7 +66,6 @@ export class LocalStorageService {
       const data = localStorage.getItem(STORAGE_KEYS.LICENSES);
       if (data) {
         const licenses = JSON.parse(data);
-        // Converter strings de data de volta para objetos Date
         return licenses.map((license: any) => ({
           ...license,
           dataAtivacao: new Date(license.dataAtivacao),
@@ -90,50 +78,50 @@ export class LocalStorageService {
     return [];
   }
 
-  // Adicionar nova licença
-  addLicense(license: SystemLicense): void {
-    const licenses = this.loadLicenses();
-    licenses.push(license);
-    this.saveLicenses(licenses);
-  }
-
-  // Limpar todos os dados (útil para reset)
-  clearAllData(): void {
+  // Gerenciamento de senhas
+  setUserPassword(email: string, password: string): boolean {
     try {
-      localStorage.removeItem(STORAGE_KEYS.REGISTRATIONS);
-      localStorage.removeItem(STORAGE_KEYS.LICENSES);
-      localStorage.removeItem(STORAGE_KEYS.LAST_UPDATE);
+      const registrations = this.loadRegistrations();
+      const userIndex = registrations.findIndex(reg => 
+        reg.email.toLowerCase().trim() === email.toLowerCase().trim()
+      );
+      
+      if (userIndex !== -1) {
+        registrations[userIndex].senha = password;
+        registrations[userIndex].senhaDefinida = true;
+        this.saveRegistrations(registrations);
+        return true;
+      }
+      return false;
     } catch (error) {
-      console.error('Erro ao limpar dados:', error);
+      console.error('Erro ao definir senha:', error);
+      return false;
     }
   }
 
-  // Verificar se há dados salvos
-  hasData(): boolean {
-    return localStorage.getItem(STORAGE_KEYS.REGISTRATIONS) !== null;
+  // Verificar se usuário tem senha
+  hasUserPassword(email: string): boolean {
+    try {
+      const registrations = this.loadRegistrations();
+      const user = registrations.find(reg => 
+        reg.email.toLowerCase().trim() === email.toLowerCase().trim()
+      );
+      return user?.senhaDefinida === true && !!user?.senha;
+    } catch (error) {
+      return false;
+    }
   }
 
-  // Obter estatísticas
-  getStats() {
-    const registrations = this.loadRegistrations();
-    const licenses = this.loadLicenses();
-    
-    return {
-      totalRegistrations: registrations.length,
-      pendingRegistrations: registrations.filter(r => r.status === 'pendente').length,
-      approvedRegistrations: registrations.filter(r => r.status === 'aprovado').length,
-      rejectedRegistrations: registrations.filter(r => r.status === 'rejeitado').length,
-      activeLicenses: licenses.filter(l => l.status === 'ativa').length,
-      totalLicenses: licenses.length
-    };
-  }
-
-  // Migrar dados mockados para localStorage (executar uma vez)
-  migrateMockData(mockRegistrations: UserRegistration[], mockLicenses: SystemLicense[]): void {
-    if (!this.hasData()) {
-      this.saveRegistrations(mockRegistrations);
-      this.saveLicenses(mockLicenses);
-      console.log('✅ Dados mockados migrados para localStorage');
+  // Validar senha
+  validateUserPassword(email: string, password: string): boolean {
+    try {
+      const registrations = this.loadRegistrations();
+      const user = registrations.find(reg => 
+        reg.email.toLowerCase().trim() === email.toLowerCase().trim()
+      );
+      return user?.senha === password;
+    } catch (error) {
+      return false;
     }
   }
 }

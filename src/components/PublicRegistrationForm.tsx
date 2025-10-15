@@ -16,7 +16,7 @@ import {
 import { UserRegistration, LicensePlan, LICENSE_PLANS } from '@/types/license';
 import PlanSelection from '@/components/PlanSelection';
 import { EmailService } from '@/services/emailService';
-import { LocalStorageService } from '@/services/localStorageService';
+import { LocalStorageService } from '@/services/LocalStorageService';
 
 interface PublicRegistrationFormProps {
   onCancel: () => void;
