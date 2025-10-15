@@ -12,6 +12,7 @@ interface MultiLevelLoginProps {
     email: string;
     salonName?: string;
     licenseKey?: string;
+    isNewUser?: boolean;
   }) => void;
   onRegister?: () => void; // Nova função para navegar para cadastro
 }
@@ -37,14 +38,15 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
 
   const handlePasswordSet = (success: boolean) => {
     if (success && pendingUserData) {
-      // Senha definida com sucesso - fazer login
-      localStorage.setItem('userData', JSON.stringify(pendingUserData));
-      localStorage.setItem('authUser', JSON.stringify({ ...pendingUserData, type: 'salon_admin' }));
+      // Senha definida com sucesso - fazer login com flag de usuário novo
+      const userDataWithFlag = { ...pendingUserData, isNewUser: true };
+      localStorage.setItem('userData', JSON.stringify(userDataWithFlag));
+      localStorage.setItem('authUser', JSON.stringify({ ...userDataWithFlag, type: 'salon_admin' }));
       localStorage.setItem('isAuthenticated', 'true');
       
       setShowPasswordSetup(false);
       setPendingUserData(null);
-      onLogin(pendingUserData);
+      onLogin(userDataWithFlag);
     } else {
       setError('Erro ao definir senha. Tente novamente.');
       setShowPasswordSetup(false);

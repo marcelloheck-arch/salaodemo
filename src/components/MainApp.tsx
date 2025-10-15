@@ -40,6 +40,7 @@ import RelatoriosPage from './RelatoriosPage';
 import RelatoriosWidget from './RelatoriosWidget';
 import SystemIntegrationPage from './SystemIntegrationPage';
 import LicenseManagementApp from './LicenseManagementApp';
+import SalonDashboard from './SalonDashboard';
 import { useAuth, UserType } from '@/lib/auth';
 import { UserRegistration } from '@/types/license';
 import { EmailService } from '@/services/emailService';
@@ -343,9 +344,11 @@ export default function MainApp() {
     email: string;
     salonName?: string;
     licenseKey?: string;
+    isNewUser?: boolean;
   }) => {
     setIsAuthenticated(true);
     setUserType(userData.type === 'superadmin' ? 'super_admin' : 'salon_admin');
+    setCurrentUser(userData);
     setCurrentPage('dashboard');
     
     // Salvar dados do usuário no localStorage
@@ -414,6 +417,7 @@ export default function MainApp() {
   console.log('🎯 DECISÃO DE RENDERIZAÇÃO:', {
     isAuthenticated,
     userType,
+    currentUser_isNewUser: currentUser?.isNewUser,
     condition_super_admin: userType === 'super_admin',
     localStorage_authUser: localStorage.getItem('authUser'),
     localStorage_userData: localStorage.getItem('userData')
@@ -423,6 +427,12 @@ export default function MainApp() {
   if (userType === 'super_admin') {
     console.log('🔧 RENDERIZANDO: Painel Administrativo Completo');
     return <LicenseManagementApp onLogin={handleLogin} showAdminPanel={true} />;
+  }
+
+  // Se é usuário novo (acabou de definir senha), mostrar dashboard simplificado
+  if (currentUser?.isNewUser) {
+    console.log('🆕 RENDERIZANDO: Dashboard para Usuário Novo');
+    return <SalonDashboard userData={currentUser} onLogout={handleLogout} />;
   }
 
   console.log('🏪 RENDERIZANDO: Dashboard do Salão');
