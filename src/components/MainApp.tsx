@@ -414,10 +414,31 @@ export default function MainApp() {
     return <LicenseManagementApp onLogin={handleLogin} />;
   }
 
+  // Função para determinar se deve mostrar dashboard educativo
+  const shouldShowEducationalDashboard = (user: any) => {
+    // Se tem flag isNewUser explícita
+    if (user?.isNewUser) return true;
+    
+    // Se é um usuário do sistema de registro (tem registrationId)
+    if (user?.registrationId) return true;
+    
+    // Se o email contém padrões de usuários de teste/curso
+    if (user?.email?.includes('studiocharme') || 
+        user?.email?.includes('curso') ||
+        user?.email?.includes('demo')) {
+      return true;
+    }
+    
+    return false;
+  };
+
   console.log('🎯 DECISÃO DE RENDERIZAÇÃO:', {
     isAuthenticated,
     userType,
     currentUser_isNewUser: currentUser?.isNewUser,
+    currentUser_registrationId: currentUser?.registrationId,
+    currentUser_email: currentUser?.email,
+    shouldShowEducational: shouldShowEducationalDashboard(currentUser),
     condition_super_admin: userType === 'super_admin',
     localStorage_authUser: localStorage.getItem('authUser'),
     localStorage_userData: localStorage.getItem('userData')
@@ -430,8 +451,8 @@ export default function MainApp() {
   }
 
   // Se é usuário novo (acabou de definir senha), mostrar dashboard simplificado
-  if (currentUser?.isNewUser) {
-    console.log('🆕 RENDERIZANDO: Dashboard para Usuário Novo');
+  if (shouldShowEducationalDashboard(currentUser)) {
+    console.log('🆕 RENDERIZANDO: Dashboard Educativo para Usuário Novo');
     return <SalonDashboard userData={currentUser} onLogout={handleLogout} />;
   }
 
