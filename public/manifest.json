@@ -1,39 +1,134 @@
 {
-  "name": "Agenda Salão - Sistema de Gerenciamento",
+  "name": "Agenda Salão - Sistema de Agendamentos",
   "short_name": "Agenda Salão",
-  "description": "Sistema completo para gerenciamento de salão de beleza",
+  "description": "Sistema completo de agendamentos para salões de beleza com notificações automáticas",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#8B5CF6",
+  "theme_color": "#667eea",
   "orientation": "portrait-primary",
-  "categories": ["business", "productivity"],
+  "scope": "/",
+  "lang": "pt-BR",
+  "categories": ["business", "productivity", "lifestyle"],
   "icons": [
+    {
+      "src": "/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     }
   ],
-  "screenshots": [
+  "shortcuts": [
     {
-      "src": "/screenshot-mobile.png",
-      "sizes": "375x812",
-      "type": "image/png",
-      "form_factor": "narrow"
+      "name": "Novo Agendamento",
+      "short_name": "Agendar",
+      "description": "Criar um novo agendamento",
+      "url": "/?action=new-appointment",
+      "icons": [
+        {
+          "src": "/shortcut-appointment.png",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1920x1080",
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Ver dashboard de agendamentos",
+      "url": "/?view=dashboard",
+      "icons": [
+        {
+          "src": "/shortcut-dashboard.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "WhatsApp",
+      "short_name": "WhatsApp",
+      "description": "Configurar WhatsApp",
+      "url": "/?view=whatsapp",
+      "icons": [
+        {
+          "src": "/shortcut-whatsapp.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+agendamento",
+      "url": "/?agendamento=%s"
+    }
+  ],
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile-1.png",
+      "sizes": "320x640",
       "type": "image/png",
-      "form_factor": "wide"
+      "platform": "narrow",
+      "label": "Dashboard mobile do sistema de agendamentos"
+    },
+    {
+      "src": "/screenshot-desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Interface desktop completa"
     }
   ]
 }

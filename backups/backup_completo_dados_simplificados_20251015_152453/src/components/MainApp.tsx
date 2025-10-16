@@ -22,9 +22,7 @@ import {
   ChevronDown,
   UserCheck,
   UserPlus,
-  Shield,
-  Smartphone,
-  Zap
+  Shield
 } from "lucide-react";
 import { cn } from '@/lib/utils';
 import IntegrationsPage from './IntegrationsPage';
@@ -42,12 +40,6 @@ import RelatoriosPage from './RelatoriosPage';
 import RelatoriosWidget from './RelatoriosWidget';
 import SystemIntegrationPage from './SystemIntegrationPage';
 import LicenseManagementApp from './LicenseManagementApp';
-import DashboardAgendamentos from './DashboardAgendamentos';
-import AgendamentoMulti from './AgendamentoMulti';
-import WhatsAppIntegration from './WhatsAppIntegration';
-import NotificationManager from './NotificationManager';
-import ConfiguracaoFuncionamento from './ConfiguracaoFuncionamento';
-import MigrationManager from './MigrationManager';
 import { useAuth, UserType } from '@/lib/auth';
 
 interface SidebarProps {
@@ -79,16 +71,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       id: "agendamentos"
     },
     { 
-      icon: Zap, 
-      label: "Agendamento Rápido", 
-      id: "agendamento-rapido"
-    },
-    { 
-      icon: Calendar, 
-      label: "Dashboard Agendamentos", 
-      id: "dashboard-agendamentos"
-    },
-    { 
       icon: Users, 
       label: "Clientes", 
       id: "clientes"
@@ -114,11 +96,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       id: "horarios"
     },
     { 
-      icon: Settings, 
-      label: "Config. Funcionamento", 
-      id: "config-funcionamento"
-    },
-    { 
       icon: Star, 
       label: "Avaliações", 
       id: "avaliacoes"
@@ -134,16 +111,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       id: "pagamentos"
     },
     { 
-      icon: Smartphone, 
-      label: "WhatsApp", 
-      id: "whatsapp"
-    },
-    { 
-      icon: Bell, 
-      label: "Notificações", 
-      id: "notificacoes"
-    },
-    { 
       icon: MessageSquare, 
       label: "Integrações", 
       id: "integracoes"
@@ -157,11 +124,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       icon: Settings, 
       label: "Configurações", 
       id: "configuracoes"
-    },
-    { 
-      icon: Smartphone, 
-      label: "Migração Supabase", 
-      id: "migracao-supabase"
     },
     { 
       icon: UserPlus, 
@@ -273,24 +235,20 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Ações Rápidas</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             {[
-              { label: "Agendamento Rápido", icon: Zap, page: "agendamento-rapido", color: "text-green-600" },
-              { label: "Dashboard Agendamentos", icon: Calendar, page: "dashboard-agendamentos", color: "text-blue-600" },
-              { label: "Cadastrar Cliente", icon: Users, page: "clientes", color: "text-purple-600" },
-              { label: "WhatsApp", icon: Smartphone, page: "whatsapp", color: "text-green-500" },
-              { label: "Notificações", icon: Bell, page: "notificacoes", color: "text-yellow-600" },
-              { label: "Ver Caixa", icon: DollarSign, page: "caixa", color: "text-emerald-600" },
-              { label: "Config. Horários", icon: Clock, page: "config-funcionamento", color: "text-indigo-600" },
-              { label: "Configurações", icon: Settings, page: "configuracoes", color: "text-gray-600" },
+              { label: "Novo Agendamento", icon: Calendar, page: "agendamentos" },
+              { label: "Cadastrar Cliente", icon: Users, page: "clientes" },
+              { label: "Ver Caixa", icon: DollarSign, page: "caixa" },
+              { label: "Configurações", icon: Settings, page: "configuracoes" },
             ].map((action, index) => (
               <button
                 key={index}
                 onClick={() => onPageChange(action.page)}
-                className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200 hover:border-blue-300 hover:shadow-sm"
+                className="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors hover:border-primary"
               >
-                <action.icon className={`w-6 h-6 ${action.color} mb-2`} />
-                <span className="text-xs font-medium text-gray-700 text-center leading-tight">{action.label}</span>
+                <action.icon className="w-8 h-8 text-primary mb-2" />
+                <span className="text-sm font-medium text-gray-700">{action.label}</span>
               </button>
             ))}
           </div>
@@ -298,64 +256,6 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
 
         {/* Widget de Relatórios */}
         <RelatoriosWidget onOpenReports={() => onPageChange('relatorios')} />
-      </div>
-
-      {/* Novos Recursos */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200 p-6 mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">🚀 Novos Recursos Implementados</h3>
-            <p className="text-sm text-gray-600">Sistema de agendamento inteligente com funcionalidades avançadas</p>
-          </div>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { 
-              title: "Sistema Inteligente", 
-              description: "Detecção de conflitos automática", 
-              icon: Zap, 
-              page: "config-funcionamento",
-              color: "bg-green-100 text-green-600"
-            },
-            { 
-              title: "WhatsApp Business", 
-              description: "Confirmações e lembretes automáticos", 
-              icon: Smartphone, 
-              page: "whatsapp",
-              color: "bg-green-100 text-green-600"
-            },
-            { 
-              title: "Dashboard Avançado", 
-              description: "Gestão completa de agendamentos", 
-              icon: Calendar, 
-              page: "dashboard-agendamentos",
-              color: "bg-blue-100 text-blue-600"
-            },
-            { 
-              title: "Notificações Push", 
-              description: "Email, SMS e notificações push", 
-              icon: Bell, 
-              page: "notificacoes",
-              color: "bg-purple-100 text-purple-600"
-            }
-          ].map((feature, index) => (
-            <button
-              key={index}
-              onClick={() => onPageChange(feature.page)}
-              className="text-left p-4 bg-white rounded-lg border border-gray-200 hover:shadow-md transition-all duration-200 hover:border-blue-300"
-            >
-              <div className={`w-8 h-8 ${feature.color} rounded-lg flex items-center justify-center mb-3`}>
-                <feature.icon className="w-4 h-4" />
-              </div>
-              <h4 className="font-medium text-gray-800 mb-1">{feature.title}</h4>
-              <p className="text-xs text-gray-600">{feature.description}</p>
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -544,13 +444,6 @@ export default function MainApp() {
         return <ProfilePage />;
       case 'agendamentos':
         return <AgendamentosPage />;
-      case 'agendamento-rapido':
-        return <AgendamentoMulti salaoId="salao-demo" onAgendamentoCriado={(agendamento) => {
-          console.log('Agendamento criado:', agendamento);
-          setCurrentPage('dashboard-agendamentos');
-        }} />;
-      case 'dashboard-agendamentos':
-        return <DashboardAgendamentos />;
       case 'clientes':
         return <ClientesPage />;
       case 'servicos':
@@ -559,24 +452,12 @@ export default function MainApp() {
         return <ConfiguracoesPage />;
       case 'horarios':
         return <HorariosPage />;
-      case 'config-funcionamento':
-        return <ConfiguracaoFuncionamento salaoId="salao-demo" />;
       case 'produtos':
         return <ProdutosPage />;
       case 'avaliacoes':
         return <AvaliacoesPage />;
       case 'relatorios':
         return <RelatoriosPage />;
-      case 'whatsapp':
-        return <WhatsAppIntegration />;
-      case 'notificacoes':
-        return <NotificationManager />;
-      case 'migracao-supabase':
-        return <MigrationManager />;
-      case 'admin-licencas':
-        return <LicenseManagementApp />;
-      case 'cadastro-publico':
-        return <LicenseManagementApp />;
       default:
         return <DashboardContent onPageChange={setCurrentPage} />;
     }
