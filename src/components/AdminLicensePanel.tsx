@@ -28,9 +28,10 @@ import { EmailService } from '@/services/emailService';
 import { LocalStorageService } from '@/services/LocalStorageService';
 import PlanEditor from '@/components/PlanEditor';
 import ManualLicenseCreator from '@/components/ManualLicenseCreator';
+import PasswordChangeForm from '@/components/PasswordChangeForm';
 
 export default function AdminLicensePanel() {
-  const [activeTab, setActiveTab] = useState<'registrations' | 'licenses' | 'clients' | 'plans' | 'create'>('registrations');
+  const [activeTab, setActiveTab] = useState<'registrations' | 'licenses' | 'clients' | 'plans' | 'create' | 'security'>('registrations');
   const [registrations, setRegistrations] = useState<UserRegistration[]>([]);
   const [licenses, setLicenses] = useState<SystemLicense[]>([]);
   const [selectedRegistration, setSelectedRegistration] = useState<UserRegistration | null>(null);
@@ -346,7 +347,8 @@ export default function AdminLicensePanel() {
             { key: 'licenses', label: 'Licenças Ativas', icon: '🔑' },
             { key: 'clients', label: 'Licenças por Cliente', icon: '👥' },
             { key: 'plans', label: 'Editor de Planos', icon: '⚙️' },
-            { key: 'create', label: 'Criar Licença Manual', icon: '➕' }
+            { key: 'create', label: 'Criar Licença Manual', icon: '➕' },
+            { key: 'security', label: 'Segurança', icon: '🔒' }
           ].map((tab) => (
             <button
               key={tab.key}
@@ -739,6 +741,39 @@ export default function AdminLicensePanel() {
               // Mudar para aba de licenças para ver o resultado
               setActiveTab('licenses');
               console.log('✅ ESTADO ATUALIZADO E MUDOU PARA ABA LICENSES');
+            }}
+          />
+        </div>
+      )}
+
+      {activeTab === 'security' && (
+        <div className="bg-white rounded-lg shadow-sm border p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">🔒 Configurações de Segurança</h3>
+          <p className="text-gray-600 mb-6">
+            Gerencie as senhas dos administradores do sistema para manter a segurança
+          </p>
+          
+          <PasswordChangeForm 
+            currentUser="superadmin@agendusalao.com"
+            onPasswordChange={async (currentPassword: string, newPassword: string) => {
+              // Verificar se a senha atual está correta
+              const savedCredentials = JSON.parse(localStorage.getItem('systemCredentials') || '{}');
+              const superAdminPassword = savedCredentials.superadmin || 'SuperAdmin@2024';
+              
+              if (currentPassword !== superAdminPassword) {
+                return false; // Senha atual incorreta
+              }
+              
+              // Atualizar a senha no localStorage
+              const updatedCredentials = {
+                ...savedCredentials,
+                superadmin: newPassword
+              };
+              
+              localStorage.setItem('systemCredentials', JSON.stringify(updatedCredentials));
+              
+              console.log('🔒 Senha do Super Admin atualizada com sucesso');
+              return true;
             }}
           />
         </div>

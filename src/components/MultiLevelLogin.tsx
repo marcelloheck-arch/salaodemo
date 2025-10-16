@@ -26,7 +26,6 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [debugMode, setDebugMode] = useState(false);
   const [showPasswordSetup, setShowPasswordSetup] = useState(false);
   const [pendingUserData, setPendingUserData] = useState<any>(null);
 
@@ -83,8 +82,12 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
 
       // Validação de credenciais
       if (loginType === 'superadmin') {
+        // Buscar senha do Super Admin no localStorage
+        const savedCredentials = JSON.parse(localStorage.getItem('systemCredentials') || '{}');
+        const superAdminPassword = savedCredentials.superadmin || 'SuperAdmin@2024';
+        
         // Credenciais Super Admin
-        if (email.toLowerCase().trim() === 'superadmin@agendusalao.com' && password === 'SuperAdmin@2024') {
+        if (email.toLowerCase().trim() === 'superadmin@agendusalao.com' && password === superAdminPassword) {
           // Salvar dados do usuário no localStorage
           const userData = {
             type: 'superadmin' as const,
@@ -98,7 +101,8 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
           
           onLogin(userData);
         } else {
-          setError('❌ Credenciais de super administrador inválidas. Use: superadmin@agendusalao.com / SuperAdmin@2024');
+          const displayPassword = superAdminPassword === 'SuperAdmin@2024' ? 'SuperAdmin@2024' : '[Senha personalizada]';
+          setError(`❌ Credenciais de super administrador inválidas. Use: superadmin@agendusalao.com / ${displayPassword}`);
         }
       } else {
         // Login de salão
@@ -356,36 +360,16 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
           </div>
         </div>
 
-        {/* Botões de Debug e Ajuda */}
-        <div className="flex space-x-2">
-          <button
-            type="button"
-            onClick={() => setDebugMode(!debugMode)}
-            className="flex-1 bg-blue-100 text-blue-700 px-3 py-2 rounded-lg text-xs hover:bg-blue-200 transition-colors"
-          >
-            {debugMode ? '🔍 Ocultar Debug' : '🔍 Mostrar Debug'}
-          </button>
+        {/* Utilitários */}
+        <div className="flex justify-center">
           <button
             type="button"
             onClick={clearLocalStorage}
-            className="flex-1 bg-red-100 text-red-700 px-3 py-2 rounded-lg text-xs hover:bg-red-200 transition-colors"
+            className="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-xs hover:bg-red-200 transition-colors"
           >
-            🗑️ Limpar Dados
+            🗑️ Limpar Dados do Navegador
           </button>
         </div>
-
-        {/* Debug Mode */}
-        {debugMode && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs">
-            <h4 className="font-bold text-yellow-800 mb-2">🔍 Debug - Dados Digitados:</h4>
-            <div className="space-y-1 text-yellow-700">
-              <p><strong>Tipo:</strong> {loginType}</p>
-              <p><strong>Email:</strong> "{email}" (length: {email.length})</p>
-              <p><strong>Senha:</strong> "{password}" (length: {password.length})</p>
-              {requiresLicense && <p><strong>Licença:</strong> "{licenseKey}" (length: {licenseKey.length})</p>}
-            </div>
-          </div>
-        )}
 
         {/* Formulário de Login */}
         <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-white/20 space-y-6">
@@ -493,120 +477,6 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
             </div>
           )}
 
-          {/* Botões de Preenchimento Automático */}
-          <div className="grid grid-cols-1 gap-2">
-            <h5 className="text-xs font-medium text-gray-600 mb-1">⚡ Preenchimento Rápido:</h5>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setLoginType('superadmin');
-                  setEmail('superadmin@agendusalao.com');
-                  setPassword('SuperAdmin@2024');
-                  setRequiresLicense(false);
-                  setLicenseKey('');
-                }}
-                className="bg-blue-100 text-blue-700 px-3 py-2 rounded text-xs hover:bg-blue-200 transition-colors"
-              >
-                🔐 Super Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setLoginType('salon');
-                  setEmail('admin@salao.com');
-                  setPassword('admin123');
-                  setRequiresLicense(false);
-                  setLicenseKey('');
-                }}
-                className="bg-blue-100 text-blue-700 px-3 py-2 rounded text-xs hover:bg-blue-200 transition-colors"
-              >
-                🏪 Salão Demo
-              </button>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setLoginType('salon');
-                setEmail('admin@salao.com');
-                setPassword('admin123');
-                setRequiresLicense(true);
-                setLicenseKey('TEST-1234-ABCD-5678');
-              }}
-              className="bg-orange-100 text-orange-700 px-3 py-2 rounded text-xs hover:bg-orange-200 transition-colors"
-            >
-              🔑 Salão com Licença
-            </button>
-          </div>
-
-          {/* Botão de Debug Temporário */}
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-xs text-yellow-700 mb-2">🔧 Debug: Verificar/Criar licença de teste</p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  const localStorage = window.localStorage;
-                  const licenses = JSON.parse(localStorage.getItem('agenda_salao_licenses') || '[]');
-                  
-                  console.log('📊 ESTADO ATUAL:', { totalLicencas: licenses.length });
-                  
-                  // Verificar se a licença específica existe
-                  const targetKey = 'AGS-2025-NNV1-1ZK6-BJ63';
-                  const exists = licenses.find((l: any) => l.chaveAtivacao === targetKey);
-                  
-                  if (!exists) {
-                    // Criar licença de teste
-                    const testLicense = {
-                      id: `lic_${Date.now()}`,
-                      chaveAtivacao: targetKey,
-                      userId: 'test_user',
-                      planoId: 'starter',
-                      status: 'ativa',
-                      dataAtivacao: new Date().toISOString(),
-                      dataVencimento: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-                      renovacaoAutomatica: true,
-                      recursosAtivos: ['dashboard', 'agendamentos', 'clientes'],
-                      clientData: {
-                        name: 'Usuário Teste',
-                        email: 'asd@gmai.com',
-                        company: 'Empresa Teste',
-                        city: 'São Paulo',
-                        state: 'SP'
-                      }
-                    };
-                    
-                    licenses.push(testLicense);
-                    localStorage.setItem('agenda_salao_licenses', JSON.stringify(licenses));
-                    alert('✅ Licença de teste criada! Tente fazer login agora.');
-                  } else {
-                    alert('ℹ️ Licença já existe. Detalhes no console.');
-                    console.log('🔑 Licença encontrada:', exists);
-                  }
-                }}
-                className="text-xs bg-yellow-200 hover:bg-yellow-300 px-2 py-1 rounded transition-colors"
-              >
-                Criar/Verificar Licença
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => {
-                  // Limpar TUDO relacionado a auth
-                  localStorage.removeItem('userData');
-                  localStorage.removeItem('authUser');
-                  localStorage.removeItem('isAuthenticated');
-                  console.log('🧹 localStorage limpo!');
-                  alert('🧹 Cache limpo! Faça login novamente.');
-                  window.location.reload();
-                }}
-                className="text-xs bg-red-200 hover:bg-red-300 px-2 py-1 rounded transition-colors"
-              >
-                🧹 Limpar Cache
-              </button>
-            </div>
-          </div>
-
           {/* Botão de Login */}
           <div>
             <button
@@ -616,66 +486,6 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
             >
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
-          </div>
-
-          {/* Credenciais de Teste */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
-            <h4 className="font-bold text-blue-900 mb-3 flex items-center">
-              💡 Credenciais de Teste - Use Exatamente Como Mostrado:
-            </h4>
-            <div className="space-y-2 text-sm">
-              <div className="bg-white/80 rounded p-2 border border-blue-100">
-                <p className="font-semibold text-purple-800">🔐 Super Admin:</p>
-                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
-                  Email: <span className="text-green-700 font-bold">superadmin@agendusalao.com</span><br/>
-                  Senha: <span className="text-green-700 font-bold">SuperAdmin@2024</span>
-                </p>
-              </div>
-              <div className="bg-white/80 rounded p-2 border border-blue-100">
-                <p className="font-semibold text-blue-800">🏪 Salão (Demo):</p>
-                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
-                  Email: <span className="text-green-700 font-bold">admin@salao.com</span><br/>
-                  Senha: <span className="text-green-700 font-bold">admin123</span>
-                </p>
-              </div>
-              <div className="bg-white/80 rounded p-2 border border-blue-100">
-                <p className="font-semibold text-orange-800">🔑 Salão (com Licença):</p>
-                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
-                  Email: <span className="text-green-700 font-bold">admin@salao.com</span><br/>
-                  Senha: <span className="text-green-700 font-bold">admin123</span><br/>
-                  Licença Demo: <span className="text-green-700 font-bold">TEST-1234-ABCD-5678</span>
-                </p>
-              </div>
-              <div className="bg-white/80 rounded p-2 border border-green-100">
-                <p className="font-semibold text-green-800">🎯 Licenças Geradas pelo Sistema:</p>
-                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
-                  Email: <span className="text-blue-700 font-bold">Qualquer email</span><br/>
-                  Senha: <span className="text-gray-500 italic">Não necessária</span><br/>
-                  ✅ <span className="text-red-600 font-bold">Marcar "Requer licença"</span><br/>
-                  Licença: <span className="text-blue-700 font-bold">Chave fornecida pelo administrador</span><br/>
-                  <span className="text-xs text-gray-600 italic">Ex: SLN-2025-X8F2-K9M3-L5P7, BEL-2026-A1B2-C3D4-E5F6</span>
-                </p>
-              </div>
-              <div className="bg-white/80 rounded p-2 border border-emerald-100">
-                <p className="font-semibold text-emerald-800">🔐 Usuário com Senha Definida:</p>
-                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
-                  Email: <span className="text-green-700 font-bold">teste@agenda.com</span><br/>
-                  Senha: <span className="text-green-700 font-bold">MinhaSenh@123</span><br/>
-                  <span className="text-xs text-blue-600 italic">Login direto - sem licença necessária</span>
-                </p>
-              </div>
-              <div className="bg-white/80 rounded p-2 border border-yellow-100">
-                <p className="font-semibold text-yellow-800">🆕 Primeiro Acesso (Ana Studio):</p>
-                <p className="font-mono text-xs bg-gray-100 p-1 rounded mt-1">
-                  Email: <span className="text-green-700 font-bold">ana@studiocharme.com</span><br/>
-                  Licença: <span className="text-green-700 font-bold">AGS-2025-PROF-1234-ABCD</span><br/>
-                  <span className="text-xs text-purple-600 italic">✅ Marcar "Requer licença" - Definir senha no primeiro acesso</span>
-                </p>
-              </div>
-            </div>
-            <div className="mt-3 text-xs text-red-600 bg-red-50 p-2 rounded border border-red-200">
-              ⚠️ <strong>Importante:</strong> Digite exatamente como mostrado, sem espaços extras.
-            </div>
           </div>
 
           {/* Área de Cadastro */}
