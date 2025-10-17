@@ -23,10 +23,12 @@ import {
   Check,
   AlertCircle,
   UserPlus,
-  Key
+  Key,
+  FileSpreadsheet
 } from "lucide-react";
 import { format, parseISO, differenceInYears } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import ExcelImport from './ExcelImport';
 
 interface Client {
   id: string;
@@ -86,6 +88,7 @@ export default function ClientesPage() {
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [showClientDetails, setShowClientDetails] = useState(false);
+  const [showExcelImport, setShowExcelImport] = useState(false);
 
   const [newClientData, setNewClientData] = useState<NewClientFormData>({
     name: '',
@@ -196,6 +199,34 @@ export default function ClientesPage() {
     setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '', licenseKey: '' });
   };
 
+  // Função para importar clientes do Excel
+  const handleExcelImport = (clientesImportados: any[]) => {
+    const novosClientes: Client[] = clientesImportados.map(cliente => ({
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+      name: cliente.nome,
+      phone: cliente.telefone,
+      email: cliente.email || '',
+      birthday: cliente.dataNascimento || '',
+      preferences: [],
+      notes: cliente.observacoes || '',
+      totalSpent: 0,
+      totalVisits: 0,
+      averageTicket: 0,
+      status: 'active' as const,
+      createdAt: new Date().toISOString(),
+      address: cliente.endereco ? {
+        street: cliente.endereco,
+        neighborhood: '',
+        city: ''
+      } : undefined
+    }));
+
+    setClients(prev => [...prev, ...novosClientes]);
+    setShowExcelImport(false);
+    
+    alert(`${novosClientes.length} clientes importados com sucesso!`);
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
@@ -205,13 +236,22 @@ export default function ClientesPage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-2">👥 Gestão de Clientes</h2>
             <p className="text-gray-600">Gerencie seus clientes e mantenha relacionamentos sólidos</p>
           </div>
-          <button
-            onClick={() => setShowNewClientForm(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
-          >
-            <UserPlus className="w-5 h-5" />
-            <span>Cadastrar Cliente</span>
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setShowExcelImport(true)}
+              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-lg font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+            >
+              <FileSpreadsheet className="w-5 h-5" />
+              <span>Importar Excel</span>
+            </button>
+            <button
+              onClick={() => setShowNewClientForm(true)}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+            >
+              <UserPlus className="w-5 h-5" />
+              <span>Cadastrar Cliente</span>
+            </button>
+          </div>
         </div>
 
         {/* Estatísticas */}
@@ -707,6 +747,14 @@ export default function ClientesPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Modal de Importação Excel */}
+      {showExcelImport && (
+        <ExcelImport
+          onImport={handleExcelImport}
+          onClose={() => setShowExcelImport(false)}
+        />
       )}
     </div>
   );
