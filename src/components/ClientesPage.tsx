@@ -346,7 +346,7 @@ export default function ClientesPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-12 h-12 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {cliente.name.charAt(0).toUpperCase()}
+                          {client.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold text-gray-800">{client.name}</h4>

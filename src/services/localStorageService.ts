@@ -125,3 +125,5 @@ export class LocalStorageService {
     }
   }
 }
+
+export default LocalStorageService;
