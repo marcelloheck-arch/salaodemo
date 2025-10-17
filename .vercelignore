@@ -1,39 +1,16 @@
-# Vercel ignore file
-node_modules
-.next
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Python
+# Python e arquivos desnecessários
 __pycache__
 *.pyc
 .venv
-.env
+ai-agent/
+python_systems/
 
-# Test files
-test-*.js
-debug-*.js
-dynamic-*.js
-
-# Backup files
+# Backups e documentação
 *_backup.tsx
 *_backup.ts
-
-# Documentation
-docs/
 *.md
 !README.md
 
-# OS generated files
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
