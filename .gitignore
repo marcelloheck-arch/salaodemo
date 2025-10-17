@@ -49,6 +49,11 @@ jspm_packages/
 # MacOS
 .DS_Store
 
+# Backups
+backups/
+*.backup.tsx
+*_backup.tsx
+
 # Windows
 Thumbs.db
 

@@ -1,0 +1,11 @@
+# Ignorar backups
+backups/
+*.backup.tsx
+*_backup.tsx
+
+# Ignorar node_modules
+node_modules/
+
+# Ignorar build output
+.next/
+out/

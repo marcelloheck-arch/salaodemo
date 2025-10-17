@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Eye, EyeOff, Users, Crown, Sparkles } from 'lucide-react';
-import { LocalStorageService } from '@/services/LocalStorageService';
+import LocalStorageService from '@/services/LocalStorageService';
 import PasswordSetup from './PasswordSetup';
 
 interface MultiLevelLoginProps {

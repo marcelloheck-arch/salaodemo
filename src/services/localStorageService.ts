@@ -7,7 +7,7 @@ const STORAGE_KEYS = {
   LAST_UPDATE: 'agenda_salao_last_update'
 };
 
-export class LocalStorageService {
+class LocalStorageService {
   private static instance: LocalStorageService;
 
   static getInstance(): LocalStorageService {
