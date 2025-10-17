@@ -18,7 +18,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { SystemLicense, LicensePlan, LICENSE_PLANS } from '@/types/license';
-import LocalStorageService from '@/services/LocalStorageService';
+import LocalStorageService from '@/services/localStorage';
 
 interface ManualLicenseCreatorProps {
   onLicenseCreated: (license: SystemLicense) => void;

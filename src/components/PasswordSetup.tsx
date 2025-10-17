@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import LocalStorageService from '@/services/LocalStorageService';
+import LocalStorageService from '@/services/localStorage';
 
 interface PasswordSetupProps {
   userEmail: string;

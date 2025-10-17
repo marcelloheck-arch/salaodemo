@@ -25,7 +25,7 @@ import {
   LICENSE_PLANS 
 } from '@/types/license';
 import { EmailService } from '@/services/emailService';
-import LocalStorageService from '@/services/LocalStorageService';
+import LocalStorageService from '@/services/localStorage';
 import PlanEditor from '@/components/PlanEditor';
 import ManualLicenseCreator from '@/components/ManualLicenseCreator';
 import PasswordChangeForm from '@/components/PasswordChangeForm';

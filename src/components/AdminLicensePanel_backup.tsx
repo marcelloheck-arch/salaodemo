@@ -25,7 +25,7 @@ import {
   LICENSE_PLANS 
 } from '@/types/license';
 import { EmailService } from '@/services/emailService';
-import { LocalStorageService } from '@/services/LocalStorageService';
+import LocalStorageService from '@/services/localStorage';
 
 export default function AdminLicensePanel() {
   const [activeTab, setActiveTab] = useState<'registrations' | 'licenses' | 'create'>('registrations');
