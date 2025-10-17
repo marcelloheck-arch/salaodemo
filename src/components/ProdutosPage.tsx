@@ -154,7 +154,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
               type="text"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                 errors.name ? 'border-red-300' : 'border-gray-300'
               }`}
               placeholder="Nome do produto"
@@ -172,7 +172,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
               type="text"
               value={formData.brand}
               onChange={(e) => setFormData(prev => ({ ...prev, brand: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
               placeholder="Marca do produto"
             />
           </div>
@@ -186,7 +186,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
             value={formData.description}
             onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             placeholder="Descrição do produto"
           />
         </div>
@@ -200,7 +200,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
             <select
               value={formData.category}
               onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                 errors.category ? 'border-red-300' : 'border-gray-300'
               }`}
             >
@@ -222,7 +222,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
               type="text"
               value={formData.barcode}
               onChange={(e) => setFormData(prev => ({ ...prev, barcode: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
               placeholder="Código de barras"
             />
           </div>
@@ -241,7 +241,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
                 step="0.01"
                 value={formData.costPrice}
                 onChange={(e) => setFormData(prev => ({ ...prev, costPrice: parseFloat(e.target.value) || 0 }))}
-                className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                   errors.costPrice ? 'border-red-300' : 'border-gray-300'
                 }`}
                 placeholder="0,00"
@@ -263,7 +263,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData(prev => ({ ...prev, price: parseFloat(e.target.value) || 0 }))}
-                className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                   errors.price ? 'border-red-300' : 'border-gray-300'
                 }`}
                 placeholder="0,00"
@@ -296,7 +296,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
               type="number"
               value={formData.stock}
               onChange={(e) => setFormData(prev => ({ ...prev, stock: parseInt(e.target.value) || 0 }))}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                 errors.stock ? 'border-red-300' : 'border-gray-300'
               }`}
               placeholder="0"
@@ -314,7 +314,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
               type="number"
               value={formData.minStock}
               onChange={(e) => setFormData(prev => ({ ...prev, minStock: parseInt(e.target.value) || 0 }))}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                 errors.minStock ? 'border-red-300' : 'border-gray-300'
               }`}
               placeholder="5"
@@ -331,7 +331,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
             <select
               value={formData.unit}
               onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               {units.map(unit => (
                 <option key={unit} value={unit}>{unit}</option>
@@ -377,7 +377,7 @@ function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
           </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all"
+            className="px-6 py-2 bg-gradient-to-r from-slate-600 to-pink-600 text-white rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all"
           >
             {product ? 'Atualizar' : 'Criar'} Produto
           </button>
@@ -519,7 +519,7 @@ export default function ProdutosPage() {
         </div>
         <button
           onClick={() => setShowNewProduct(true)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
+          className="bg-gradient-to-r from-slate-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
         >
           <Plus className="w-4 h-4" />
           <span>Novo Produto</span>
@@ -564,7 +564,7 @@ export default function ProdutosPage() {
               <p className="text-xs text-gray-600 mb-1">Categorias</p>
               <p className="text-2xl font-bold text-gray-900">{categories.length}</p>
             </div>
-            <Tag className="w-6 h-6 text-purple-600" />
+            <Tag className="w-6 h-6 text-slate-600" />
           </div>
         </div>
       </div>
@@ -580,7 +580,7 @@ export default function ProdutosPage() {
               placeholder="Buscar produtos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
 
@@ -589,7 +589,7 @@ export default function ProdutosPage() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="all">Todas as Categorias</option>
               {categories.map(category => (
@@ -601,7 +601,7 @@ export default function ProdutosPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="all">Todos os Status</option>
               <option value="active">Ativo</option>
@@ -676,7 +676,7 @@ export default function ProdutosPage() {
                         </button>
                         <button
                           onClick={() => setSelectedProduct(product)}
-                          className="text-purple-600 hover:text-purple-800 p-1"
+                          className="text-slate-600 hover:text-purple-800 p-1"
                         >
                           <Edit className="w-4 h-4" />
                         </button>

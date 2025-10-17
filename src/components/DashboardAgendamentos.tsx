@@ -211,7 +211,7 @@ const DashboardAgendamentos: React.FC = () => {
           <p className="text-gray-600">Gerencie todos os agendamentos em tempo real</p>
         </div>
         
-        <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2">
+        <button className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 flex items-center gap-2">
           <Plus className="w-4 h-4" />
           Novo Agendamento
         </button>
@@ -282,7 +282,7 @@ const DashboardAgendamentos: React.FC = () => {
                 placeholder="Nome, telefone ou serviço..."
                 value={filtros.busca}
                 onChange={(e) => setFiltros({...filtros, busca: e.target.value})}
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
               />
             </div>
           </div>
@@ -295,7 +295,7 @@ const DashboardAgendamentos: React.FC = () => {
               type="date"
               value={filtros.data}
               onChange={(e) => setFiltros({...filtros, data: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
             />
           </div>
 
@@ -306,7 +306,7 @@ const DashboardAgendamentos: React.FC = () => {
             <select
               value={filtros.status}
               onChange={(e) => setFiltros({...filtros, status: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
             >
               <option value="">Todos os status</option>
               <option value="agendado">Agendado</option>
@@ -325,7 +325,7 @@ const DashboardAgendamentos: React.FC = () => {
             <select
               value={filtros.profissional}
               onChange={(e) => setFiltros({...filtros, profissional: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
             >
               <option value="">Todos os profissionais</option>
               <option value="prof1">Ana Costa</option>
@@ -344,13 +344,13 @@ const DashboardAgendamentos: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setViewMode('lista')}
-              className={`p-2 rounded-lg ${viewMode === 'lista' ? 'bg-purple-100 text-purple-600' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`p-2 rounded-lg ${viewMode === 'lista' ? 'bg-slate-100 text-slate-600' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Lista
             </button>
             <button
               onClick={() => setViewMode('calendario')}
-              className={`p-2 rounded-lg ${viewMode === 'calendario' ? 'bg-purple-100 text-purple-600' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`p-2 rounded-lg ${viewMode === 'calendario' ? 'bg-slate-100 text-slate-600' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Calendário
             </button>
@@ -362,7 +362,7 @@ const DashboardAgendamentos: React.FC = () => {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <RefreshCw className="w-6 h-6 animate-spin text-purple-600" />
+            <RefreshCw className="w-6 h-6 animate-spin text-slate-600" />
             <span className="ml-2 text-gray-600">Carregando agendamentos...</span>
           </div>
         ) : agendamentosFiltrados.length === 0 ? (
@@ -467,7 +467,7 @@ const DashboardAgendamentos: React.FC = () => {
                           <MessageCircle className="w-4 h-4" />
                         </button>
                         <button
-                          className="text-purple-600 hover:text-purple-900"
+                          className="text-slate-600 hover:text-purple-900"
                           title="Editar"
                         >
                           <Edit className="w-4 h-4" />

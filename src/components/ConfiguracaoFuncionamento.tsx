@@ -138,7 +138,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
       <div className="flex items-center gap-3 mb-6">
-        <Settings className="w-6 h-6 text-purple-600" />
+        <Settings className="w-6 h-6 text-slate-600" />
         <h3 className="text-xl font-semibold text-gray-900">Configurações de Funcionamento</h3>
       </div>
 
@@ -156,7 +156,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
                 onClick={() => handleDiaToggle(dia.valor)}
                 className={`p-2 rounded-lg text-xs font-medium transition-colors ${
                   config.dias_funcionamento.includes(dia.valor)
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-slate-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -177,7 +177,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
               type="time"
               value={config.horario_abertura}
               onChange={(e) => handleInputChange('horario_abertura', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
           
@@ -189,7 +189,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
               type="time"
               value={config.horario_fechamento}
               onChange={(e) => handleInputChange('horario_fechamento', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -206,7 +206,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
                 type="time"
                 value={config.intervalo_almoco_inicio || ''}
                 onChange={(e) => handleInputChange('intervalo_almoco_inicio', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
               />
             </div>
             
@@ -216,7 +216,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
                 type="time"
                 value={config.intervalo_almoco_fim || ''}
                 onChange={(e) => handleInputChange('intervalo_almoco_fim', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -231,7 +231,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
             <select
               value={config.intervalo_atendimento}
               onChange={(e) => handleInputChange('intervalo_atendimento', Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             >
               {intervalosAtendimento.map(intervalo => (
                 <option key={intervalo.valor} value={intervalo.valor}>
@@ -249,7 +249,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
               type="time"
               value={config.ultimo_horario_agendamento}
               onChange={(e) => handleInputChange('ultimo_horario_agendamento', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -266,7 +266,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
               max="48"
               value={config.antecedencia_minima}
               onChange={(e) => handleInputChange('antecedencia_minima', Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
             <p className="text-xs text-gray-500 mt-1">
               Tempo mínimo entre agendamento e atendimento
@@ -283,7 +283,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
               max="365"
               value={config.limite_agendamento}
               onChange={(e) => handleInputChange('limite_agendamento', Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
             <p className="text-xs text-gray-500 mt-1">
               Máximo de dias no futuro para agendar
@@ -312,7 +312,7 @@ const ConfiguracaoFuncionamento: React.FC<ConfiguracaoFuncionamentoProps> = ({
           <button
             onClick={salvarConfiguracoes}
             disabled={loading}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-slate-600 to-pink-600 text-white rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
           >
             <Save className="w-4 h-4" />
             {loading ? 'Salvando...' : 'Salvar Configurações'}

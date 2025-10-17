@@ -117,7 +117,7 @@ export default function AvaliacaoPublicaForm({
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-pink-600 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-700 to-blue-600 flex items-center justify-center p-4">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full text-center border border-white/20">
           <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-white mb-4">Obrigado pela sua avaliação! 🌟</h2>
@@ -133,7 +133,7 @@ export default function AvaliacaoPublicaForm({
           </div>
           <button 
             onClick={() => window.location.href = '/'}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+            className="w-full bg-gradient-to-r from-slate-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-slate-700 hover:to-pink-700 transition-all"
           >
             Voltar ao Site
           </button>
@@ -143,7 +143,7 @@ export default function AvaliacaoPublicaForm({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-pink-600 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-700 to-blue-600 flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-2xl w-full border border-white/20">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
@@ -301,7 +301,7 @@ export default function AvaliacaoPublicaForm({
                   name="recomenda"
                   checked={formData.recomenda === true}
                   onChange={() => setFormData({...formData, recomenda: true})}
-                  className="text-purple-600"
+                  className="text-slate-600"
                 />
                 <span className="text-white">✅ Sim, recomendo!</span>
               </label>
@@ -311,7 +311,7 @@ export default function AvaliacaoPublicaForm({
                   name="recomenda"
                   checked={formData.recomenda === false}
                   onChange={() => setFormData({...formData, recomenda: false})}
-                  className="text-purple-600"
+                  className="text-slate-600"
                 />
                 <span className="text-white">❌ Não recomendaria</span>
               </label>
@@ -337,7 +337,7 @@ export default function AvaliacaoPublicaForm({
           {/* Botão de Envio */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center space-x-2"
+            className="w-full bg-gradient-to-r from-slate-600 to-pink-600 text-white py-4 rounded-lg font-semibold hover:from-slate-700 hover:to-pink-700 transition-all flex items-center justify-center space-x-2"
           >
             <Send className="w-5 h-5" />
             <span>Enviar Avaliação</span>

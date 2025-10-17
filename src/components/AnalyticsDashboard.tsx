@@ -154,10 +154,10 @@ const AnalyticsDashboard: React.FC = () => {
           <div className="h-8 bg-purple-200 rounded w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 bg-purple-100 rounded-lg"></div>
+              <div key={i} className="h-24 bg-slate-100 rounded-lg"></div>
             ))}
           </div>
-          <div className="h-64 bg-purple-100 rounded-lg"></div>
+          <div className="h-64 bg-slate-100 rounded-lg"></div>
         </div>
       </div>
     );
@@ -191,12 +191,12 @@ const AnalyticsDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Receita Total</p>
-              <p className="text-2xl font-bold text-purple-600">
+              <p className="text-2xl font-bold text-slate-600">
                 {formatCurrency(metrics?.totalRevenue || 0)}
               </p>
             </div>
-            <div className="p-3 bg-purple-100 rounded-full">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-3 bg-slate-100 rounded-full">
+              <svg className="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
               </svg>
             </div>
@@ -322,7 +322,7 @@ const AnalyticsDashboard: React.FC = () => {
       </div>
 
       {/* Footer com Info */}
-      <div className="bg-gradient-to-r from-purple-100 to-pink-100 border border-purple-200 rounded-lg p-4">
+      <div className="bg-gradient-to-r from-slate-100 to-pink-100 border border-purple-200 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold text-gray-800">🚀 Sistema Híbrido Ativo</h4>
@@ -331,7 +331,7 @@ const AnalyticsDashboard: React.FC = () => {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm font-medium text-purple-600">
+            <p className="text-sm font-medium text-slate-600">
               {MockDataService.getTransactions().length} transações simuladas
             </p>
             <p className="text-xs text-gray-500">

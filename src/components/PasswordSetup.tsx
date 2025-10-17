@@ -100,7 +100,7 @@ export default function PasswordSetup({ userEmail, userName, onPasswordSet, onSk
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 p-4">
       <div className="bg-white/15 backdrop-blur-lg border border-white/30 rounded-3xl p-6 max-w-sm w-full shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
@@ -123,7 +123,7 @@ export default function PasswordSetup({ userEmail, userName, onPasswordSet, onSk
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 placeholder="Digite sua nova senha"
                 required
               />
@@ -145,7 +145,7 @@ export default function PasswordSetup({ userEmail, userName, onPasswordSet, onSk
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
               placeholder="Confirme sua nova senha"
               required
             />
@@ -191,7 +191,7 @@ export default function PasswordSetup({ userEmail, userName, onPasswordSet, onSk
             <button
               type="submit"
               disabled={isLoading || !password || !confirmPassword}
-              className="flex-1 py-3 px-6 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-white font-medium hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex-1 py-3 px-6 bg-gradient-to-r from-slate-600 to-blue-600 rounded-xl text-white font-medium hover:from-slate-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">

@@ -204,7 +204,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
         <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200 bg-white rounded-t-xl shrink-0">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <CalendarIcon className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />
+              <CalendarIcon className="w-5 h-5 md:w-6 md:h-6 text-slate-600" />
               <h2 className="text-lg md:text-2xl font-bold text-gray-900">Visualização de Agenda</h2>
             </div>
             
@@ -215,7 +215,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
                 onClick={() => handleViewModeChange('week')}
                 className={`px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium transition-all ${
                   viewMode === 'week'
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-slate-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
@@ -226,7 +226,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
                 onClick={() => handleViewModeChange('month')}
                 className={`px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium transition-all ${
                   viewMode === 'month'
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-slate-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >

@@ -166,7 +166,7 @@ export default function SystemIntegrationPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 ${
                 activeTab === tab.id
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                  ? 'bg-gradient-to-r from-slate-600 to-pink-600 text-white'
                   : 'bg-white/10 text-purple-200 hover:bg-white/20'
               }`}
             >
@@ -198,7 +198,7 @@ export default function SystemIntegrationPage() {
                     <button
                       onClick={buscarRecomendacoesML}
                       disabled={loading}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:opacity-50"
+                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-slate-600 text-white rounded-lg hover:from-blue-700 hover:to-slate-700 disabled:opacity-50"
                     >
                       {loading ? '🔄' : '🚀'} Gerar Recomendações
                     </button>
@@ -225,11 +225,11 @@ export default function SystemIntegrationPage() {
                           </div>
                           <div className="w-full bg-gray-700 rounded-full h-2">
                             <div
-                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
+                              className="bg-gradient-to-r from-blue-500 to-slate-500 h-2 rounded-full"
                               style={{ width: `${(rec.score_recomendacao / 20) * 100}%` }}
                             />
                           </div>
-                          <p className="text-purple-100 text-xs mt-1">
+                          <p className="text-slate-100 text-xs mt-1">
                             Score: {rec.score_recomendacao.toFixed(1)}
                           </p>
                         </div>
@@ -251,7 +251,7 @@ export default function SystemIntegrationPage() {
                     <button
                       onClick={buscarSegmentacao}
                       disabled={loading}
-                      className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50"
+                      className="px-4 py-2 bg-gradient-to-r from-slate-600 to-pink-600 text-white rounded-lg hover:from-slate-700 hover:to-pink-700 disabled:opacity-50"
                     >
                       {loading ? '🔄' : '🧮'} Executar ML
                     </button>
@@ -280,7 +280,7 @@ export default function SystemIntegrationPage() {
                             <p className="text-xs text-purple-300 mb-1">Características:</p>
                             <div className="flex flex-wrap gap-1">
                               {dados.caracteristicas.map((car, i) => (
-                                <span key={i} className="bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                                <span key={i} className="bg-slate-600 text-white text-xs px-2 py-1 rounded">
                                   {car}
                                 </span>
                               ))}
@@ -514,7 +514,7 @@ export default function SystemIntegrationPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-bold text-green-400 mb-3">✅ Python Superior Em:</h4>
-                    <ul className="space-y-2 text-sm text-purple-100">
+                    <ul className="space-y-2 text-sm text-slate-100">
                       <li>• Manipulação de DataFrames (Pandas)</li>
                       <li>• Operações matriciais (NumPy)</li>
                       <li>• Análise estatística (SciPy)</li>
@@ -620,9 +620,9 @@ export default function SystemIntegrationPage() {
                   ))}
                 </div>
 
-                <div className="mt-6 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg p-4 border border-purple-400/30">
+                <div className="mt-6 bg-gradient-to-r from-slate-600/20 to-pink-600/20 rounded-lg p-4 border border-purple-400/30">
                   <h4 className="font-bold text-white mb-2">🚀 Vantagens da Automação Python:</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-purple-100">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-100">
                     <div>
                       <p>• APScheduler para agendamento robusto</p>
                       <p>• Threading assíncrono para performance</p>

@@ -106,7 +106,7 @@ export default function ConfiguracoesPage() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 text-left rounded-lg transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-purple-100 text-purple-700 border-l-4 border-purple-600'
+                      ? 'bg-slate-100 text-slate-700 border-l-4 border-slate-600'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
@@ -139,7 +139,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, salonName: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       />
                     </div>
 
@@ -154,7 +154,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, ownerName: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       />
                     </div>
 
@@ -169,7 +169,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, phone: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       />
                     </div>
 
@@ -184,7 +184,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, email: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       />
                     </div>
 
@@ -199,7 +199,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, address: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       />
                     </div>
 
@@ -213,7 +213,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, timezone: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       >
                         <option value="America/Sao_Paulo">São Paulo (GMT-3)</option>
                         <option value="America/Rio_Branco">Rio Branco (GMT-5)</option>
@@ -231,7 +231,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           general: { ...config.general, currency: e.target.value }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       >
                         <option value="BRL">Real Brasileiro (R$)</option>
                         <option value="USD">Dólar Americano ($)</option>
@@ -261,7 +261,7 @@ export default function ConfiguracoesPage() {
                           notifications: { ...config.notifications, emailNotifications: !config.notifications.emailNotifications }
                         })}
                         className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-                          config.notifications.emailNotifications ? 'bg-purple-600' : 'bg-gray-300'
+                          config.notifications.emailNotifications ? 'bg-slate-600' : 'bg-gray-300'
                         }`}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -281,7 +281,7 @@ export default function ConfiguracoesPage() {
                           notifications: { ...config.notifications, smsNotifications: !config.notifications.smsNotifications }
                         })}
                         className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-                          config.notifications.smsNotifications ? 'bg-purple-600' : 'bg-gray-300'
+                          config.notifications.smsNotifications ? 'bg-slate-600' : 'bg-gray-300'
                         }`}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -299,7 +299,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           notifications: { ...config.notifications, reminderTime: parseInt(e.target.value) }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       >
                         <option value={1}>1 hora antes</option>
                         <option value={2}>2 horas antes</option>
@@ -319,7 +319,7 @@ export default function ConfiguracoesPage() {
                           notifications: { ...config.notifications, autoConfirmation: !config.notifications.autoConfirmation }
                         })}
                         className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-                          config.notifications.autoConfirmation ? 'bg-purple-600' : 'bg-gray-300'
+                          config.notifications.autoConfirmation ? 'bg-slate-600' : 'bg-gray-300'
                         }`}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -339,7 +339,7 @@ export default function ConfiguracoesPage() {
                           notifications: { ...config.notifications, birthdayMessages: !config.notifications.birthdayMessages }
                         })}
                         className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-                          config.notifications.birthdayMessages ? 'bg-purple-600' : 'bg-gray-300'
+                          config.notifications.birthdayMessages ? 'bg-slate-600' : 'bg-gray-300'
                         }`}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -416,8 +416,8 @@ export default function ConfiguracoesPage() {
                     <div className="p-6 border border-gray-200 rounded-lg">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-3">
-                          <div className="p-2 bg-purple-100 rounded-lg">
-                            <Database className="w-6 h-6 text-purple-600" />
+                          <div className="p-2 bg-slate-100 rounded-lg">
+                            <Database className="w-6 h-6 text-slate-600" />
                           </div>
                           <div>
                             <h4 className="font-medium text-gray-900">Analytics Avançado</h4>
@@ -426,7 +426,7 @@ export default function ConfiguracoesPage() {
                         </div>
                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                           config.integrations.analyticsEnabled
-                            ? 'bg-purple-100 text-purple-800'
+                            ? 'bg-slate-100 text-purple-800'
                             : 'bg-gray-100 text-gray-800'
                         }`}>
                           {config.integrations.analyticsEnabled ? 'Ativo' : 'Inativo'}
@@ -443,7 +443,7 @@ export default function ConfiguracoesPage() {
                         className={`px-4 py-2 rounded-lg transition-colors ${
                           config.integrations.analyticsEnabled
                             ? 'bg-red-600 text-white hover:bg-red-700'
-                            : 'bg-purple-600 text-white hover:bg-purple-700'
+                            : 'bg-slate-600 text-white hover:bg-slate-700'
                         }`}
                       >
                         {config.integrations.analyticsEnabled ? 'Desativar' : 'Ativar'}
@@ -472,7 +472,7 @@ export default function ConfiguracoesPage() {
                           security: { ...config.security, twoFactorEnabled: !config.security.twoFactorEnabled }
                         })}
                         className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-                          config.security.twoFactorEnabled ? 'bg-purple-600' : 'bg-gray-300'
+                          config.security.twoFactorEnabled ? 'bg-slate-600' : 'bg-gray-300'
                         }`}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -490,7 +490,7 @@ export default function ConfiguracoesPage() {
                           ...config,
                           security: { ...config.security, sessionTimeout: parseInt(e.target.value) }
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                       >
                         <option value={15}>15 minutos</option>
                         <option value={30}>30 minutos</option>
@@ -510,7 +510,7 @@ export default function ConfiguracoesPage() {
                           security: { ...config.security, requirePasswordChange: !config.security.requirePasswordChange }
                         })}
                         className={`relative inline-flex h-6 w-11 rounded-full transition-colors ${
-                          config.security.requirePasswordChange ? 'bg-purple-600' : 'bg-gray-300'
+                          config.security.requirePasswordChange ? 'bg-slate-600' : 'bg-gray-300'
                         }`}
                       >
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -544,7 +544,7 @@ export default function ConfiguracoesPage() {
                   className={`flex items-center space-x-2 px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
                     saved 
                       ? 'bg-green-100 text-green-700'
-                      : 'bg-purple-600 text-white hover:bg-purple-700'
+                      : 'bg-slate-600 text-white hover:bg-slate-700'
                   }`}
                 >
                   {saved ? (

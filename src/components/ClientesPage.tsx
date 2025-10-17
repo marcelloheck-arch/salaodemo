@@ -29,28 +29,7 @@ import {
 import { format, parseISO, differenceInYears } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import ExcelImport from './ExcelImport';
-
-interface Client {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  birthday?: string;
-  address?: {
-    street: string;
-    neighborhood: string;
-    city: string;
-  };
-  preferences: string[];
-  notes?: string;
-  totalSpent: number;
-  totalVisits: number;
-  lastVisit?: string;
-  averageTicket: number;
-  status: 'active' | 'inactive' | 'vip';
-  createdAt: string;
-  licenseKey?: string; // Nova propriedade para licença
-}
+import { useGlobalData, Cliente } from '@/contexts/GlobalDataContext';
 
 interface NewClientFormData {
   name: string;
@@ -61,32 +40,13 @@ interface NewClientFormData {
   licenseKey?: string; // Campo para nova licença
 }
 
-// Dados iniciais simulados
-const initialClients: Client[] = [
-  {
-    id: "1",
-    name: "Cliente Exemplo",
-    phone: "(11) 99999-0000",
-    email: "cliente@exemplo.com",
-    birthday: "1990-01-01",
-    preferences: ["Serviço Exemplo"],
-    notes: "",
-    totalSpent: 100.00,
-    totalVisits: 2,
-    lastVisit: "2025-10-15",
-    averageTicket: 50.00,
-    status: 'active',
-    createdAt: "2025-01-01"
-  }
-];
-
 export default function ClientesPage() {
-  const [clients, setClients] = useState<Client[]>(initialClients);
+  const { clientes, setClientes, addCliente } = useGlobalData();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [showNewClientForm, setShowNewClientForm] = useState(false);
-  const [editingClient, setEditingClient] = useState<Client | null>(null);
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [editingClient, setEditingClient] = useState<Cliente | null>(null);
+  const [selectedClient, setSelectedClient] = useState<Cliente | null>(null);
   const [showClientDetails, setShowClientDetails] = useState(false);
   const [showExcelImport, setShowExcelImport] = useState(false);
 
@@ -100,7 +60,7 @@ export default function ClientesPage() {
   });
 
   // Filtrar clientes
-  const filteredClients = clients.filter(client => {
+  const filteredClients = clientes.filter(client => {
     const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          client.phone.includes(searchTerm) ||
                          client.email.toLowerCase().includes(searchTerm.toLowerCase());
@@ -117,7 +77,7 @@ export default function ClientesPage() {
       return;
     }
 
-    const newClient: Client = {
+    const newClient: Cliente = {
       id: Date.now().toString(),
       name: newClientData.name,
       phone: newClientData.phone,
@@ -133,13 +93,13 @@ export default function ClientesPage() {
       createdAt: new Date().toISOString()
     };
 
-    setClients(prev => [newClient, ...prev]);
+    addCliente(newClient);
     setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '', licenseKey: '' });
     setShowNewClientForm(false);
   };
 
   // Função para editar cliente
-  const handleEditClient = (client: Client) => {
+  const handleEditClient = (client: Cliente) => {
     setEditingClient(client);
     setNewClientData({
       name: client.name,
@@ -159,7 +119,7 @@ export default function ClientesPage() {
       return;
     }
 
-    setClients(prev => prev.map(client => 
+    const clientesAtualizados = clientes.map(client => 
       client.id === editingClient.id 
         ? {
             ...client,
@@ -171,7 +131,9 @@ export default function ClientesPage() {
             licenseKey: newClientData.licenseKey
           }
         : client
-    ));
+    );
+
+    setClientes(clientesAtualizados);
 
     setEditingClient(null);
     setNewClientData({ name: '', phone: '', email: '', birthday: '', notes: '', licenseKey: '' });
@@ -181,7 +143,8 @@ export default function ClientesPage() {
   // Função para excluir cliente
   const handleDeleteClient = (clientId: string) => {
     if (confirm('Tem certeza que deseja excluir este cliente?')) {
-      setClients(prev => prev.filter(client => client.id !== clientId));
+      const clientesAtualizados = clientes.filter(client => client.id !== clientId);
+      setClientes(clientesAtualizados);
     }
   };
 
@@ -201,7 +164,7 @@ export default function ClientesPage() {
 
   // Função para importar clientes do Excel
   const handleExcelImport = (clientesImportados: any[]) => {
-    const novosClientes: Client[] = clientesImportados.map(cliente => ({
+    const novosClientes: Cliente[] = clientesImportados.map(cliente => ({
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       name: cliente.nome,
       phone: cliente.telefone,
@@ -213,15 +176,11 @@ export default function ClientesPage() {
       totalVisits: 0,
       averageTicket: 0,
       status: 'active' as const,
-      createdAt: new Date().toISOString(),
-      address: cliente.endereco ? {
-        street: cliente.endereco,
-        neighborhood: '',
-        city: ''
-      } : undefined
+      createdAt: new Date().toISOString()
     }));
 
-    setClients(prev => [...prev, ...novosClientes]);
+    const novosClientesAtualizados = [...novosClientes, ...clientes];
+    setClientes(novosClientesAtualizados);
     setShowExcelImport(false);
     
     alert(`${novosClientes.length} clientes importados com sucesso!`);
@@ -246,7 +205,7 @@ export default function ClientesPage() {
             </button>
             <button
               onClick={() => setShowNewClientForm(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              className="bg-gradient-to-r from-slate-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:from-slate-700 hover:to-blue-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
             >
               <UserPlus className="w-5 h-5" />
               <span>Cadastrar Cliente</span>
@@ -263,7 +222,7 @@ export default function ClientesPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Total de Clientes</p>
-                <p className="text-2xl font-bold text-gray-900">{clients.length}</p>
+                <p className="text-2xl font-bold text-gray-900">{clientes.length}</p>
               </div>
             </div>
           </div>
@@ -276,7 +235,7 @@ export default function ClientesPage() {
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Clientes Ativos</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {clients.filter(c => c.status === 'active' || c.status === 'vip').length}
+                  {clientes.filter(c => c.status === 'active' || c.status === 'vip').length}
                 </p>
               </div>
             </div>
@@ -285,12 +244,12 @@ export default function ClientesPage() {
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <div className="flex items-center">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <Star className="w-6 h-6 text-purple-600" />
+                <Star className="w-6 h-6 text-blue-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Clientes VIP</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {clients.filter(c => c.status === 'vip').length}
+                  {clientes.filter(c => c.status === 'vip').length}
                 </p>
               </div>
             </div>
@@ -304,7 +263,7 @@ export default function ClientesPage() {
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Receita Total</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  R$ {clients.reduce((sum, client) => sum + client.totalSpent, 0).toFixed(2)}
+                  R$ {clientes.reduce((sum, client) => sum + client.totalSpent, 0).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -326,7 +285,7 @@ export default function ClientesPage() {
                 placeholder="Nome, telefone ou e-mail..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
               />
             </div>
           </div>
@@ -338,7 +297,7 @@ export default function ClientesPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
             >
               <option value="all">Todos os Status</option>
               <option value="active">Ativos</option>
@@ -370,7 +329,7 @@ export default function ClientesPage() {
               {!searchTerm && statusFilter === 'all' && (
                 <button
                   onClick={() => setShowNewClientForm(true)}
-                  className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Cadastrar Primeiro Cliente
                 </button>
@@ -386,8 +345,8 @@ export default function ClientesPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
-                        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {client.name.charAt(0).toUpperCase()}
+                        <div className="w-12 h-12 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                          {cliente.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold text-gray-800">{client.name}</h4>
@@ -428,7 +387,7 @@ export default function ClientesPage() {
                         </div>
                         <div>
                           <span className="font-medium text-gray-700">Ticket Médio:</span>
-                          <span className="ml-2 text-purple-600 font-semibold">R$ {client.averageTicket.toFixed(2)}</span>
+                          <span className="ml-2 text-blue-600 font-semibold">R$ {client.averageTicket.toFixed(2)}</span>
                         </div>
                       </div>
 
@@ -455,7 +414,7 @@ export default function ClientesPage() {
                           setSelectedClient(client);
                           setShowClientDetails(true);
                         }}
-                        className="p-2 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded transition-colors"
+                        className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
                         title="Ver Detalhes"
                       >
                         <User className="w-4 h-4" />
@@ -503,7 +462,7 @@ export default function ClientesPage() {
                     type="text"
                     value={newClientData.name}
                     onChange={(e) => setNewClientData(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
                     placeholder="Digite o nome completo"
                     required
                   />
@@ -518,7 +477,7 @@ export default function ClientesPage() {
                     type="tel"
                     value={newClientData.phone}
                     onChange={(e) => setNewClientData(prev => ({ ...prev, phone: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
                     placeholder="(11) 99999-9999"
                     required
                   />
@@ -533,7 +492,7 @@ export default function ClientesPage() {
                     type="email"
                     value={newClientData.email}
                     onChange={(e) => setNewClientData(prev => ({ ...prev, email: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
                     placeholder="cliente@email.com"
                     required
                   />
@@ -548,7 +507,7 @@ export default function ClientesPage() {
                     type="date"
                     value={newClientData.birthday}
                     onChange={(e) => setNewClientData(prev => ({ ...prev, birthday: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
                   />
                 </div>
 
@@ -561,7 +520,7 @@ export default function ClientesPage() {
                     value={newClientData.notes}
                     onChange={(e) => setNewClientData(prev => ({ ...prev, notes: e.target.value }))}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
                     placeholder="Preferências, alergias, observações especiais..."
                   />
                 </div>
@@ -575,7 +534,7 @@ export default function ClientesPage() {
                     type="text"
                     value={newClientData.licenseKey || ''}
                     onChange={(e) => setNewClientData(prev => ({ ...prev, licenseKey: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
                     placeholder="Ex: SALAO-PREMIUM-2024-001"
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -595,7 +554,7 @@ export default function ClientesPage() {
                 <button
                   onClick={editingClient ? handleUpdateClient : handleCreateClient}
                   disabled={!newClientData.name || !newClientData.phone || !newClientData.email}
-                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                 >
                   {editingClient ? 'Atualizar' : 'Cadastrar'}
                 </button>
@@ -623,7 +582,7 @@ export default function ClientesPage() {
               <div className="space-y-6">
                 {/* Informações Básicas */}
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-4">
+                  <div className="w-20 h-20 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-4">
                     {selectedClient.name.charAt(0).toUpperCase()}
                   </div>
                   <h4 className="text-xl font-bold text-gray-800">{selectedClient.name}</h4>
@@ -669,8 +628,8 @@ export default function ClientesPage() {
                       <div className="text-lg font-bold text-blue-700">{selectedClient.totalVisits}</div>
                     </div>
                     <div className="bg-purple-50 p-3 rounded-lg">
-                      <div className="text-purple-600 font-semibold">Ticket Médio</div>
-                      <div className="text-lg font-bold text-purple-700">R$ {selectedClient.averageTicket.toFixed(2)}</div>
+                      <div className="text-blue-600 font-semibold">Ticket Médio</div>
+                      <div className="text-lg font-bold text-blue-700">R$ {selectedClient.averageTicket.toFixed(2)}</div>
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <div className="text-gray-600 font-semibold">Última Visita</div>
@@ -713,9 +672,9 @@ export default function ClientesPage() {
                 {selectedClient.licenseKey && (
                   <div className="space-y-3">
                     <h5 className="font-semibold text-gray-800">Licença do Sistema</h5>
-                    <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg border border-purple-200">
+                    <div className="bg-gradient-to-r from-slate-50 to-blue-50 p-4 rounded-lg border border-blue-200">
                       <div className="flex items-center space-x-2">
-                        <Key className="w-5 h-5 text-purple-600" />
+                        <Key className="w-5 h-5 text-blue-600" />
                         <span className="text-sm font-medium text-gray-700">Chave da Licença:</span>
                       </div>
                       <code className="block mt-2 bg-white px-3 py-2 rounded border text-sm font-mono">
@@ -733,7 +692,7 @@ export default function ClientesPage() {
                     setShowClientDetails(false);
                     handleEditClient(selectedClient);
                   }}
-                  className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Editar Cliente
                 </button>

@@ -350,7 +350,7 @@ export default function DashboardLayout() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { name: "Corte Feminino", amount: "R$ 1.200,00", percentage: 34.8, color: "bg-purple-100 text-purple-800" },
+                { name: "Corte Feminino", amount: "R$ 1.200,00", percentage: 34.8, color: "bg-slate-100 text-purple-800" },
                 { name: "Escova", amount: "R$ 750,00", percentage: 21.7, color: "bg-pink-100 text-pink-800" },
                 { name: "Manicure", amount: "R$ 600,00", percentage: 17.4, color: "bg-blue-100 text-blue-800" },
                 { name: "Pedicure", amount: "R$ 480,00", percentage: 13.9, color: "bg-green-100 text-green-800" },

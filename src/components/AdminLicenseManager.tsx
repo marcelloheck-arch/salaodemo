@@ -55,7 +55,7 @@ export default function AdminLicenseManager() {
   ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-pink-600 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-700 to-blue-600 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-6 border border-white/20">
@@ -92,7 +92,7 @@ export default function AdminLicenseManager() {
                 onClick={() => setActiveTab(tab.key as any)}
                 className={`flex-1 p-4 text-center transition-all ${
                   activeTab === tab.key
-                    ? 'bg-purple-500/30 text-white border-b-2 border-purple-300'
+                    ? 'bg-slate-500/30 text-white border-b-2 border-purple-300'
                     : 'text-white/70 hover:text-white hover:bg-white/5'
                 }`}
               >
@@ -241,7 +241,7 @@ function ManageFeaturesTab() {
             <p className="text-white/70 text-sm mb-2">{feature.descricao}</p>
             <span className={`inline-block px-2 py-1 rounded text-xs ${
               feature.categoria === 'basico' ? 'bg-blue-500/20 text-blue-200' :
-              feature.categoria === 'intermediario' ? 'bg-purple-500/20 text-purple-200' :
+              feature.categoria === 'intermediario' ? 'bg-slate-500/20 text-purple-200' :
               'bg-orange-500/20 text-orange-200'
             }`}>
               {feature.categoria}
@@ -352,7 +352,7 @@ function LicenseGeneratorModal({
                   }}
                   className={`p-4 rounded-lg cursor-pointer transition-all ${
                     selectedPlan.id === plan.id 
-                      ? 'bg-purple-500/30 border-2 border-purple-300' 
+                      ? 'bg-slate-500/30 border-2 border-purple-300' 
                       : 'bg-white/20 border border-white/30 hover:bg-white/30'
                   }`}
                 >
@@ -396,7 +396,7 @@ function LicenseGeneratorModal({
                     />
                     <div className={`w-6 h-6 rounded border-2 flex items-center justify-center ${
                       selectedFeatures.includes(feature.id)
-                        ? 'bg-purple-500 border-purple-500 text-white'
+                        ? 'bg-slate-500 border-slate-500 text-white'
                         : 'border-white/30'
                     }`}>
                       {selectedFeatures.includes(feature.id) && '✓'}
@@ -478,7 +478,7 @@ function LicenseGeneratorModal({
           </button>
           <button
             onClick={generateLicense}
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-slate-600 to-pink-600 text-white rounded-lg hover:from-slate-700 hover:to-pink-700 transition-all"
           >
             🔑 Gerar Licença e Enviar Email
           </button>

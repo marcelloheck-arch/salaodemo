@@ -259,7 +259,7 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
         {[
           { label: "Agendamentos Hoje", value: "12", color: "bg-blue-100 text-blue-600" },
           { label: "Faturamento", value: "R$ 850", color: "bg-green-100 text-green-600" },
-          { label: "Clientes Ativos", value: "347", color: "bg-purple-100 text-purple-600" },
+          { label: "Clientes Ativos", value: "347", color: "bg-slate-100 text-slate-600" },
           { label: "Taxa Ocupação", value: "85%", color: "bg-orange-100 text-orange-600" },
         ].map((metric, index) => (
           <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -277,7 +277,7 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
             {[
               { label: "Agendamento Rápido", icon: Zap, page: "agendamento-rapido", color: "text-green-600" },
               { label: "Dashboard Agendamentos", icon: Calendar, page: "dashboard-agendamentos", color: "text-blue-600" },
-              { label: "Cadastrar Cliente", icon: Users, page: "clientes", color: "text-purple-600" },
+              { label: "Cadastrar Cliente", icon: Users, page: "clientes", color: "text-slate-600" },
               { label: "WhatsApp", icon: Smartphone, page: "whatsapp", color: "text-green-500" },
               { label: "Notificações", icon: Bell, page: "notificacoes", color: "text-yellow-600" },
               { label: "Ver Caixa", icon: DollarSign, page: "caixa", color: "text-emerald-600" },
@@ -340,7 +340,7 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
               description: "Email, SMS e notificações push", 
               icon: Bell, 
               page: "notificacoes",
-              color: "bg-purple-100 text-purple-600"
+              color: "bg-slate-100 text-slate-600"
             }
           ].map((feature, index) => (
             <button
@@ -574,9 +574,9 @@ export default function MainApp() {
       case 'migracao-supabase':
         return <MigrationManager />;
       case 'admin-licencas':
-        return <LicenseManagementApp />;
+        return <LicenseManagementApp onLogin={() => setCurrentPage('dashboard')} showAdminPanel={true} />;
       case 'cadastro-publico':
-        return <LicenseManagementApp />;
+        return <LicenseManagementApp onLogin={() => setCurrentPage('dashboard')} />;
       default:
         return <DashboardContent onPageChange={setCurrentPage} />;
     }

@@ -73,7 +73,7 @@ export default function SalonDashboard({ userData, onLogout }: SalonDashboardPro
       icon: DollarSign,
       title: "Registrar Venda",
       description: "Lançar no caixa",
-      color: "from-purple-500 to-purple-600",
+      color: "from-slate-500 to-slate-600",
       action: () => alert("Funcionalidade em desenvolvimento")
     },
     {
@@ -105,7 +105,7 @@ export default function SalonDashboard({ userData, onLogout }: SalonDashboardPro
       label: "Clientes Atendidos",
       value: "6",
       change: "+1",
-      color: "text-purple-600"
+      color: "text-slate-600"
     },
     {
       icon: Star,
@@ -123,7 +123,7 @@ export default function SalonDashboard({ userData, onLogout }: SalonDashboardPro
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-slate-500 to-pink-500 rounded-xl flex items-center justify-center">
                 <Scissors className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -160,7 +160,7 @@ export default function SalonDashboard({ userData, onLogout }: SalonDashboardPro
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Banner */}
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 mb-8 text-white">
+        <div className="bg-gradient-to-r from-slate-500 to-pink-500 rounded-2xl p-6 mb-8 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold mb-2">
@@ -273,8 +273,8 @@ export default function SalonDashboard({ userData, onLogout }: SalonDashboardPro
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-8 h-8 text-purple-600" />
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Calendar className="w-8 h-8 text-slate-600" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">
                 3. Faça Agendamentos
@@ -282,7 +282,7 @@ export default function SalonDashboard({ userData, onLogout }: SalonDashboardPro
               <p className="text-sm text-gray-500 mb-4">
                 Comece a agendar seus clientes
               </p>
-              <button className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
+              <button className="px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition-colors">
                 Agendar
               </button>
             </div>

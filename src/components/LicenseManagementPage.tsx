@@ -167,7 +167,7 @@ function NewLicenseForm({ onSave, onCancel }: NewLicenseFormProps) {
               type="text"
               value={formData.clientName}
               onChange={(e) => setFormData(prev => ({ ...prev, clientName: e.target.value }))}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                 errors.clientName ? 'border-red-300' : 'border-gray-300'
               }`}
               placeholder="Nome completo do cliente"
@@ -185,7 +185,7 @@ function NewLicenseForm({ onSave, onCancel }: NewLicenseFormProps) {
               type="email"
               value={formData.clientEmail}
               onChange={(e) => setFormData(prev => ({ ...prev, clientEmail: e.target.value }))}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 ${
                 errors.clientEmail ? 'border-red-300' : 'border-gray-300'
               }`}
               placeholder="email@exemplo.com"
@@ -207,14 +207,14 @@ function NewLicenseForm({ onSave, onCancel }: NewLicenseFormProps) {
                 key={plan.type}
                 className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   formData.planType === plan.type
-                    ? 'border-purple-500 bg-purple-50'
+                    ? 'border-slate-500 bg-slate-50'
                     : 'border-gray-200 hover:border-purple-300'
                 }`}
                 onClick={() => setFormData(prev => ({ ...prev, planType: plan.type as any }))}
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-semibold text-gray-900 capitalize">{plan.name}</h4>
-                  <span className="text-lg font-bold text-purple-600">
+                  <span className="text-lg font-bold text-slate-600">
                     R$ {plan.price.toFixed(2)}
                   </span>
                 </div>
@@ -242,7 +242,7 @@ function NewLicenseForm({ onSave, onCancel }: NewLicenseFormProps) {
           <select
             value={formData.customDuration}
             onChange={(e) => setFormData(prev => ({ ...prev, customDuration: parseInt(e.target.value) }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
           >
             <option value={1}>1 mês</option>
             <option value={3}>3 meses</option>
@@ -288,7 +288,7 @@ function NewLicenseForm({ onSave, onCancel }: NewLicenseFormProps) {
           </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all"
+            className="px-6 py-2 bg-gradient-to-r from-slate-600 to-pink-600 text-white rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all"
           >
             Gerar Licença
           </button>
@@ -375,7 +375,7 @@ export default function LicenseManagementPage() {
   const getPlanColor = (planType: string) => {
     switch (planType) {
       case 'basic': return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'premium': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'premium': return 'bg-slate-100 text-purple-800 border-purple-200';
       case 'enterprise': return 'bg-orange-100 text-orange-800 border-orange-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -556,7 +556,7 @@ export default function LicenseManagementPage() {
         </div>
         <button
           onClick={() => setShowNewLicense(true)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
+          className="bg-gradient-to-r from-slate-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
         >
           <Plus className="w-4 h-4" />
           <span>Nova Licença</span>
@@ -617,7 +617,7 @@ export default function LicenseManagementPage() {
               placeholder="Buscar por cliente, licença ou email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
 
@@ -626,7 +626,7 @@ export default function LicenseManagementPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="all">Todos os Status</option>
               <option value="active">Ativas</option>
@@ -639,7 +639,7 @@ export default function LicenseManagementPage() {
             <select
               value={planFilter}
               onChange={(e) => setPlanFilter(e.target.value)}
-              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="all">Todos os Planos</option>
               <option value="basic">Básico</option>
@@ -899,7 +899,7 @@ export default function LicenseManagementPage() {
                             setIsLoading(false);
                           }
                         }}
-                        className="text-purple-600"
+                        className="text-slate-600"
                       />
                       <span className="text-sm capitalize">
                         {status === 'active' ? 'Ativa' : status === 'suspended' ? 'Suspensa' : 'Expirada'}

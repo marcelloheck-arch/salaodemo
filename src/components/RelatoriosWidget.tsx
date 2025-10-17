@@ -61,7 +61,7 @@ export default function RelatoriosWidget({ onOpenReports }: RelatoriosWidgetProp
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center">
             <BarChart3 className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -87,7 +87,7 @@ export default function RelatoriosWidget({ onOpenReports }: RelatoriosWidgetProp
                 kpi.cor === 'green' ? 'bg-green-500/20' :
                 kpi.cor === 'blue' ? 'bg-blue-500/20' :
                 kpi.cor === 'orange' ? 'bg-orange-500/20' :
-                'bg-purple-500/20'
+                'bg-slate-500/20'
               }`}>
                 <kpi.icon className={`w-4 h-4 ${
                   kpi.cor === 'green' ? 'text-green-400' :
@@ -126,7 +126,7 @@ export default function RelatoriosWidget({ onOpenReports }: RelatoriosWidgetProp
           {[65, 78, 82, 71, 88, 94, 85].map((altura, index) => (
             <div key={index} className="flex-1 flex flex-col items-center">
               <div 
-                className="w-full bg-gradient-to-t from-purple-500 to-pink-500 rounded-sm"
+                className="w-full bg-gradient-to-t from-slate-600 to-blue-600 rounded-sm"
                 style={{ height: `${altura}%` }}
               />
               <div className="text-xs text-white/70 mt-1">

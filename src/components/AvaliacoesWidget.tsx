@@ -109,7 +109,7 @@ export default function AvaliacoesWidget({ onNavigateToAvaliacoes }: AvaliacoesW
                 </div>
                 <div className="flex-1 bg-white/20 rounded-full h-2">
                   <div 
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all"
+                    className="bg-gradient-to-r from-slate-600 to-blue-600 h-2 rounded-full transition-all"
                     style={{ width: `${percentual}%` }}
                   />
                 </div>
@@ -128,7 +128,7 @@ export default function AvaliacoesWidget({ onNavigateToAvaliacoes }: AvaliacoesW
             <div key={avaliacao.id} className="bg-white/20 rounded-lg p-3">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                  <div className="w-6 h-6 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-semibold">
                     {avaliacao.clienteNome.charAt(0)}
                   </div>
                   <span className="text-white text-sm font-medium">{avaliacao.clienteNome}</span>

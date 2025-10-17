@@ -265,7 +265,7 @@ export default function ExcelImport({ onImport, onClose }: ExcelImportProps) {
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={loading}
-                    className="px-6 py-3 bg-purple-500 hover:bg-purple-600 disabled:opacity-50 text-white rounded-lg transition-colors"
+                    className="px-6 py-3 bg-slate-500 hover:bg-slate-600 disabled:opacity-50 text-white rounded-lg transition-colors"
                   >
                     {loading ? 'Processando...' : 'Escolher Arquivo'}
                   </button>
@@ -376,7 +376,7 @@ export default function ExcelImport({ onImport, onClose }: ExcelImportProps) {
 
               <button
                 onClick={onClose}
-                className="px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors"
+                className="px-6 py-3 bg-slate-500 hover:bg-slate-600 text-white rounded-lg transition-colors"
               >
                 Fechar
               </button>

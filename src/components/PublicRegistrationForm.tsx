@@ -227,7 +227,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
             <div key={step.key} className="flex items-center">
               <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all ${
                 isCompleted ? 'bg-green-500 border-green-500 text-white' :
-                isActive ? 'bg-purple-500 border-purple-500 text-white' :
+                isActive ? 'bg-slate-500 border-slate-500 text-white' :
                 'bg-gray-200 border-gray-300 text-gray-500'
               }`}>
                 {isCompleted ? (
@@ -237,7 +237,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                 )}
               </div>
               <span className={`ml-2 text-sm font-medium ${
-                isActive ? 'text-purple-600' : 
+                isActive ? 'text-slate-600' : 
                 isCompleted ? 'text-green-600' : 'text-gray-500'
               }`}>
                 {step.label}
@@ -255,7 +255,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-pink-50 to-blue-50 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -291,7 +291,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                       type="text"
                       value={formData.nomeEmpresa || ''}
                       onChange={(e) => updateFormData('nomeEmpresa', e.target.value)}
-                      className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                      className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                         errors.nomeEmpresa ? 'border-red-300' : 'border-gray-300'
                       }`}
                       placeholder="Nome do seu salão"
@@ -310,7 +310,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                     type="text"
                     value={formData.cnpj || ''}
                     onChange={(e) => updateFormData('cnpj', formatCNPJ(e.target.value))}
-                    className={`w-full bg-white/70 border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                    className={`w-full bg-white/70 border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                       errors.cnpj ? 'border-red-300' : 'border-gray-300'
                     }`}
                     placeholder="00.000.000/0000-00"
@@ -332,7 +332,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                     type="text"
                     value={formData.endereco || ''}
                     onChange={(e) => updateFormData('endereco', e.target.value)}
-                    className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                    className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                       errors.endereco ? 'border-red-300' : 'border-gray-300'
                     }`}
                     placeholder="Rua, número, bairro"
@@ -352,7 +352,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                     type="text"
                     value={formData.cidade || ''}
                     onChange={(e) => updateFormData('cidade', e.target.value)}
-                    className={`w-full bg-white/70 border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                    className={`w-full bg-white/70 border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                       errors.cidade ? 'border-red-300' : 'border-gray-300'
                     }`}
                     placeholder="Sua cidade"
@@ -369,7 +369,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                   <select
                     value={formData.estado || ''}
                     onChange={(e) => updateFormData('estado', e.target.value)}
-                    className={`w-full bg-white/70 border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                    className={`w-full bg-white/70 border-2 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                       errors.estado ? 'border-red-300' : 'border-gray-300'
                     }`}
                   >
@@ -391,7 +391,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                     type="text"
                     value={formData.cep || ''}
                     onChange={(e) => updateFormData('cep', formatCEP(e.target.value))}
-                    className="w-full bg-white/70 border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                    className="w-full bg-white/70 border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all"
                     placeholder="00000-000"
                     maxLength={9}
                   />
@@ -418,7 +418,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                       type="text"
                       value={formData.nome || ''}
                       onChange={(e) => updateFormData('nome', e.target.value)}
-                      className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                      className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                         errors.nome ? 'border-red-300' : 'border-gray-300'
                       }`}
                       placeholder="Seu nome completo"
@@ -439,7 +439,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                       type="email"
                       value={formData.email || ''}
                       onChange={(e) => updateFormData('email', e.target.value)}
-                      className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ${
+                      className={`w-full bg-white/70 border-2 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all ${
                         errors.email ? 'border-red-300' : 'border-gray-300'
                       }`}
                       placeholder="seu@email.com"
@@ -461,7 +461,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                     type="tel"
                     value={formData.telefone || ''}
                     onChange={(e) => updateFormData('telefone', formatPhone(e.target.value))}
-                    className="w-full bg-white/70 border-2 border-gray-300 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                    className="w-full bg-white/70 border-2 border-gray-300 rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all"
                     placeholder="(00) 00000-0000"
                     maxLength={15}
                   />
@@ -475,7 +475,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
                 <textarea
                   value={formData.observacoes || ''}
                   onChange={(e) => updateFormData('observacoes', e.target.value)}
-                  className="w-full bg-white/70 border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  className="w-full bg-white/70 border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all"
                   rows={4}
                   placeholder="Conte-nos sobre seu salão, necessidades especiais, etc."
                 />
@@ -548,15 +548,15 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
               </div>
 
               {selectedPlan && (
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
+                <div className="bg-gradient-to-r from-slate-50 to-pink-50 rounded-lg p-6 border border-purple-200">
                   <h3 className="font-semibold text-gray-900 mb-2">Plano Selecionado</h3>
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-bold text-lg text-purple-600">{selectedPlan.nome}</h4>
+                      <h4 className="font-bold text-lg text-slate-600">{selectedPlan.nome}</h4>
                       <p className="text-gray-600 text-sm">{selectedPlan.descricao}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-purple-600">
+                      <p className="text-2xl font-bold text-slate-600">
                         R$ {selectedPlan.preco.toFixed(2)}
                       </p>
                       <p className="text-gray-500 text-sm">/{selectedPlan.periodo}</p>
@@ -587,7 +587,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
               {currentStep !== 'company' && (
                 <button
                   onClick={handlePrevious}
-                  className="flex items-center space-x-2 px-6 py-3 text-purple-600 bg-purple-100 rounded-lg hover:bg-purple-200 transition-all"
+                  className="flex items-center space-x-2 px-6 py-3 text-slate-600 bg-slate-100 rounded-lg hover:bg-purple-200 transition-all"
                 >
                   <ArrowLeft className="w-5 h-5" />
                   <span>Anterior</span>
@@ -599,7 +599,7 @@ export default function PublicRegistrationForm({ onCancel, onSuccess }: PublicRe
               {currentStep !== 'confirmation' ? (
                 <button
                   onClick={handleNext}
-                  className="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all"
+                  className="flex items-center space-x-2 px-6 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-all"
                 >
                   <span>Próximo</span>
                   <ArrowRight className="w-5 h-5" />

@@ -195,7 +195,7 @@ export default function ServicosPage() {
           </div>
           <button
             onClick={() => setShowNewService(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+            className="bg-gradient-to-r from-slate-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
           >
             <Plus className="w-5 h-5" />
             <span>Novo Serviço</span>
@@ -242,8 +242,8 @@ export default function ServicosPage() {
 
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <div className="flex items-center">
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-purple-600" />
+              <div className="p-3 bg-slate-100 rounded-lg">
+                <TrendingUp className="w-6 h-6 text-slate-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Preço Médio</p>
@@ -263,7 +263,7 @@ export default function ServicosPage() {
               placeholder="Buscar serviços..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
 
@@ -272,7 +272,7 @@ export default function ServicosPage() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               {categories.map(category => (
                 <option key={category} value={category}>{category}</option>
@@ -283,7 +283,7 @@ export default function ServicosPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="all">Todos</option>
               <option value="active">Ativos</option>
@@ -294,7 +294,7 @@ export default function ServicosPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="name">Nome</option>
               <option value="price">Preço</option>
@@ -320,7 +320,7 @@ export default function ServicosPage() {
             </p>
             <button
               onClick={() => setShowNewService(true)}
-              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              className="bg-slate-600 text-white px-6 py-2 rounded-lg hover:bg-slate-700 transition-colors"
             >
               Adicionar Primeiro Serviço
             </button>
@@ -340,7 +340,7 @@ export default function ServicosPage() {
                   <div className="flex items-center space-x-2 mb-2">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       service.category === 'Cabelo' ? 'bg-pink-100 text-pink-800' :
-                      service.category === 'Unhas' ? 'bg-purple-100 text-purple-800' :
+                      service.category === 'Unhas' ? 'bg-slate-100 text-purple-800' :
                       service.category === 'Masculino' ? 'bg-blue-100 text-blue-800' :
                       'bg-gray-100 text-gray-800'
                     }`}>
@@ -423,7 +423,7 @@ export default function ServicosPage() {
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                 <div>
-                  <div className="flex items-center space-x-1 text-purple-600">
+                  <div className="flex items-center space-x-1 text-slate-600">
                     <Star className="w-4 h-4" />
                     <span className="font-medium">{service.popularity}%</span>
                   </div>
@@ -449,7 +449,7 @@ export default function ServicosPage() {
                 </div>
                 <div className="flex items-center justify-between mt-1">
                   <span className="text-sm text-gray-600">Comissão:</span>
-                  <span className="font-medium text-purple-600">
+                  <span className="font-medium text-slate-600">
                     {service.commission}%
                   </span>
                 </div>
@@ -477,7 +477,7 @@ export default function ServicosPage() {
                   value={newService.name}
                   onChange={(e) => setNewService({...newService, name: e.target.value})}
                   placeholder="Ex: Corte Feminino"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 />
               </div>
 
@@ -489,7 +489,7 @@ export default function ServicosPage() {
                   value={newService.description}
                   onChange={(e) => setNewService({...newService, description: e.target.value})}
                   placeholder="Descrição do serviço"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   rows={3}
                 />
               </div>
@@ -501,7 +501,7 @@ export default function ServicosPage() {
                 <select
                   value={newService.category}
                   onChange={(e) => setNewService({...newService, category: e.target.value})}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 >
                   <option value="">Selecione uma categoria</option>
                   <option value="Cabelo">Cabelo</option>
@@ -523,7 +523,7 @@ export default function ServicosPage() {
                     value={newService.price}
                     onChange={(e) => setNewService({...newService, price: parseFloat(e.target.value) || 0})}
                     placeholder="0,00"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                     step="0.01"
                     min="0"
                   />
@@ -537,7 +537,7 @@ export default function ServicosPage() {
                     type="number"
                     value={newService.duration}
                     onChange={(e) => setNewService({...newService, duration: parseInt(e.target.value) || 60})}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                     min="15"
                     step="15"
                   />
@@ -553,7 +553,7 @@ export default function ServicosPage() {
                   value={newService.commission}
                   onChange={(e) => setNewService({...newService, commission: parseFloat(e.target.value) || 0})}
                   placeholder="30"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   min="0"
                   max="100"
                 />
@@ -580,7 +580,7 @@ export default function ServicosPage() {
               </button>
               <button
                 onClick={handleCreateService}
-                className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="flex-1 bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Criar Serviço
               </button>
@@ -624,7 +624,7 @@ export default function ServicosPage() {
                 </div>
                 <div>
                   <span className="font-medium text-gray-900">Comissão:</span>
-                  <span className="ml-2 text-purple-600">{selectedService.commission}%</span>
+                  <span className="ml-2 text-slate-600">{selectedService.commission}%</span>
                 </div>
                 <div>
                   <span className="font-medium text-gray-900">Popularidade:</span>
@@ -659,7 +659,7 @@ export default function ServicosPage() {
                   handleEditService(selectedService);
                   setSelectedService(null);
                 }}
-                className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="flex-1 bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Editar Serviço
               </button>
@@ -695,7 +695,7 @@ export default function ServicosPage() {
                   type="text"
                   value={editingService.name}
                   onChange={(e) => setEditingService({...editingService, name: e.target.value})}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 />
               </div>
 
@@ -706,7 +706,7 @@ export default function ServicosPage() {
                 <textarea
                   value={editingService.description || ''}
                   onChange={(e) => setEditingService({...editingService, description: e.target.value})}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   rows={3}
                 />
               </div>
@@ -718,7 +718,7 @@ export default function ServicosPage() {
                 <select
                   value={editingService.category}
                   onChange={(e) => setEditingService({...editingService, category: e.target.value})}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 >
                   <option value="Cabelo">Cabelo</option>
                   <option value="Unhas">Unhas</option>
@@ -738,7 +738,7 @@ export default function ServicosPage() {
                     type="number"
                     value={editingService.price}
                     onChange={(e) => setEditingService({...editingService, price: parseFloat(e.target.value) || 0})}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                     step="0.01"
                     min="0"
                   />
@@ -752,7 +752,7 @@ export default function ServicosPage() {
                     type="number"
                     value={editingService.duration}
                     onChange={(e) => setEditingService({...editingService, duration: parseInt(e.target.value) || 60})}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                     min="15"
                     step="15"
                   />
@@ -767,7 +767,7 @@ export default function ServicosPage() {
                   type="number"
                   value={editingService.commission}
                   onChange={(e) => setEditingService({...editingService, commission: parseFloat(e.target.value) || 0})}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   min="0"
                   max="100"
                 />
@@ -786,7 +786,7 @@ export default function ServicosPage() {
               </button>
               <button
                 onClick={handleSaveEditService}
-                className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="flex-1 bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Salvar Alterações
               </button>

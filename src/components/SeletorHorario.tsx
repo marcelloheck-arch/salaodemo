@@ -165,7 +165,7 @@ const SeletorHorario: React.FC<SeletorHorarioProps> = ({
     <div className="space-y-6">
       {/* Sugestões Rápidas */}
       {sugestoes.length > 0 && !dataSelecionada && (
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200">
+        <div className="bg-gradient-to-r from-blue-50 to-slate-50 rounded-xl p-4 border border-blue-200">
           <h4 className="text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             ⚡ Sugestões Rápidas
@@ -215,8 +215,8 @@ const SeletorHorario: React.FC<SeletorHorarioProps> = ({
               onClick={() => handleDataChange(data)}
               className={`p-3 rounded-lg border text-left transition-all duration-200 ${
                 dataSelecionada === data
-                  ? 'bg-purple-600 text-white border-purple-600 shadow-lg'
-                  : 'bg-white border-gray-200 hover:border-purple-300 hover:bg-purple-50'
+                  ? 'bg-slate-600 text-white border-slate-600 shadow-lg'
+                  : 'bg-white border-gray-200 hover:border-purple-300 hover:bg-slate-50'
               }`}
             >
               <div className="text-sm font-medium">
@@ -247,7 +247,7 @@ const SeletorHorario: React.FC<SeletorHorarioProps> = ({
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader className="w-6 h-6 animate-spin text-purple-600" />
+              <Loader className="w-6 h-6 animate-spin text-slate-600" />
               <span className="ml-2 text-gray-600">Carregando horários...</span>
             </div>
           ) : (

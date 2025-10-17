@@ -247,7 +247,7 @@ export default function AdminLicensePanel() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 text-sm">Licenças Ativas</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.licensesAtivas}</p>
+              <p className="text-2xl font-bold text-slate-600">{stats.licensesAtivas}</p>
             </div>
             <Key className="w-8 h-8 text-purple-400" />
           </div>
@@ -267,7 +267,7 @@ export default function AdminLicensePanel() {
               onClick={() => setActiveTab(tab.key as any)}
               className={`flex-1 px-6 py-4 text-center transition-all ${
                 activeTab === tab.key
-                  ? 'border-b-2 border-purple-500 text-purple-600 bg-purple-50'
+                  ? 'border-b-2 border-slate-500 text-slate-600 bg-slate-50'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
               }`}
             >
@@ -291,13 +291,13 @@ export default function AdminLicensePanel() {
                   placeholder="Buscar por empresa, nome ou email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 />
               </div>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-slate-500"
               >
                 <option value="all">Todos os Status</option>
                 <option value="pendente">Pendentes</option>

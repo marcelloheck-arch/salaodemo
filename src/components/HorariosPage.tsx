@@ -396,7 +396,7 @@ export default function HorariosPage() {
             ) : (
               <button
                 onClick={() => setIsEditingHours(true)}
-                className="flex items-center space-x-1 text-purple-600 hover:text-purple-700"
+                className="flex items-center space-x-1 text-slate-600 hover:text-slate-700"
               >
                 <Edit className="w-4 h-4" />
                 <span className="text-sm">Editar</span>
@@ -416,7 +416,7 @@ export default function HorariosPage() {
                         type="checkbox"
                         checked={day.isOpen}
                         onChange={(e) => handleUpdateWorkingHours(day.id, 'isOpen', e.target.checked)}
-                        className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                        className="rounded border-gray-300 text-slate-600 focus:ring-slate-500"
                       />
                       <span className="ml-2 text-sm text-gray-600">Aberto</span>
                     </label>
@@ -439,7 +439,7 @@ export default function HorariosPage() {
                             type="time"
                             value={day.openTime}
                             onChange={(e) => handleUpdateWorkingHours(day.id, 'openTime', e.target.value)}
-                            className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                            className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-slate-500 focus:border-slate-500"
                           />
                         ) : (
                           <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded block text-center">
@@ -454,7 +454,7 @@ export default function HorariosPage() {
                             type="time"
                             value={day.closeTime}
                             onChange={(e) => handleUpdateWorkingHours(day.id, 'closeTime', e.target.value)}
-                            className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                            className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-slate-500 focus:border-slate-500"
                           />
                         ) : (
                           <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded block text-center">
@@ -473,7 +473,7 @@ export default function HorariosPage() {
                               type="time"
                               value={day.breakStart}
                               onChange={(e) => handleUpdateWorkingHours(day.id, 'breakStart', e.target.value)}
-                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-slate-500 focus:border-slate-500"
                             />
                           ) : (
                             <span className="text-sm font-mono bg-orange-100 px-2 py-1 rounded block text-center">
@@ -488,7 +488,7 @@ export default function HorariosPage() {
                               type="time"
                               value={day.breakEnd}
                               onChange={(e) => handleUpdateWorkingHours(day.id, 'breakEnd', e.target.value)}
-                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                              className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-slate-500 focus:border-slate-500"
                             />
                           ) : (
                             <span className="text-sm font-mono bg-orange-100 px-2 py-1 rounded block text-center">
@@ -508,7 +508,7 @@ export default function HorariosPage() {
                           max="10"
                           value={day.maxConcurrentAppointments}
                           onChange={(e) => handleUpdateWorkingHours(day.id, 'maxConcurrentAppointments', parseInt(e.target.value))}
-                          className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-purple-500 focus:border-purple-500"
+                          className="w-full text-xs border border-gray-300 rounded px-2 py-1 focus:ring-slate-500 focus:border-slate-500"
                         />
                       ) : (
                         <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded block text-center">
@@ -538,7 +538,7 @@ export default function HorariosPage() {
               <div className="flex items-center space-x-4">
                 <button
                   onClick={() => setIsAgendaModalOpen(true)}
-                  className="p-2 hover:bg-purple-100 rounded-lg transition-colors text-purple-600"
+                  className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-600"
                   title="Expandir agenda"
                 >
                   <Expand className="w-5 h-5" />
@@ -564,7 +564,7 @@ export default function HorariosPage() {
                 
                 <button
                   onClick={() => setCurrentWeek(new Date())}
-                  className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors"
+                  className="px-3 py-1 text-sm bg-slate-100 text-slate-700 rounded-lg hover:bg-purple-200 transition-colors"
                 >
                   Hoje
                 </button>
@@ -583,7 +583,7 @@ export default function HorariosPage() {
                     key={index}
                     className={`text-sm font-medium text-center py-2 rounded-lg cursor-pointer transition-colors ${
                       isSameDay(day, selectedDate)
-                        ? 'bg-purple-100 text-purple-700'
+                        ? 'bg-slate-100 text-slate-700'
                         : isToday(day)
                         ? 'bg-blue-100 text-blue-700'
                         : dayHours?.isOpen
@@ -726,7 +726,7 @@ export default function HorariosPage() {
                       ...calendarSettings,
                       googleCalendarIntegration: e.target.checked
                     })}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-gray-300 text-slate-600 focus:ring-slate-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">Integração com Google Calendar</span>
                 </label>
@@ -741,7 +741,7 @@ export default function HorariosPage() {
                       ...calendarSettings,
                       autoSyncEnabled: e.target.checked
                     })}
-                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                    className="rounded border-gray-300 text-slate-600 focus:ring-slate-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">Sincronização automática</span>
                 </label>
@@ -757,7 +757,7 @@ export default function HorariosPage() {
                     ...calendarSettings,
                     defaultTimeSlotDuration: parseInt(e.target.value)
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-slate-500 focus:border-slate-500"
                 >
                   <option value={15}>15 minutos</option>
                   <option value={30}>30 minutos</option>
@@ -778,7 +778,7 @@ export default function HorariosPage() {
                     ...calendarSettings,
                     bufferTimeBetweenAppointments: parseInt(e.target.value)
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-slate-500 focus:border-slate-500"
                 />
               </div>
 
@@ -795,7 +795,7 @@ export default function HorariosPage() {
                     ...calendarSettings,
                     advanceBookingDays: parseInt(e.target.value)
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-slate-500 focus:border-slate-500"
                 />
               </div>
             </div>
@@ -809,7 +809,7 @@ export default function HorariosPage() {
               </button>
               <button
                 onClick={() => setShowSettings(false)}
-                className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="flex-1 bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Salvar
               </button>

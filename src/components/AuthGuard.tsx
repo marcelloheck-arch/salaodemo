@@ -26,7 +26,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-pink-800 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-blue-800 flex items-center justify-center p-4">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8 w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">
@@ -60,7 +60,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg"
+              className="w-full bg-gradient-to-r from-slate-600 to-pink-600 text-white py-3 rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all duration-200 shadow-lg"
             >
               Entrar no Sistema
             </button>

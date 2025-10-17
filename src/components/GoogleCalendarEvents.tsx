@@ -31,7 +31,7 @@ export default function GoogleCalendarEvents({
       return 'bg-green-100 text-green-800 border-green-200';
     }
     if (lowerSummary.includes('cliente') || lowerSummary.includes('agendamento')) {
-      return 'bg-purple-100 text-purple-800 border-purple-200';
+      return 'bg-slate-100 text-purple-800 border-purple-200';
     }
     if (lowerSummary.includes('pausa') || lowerSummary.includes('almoço')) {
       return 'bg-orange-100 text-orange-800 border-orange-200';

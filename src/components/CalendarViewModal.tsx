@@ -130,7 +130,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
                 <div className="text-sm font-medium text-gray-700">
                   {format(day, 'EEE', { locale: ptBR })}
                 </div>
-                <div className={`text-lg font-bold ${isToday(day) ? 'text-purple-600' : 'text-gray-900'}`}>
+                <div className={`text-lg font-bold ${isToday(day) ? 'text-slate-600' : 'text-gray-900'}`}>
                   {format(day, 'd')}
                 </div>
               </div>
@@ -212,7 +212,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
                     !isCurrentMonth ? 'bg-gray-50 text-gray-400' : 'bg-white'
                   }`}
                 >
-                  <div className={`text-sm font-medium mb-2 ${isToday(day) ? 'text-purple-600' : ''}`}>
+                  <div className={`text-sm font-medium mb-2 ${isToday(day) ? 'text-slate-600' : ''}`}>
                     {format(day, 'd')}
                   </div>
                   
@@ -259,7 +259,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
         <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white rounded-t-xl">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <CalendarIcon className="w-6 h-6 text-purple-600" />
+              <CalendarIcon className="w-6 h-6 text-slate-600" />
               <h2 className="text-2xl font-bold text-gray-900">Agenda</h2>
             </div>
             
@@ -272,7 +272,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
                 }}
                 className={`px-4 py-2 text-sm font-medium rounded-l-lg transition-all ${
                   viewMode === 'week'
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-slate-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
                 style={{ position: 'relative', zIndex: 10 }}
@@ -286,7 +286,7 @@ export default function CalendarViewModal({ isOpen, onClose, appointments }: Cal
                 }}
                 className={`px-4 py-2 text-sm font-medium rounded-r-lg transition-all ${
                   viewMode === 'month'
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-slate-600 text-white'
                     : 'text-gray-700 hover:bg-gray-50'
                 }`}
                 style={{ position: 'relative', zIndex: 10 }}

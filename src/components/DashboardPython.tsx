@@ -138,7 +138,7 @@ export default function DashboardPython({ className = '' }: DashboardPythonProps
         </div>
         <button
           onClick={verificarTodosSistemas}
-          className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200"
+          className="px-4 py-2 bg-gradient-to-r from-slate-600 to-pink-600 text-white rounded-lg hover:from-slate-700 hover:to-pink-700 transition-all duration-200"
         >
           🔄 Atualizar Status
         </button>
@@ -262,7 +262,7 @@ export default function DashboardPython({ className = '' }: DashboardPythonProps
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-white/5 rounded-lg p-4">
             <h4 className="font-bold text-purple-300 mb-2">🧮 Cálculos Complexos</h4>
-            <p className="text-purple-100 text-sm">
+            <p className="text-slate-100 text-sm">
               NumPy e Pandas para operações matemáticas avançadas
             </p>
           </div>

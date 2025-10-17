@@ -254,7 +254,7 @@ export default function CaixaPage() {
           <div className="flex space-x-3">
             <button
               onClick={() => setShowNewProfessional(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
+              className="bg-gradient-to-r from-slate-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-slate-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg"
             >
               <Plus className="w-5 h-5" />
               <span>Novo Profissional</span>
@@ -288,7 +288,7 @@ export default function CaixaPage() {
               <select
                 value={filters.professionalId}
                 onChange={(e) => setFilters(prev => ({ ...prev, professionalId: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
               >
                 <option value="">Todos os profissionais</option>
                 {professionals.filter(p => p.isActive).map(professional => (
@@ -307,7 +307,7 @@ export default function CaixaPage() {
                 type="date"
                 value={filters.startDate}
                 onChange={(e) => setFilters(prev => ({ ...prev, startDate: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
               />
             </div>
 
@@ -319,14 +319,14 @@ export default function CaixaPage() {
                 type="date"
                 value={filters.endDate}
                 onChange={(e) => setFilters(prev => ({ ...prev, endDate: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
               />
             </div>
 
             <div className="flex items-end space-x-2">
               <button
                 onClick={handleApplyFilters}
-                className="flex-1 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2"
+                className="flex-1 bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors flex items-center justify-center space-x-2"
               >
                 <Search className="w-4 h-4" />
                 <span>Aplicar</span>
@@ -371,8 +371,8 @@ export default function CaixaPage() {
 
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <div className="flex items-center">
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-purple-600" />
+              <div className="p-3 bg-slate-100 rounded-lg">
+                <TrendingUp className="w-6 h-6 text-slate-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Ticket Médio</p>
@@ -489,7 +489,7 @@ export default function CaixaPage() {
                     <td className="py-3 px-4 text-sm font-medium text-green-600">
                       R$ {transaction.amount.toFixed(2)}
                     </td>
-                    <td className="py-3 px-4 text-sm font-medium text-purple-600">
+                    <td className="py-3 px-4 text-sm font-medium text-slate-600">
                       R$ {transaction.commissionAmount.toFixed(2)}
                     </td>
                     <td className="py-3 px-4 text-sm text-gray-900">
@@ -507,7 +507,7 @@ export default function CaixaPage() {
                             setSelectedTransaction(transaction);
                             setShowTransactionDetails(true);
                           }}
-                          className="text-purple-600 hover:text-purple-800 transition-colors"
+                          className="text-slate-600 hover:text-purple-800 transition-colors"
                           title="Ver detalhes"
                         >
                           <Eye className="w-4 h-4" />
@@ -551,7 +551,7 @@ export default function CaixaPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Nome</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="Nome completo"
                 />
               </div>
@@ -559,7 +559,7 @@ export default function CaixaPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
                 <input
                   type="tel"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="(11) 99999-9999"
                 />
               </div>
@@ -567,13 +567,13 @@ export default function CaixaPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                 <input
                   type="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="email@exemplo.com"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Função</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500">
                   <option value="">Selecione a função</option>
                   <option value="Cabeleireiro">Cabeleireiro</option>
                   <option value="Barbeiro">Barbeiro</option>
@@ -588,7 +588,7 @@ export default function CaixaPage() {
                   type="number"
                   min="0"
                   max="100"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                   placeholder="40"
                 />
               </div>
@@ -600,7 +600,7 @@ export default function CaixaPage() {
               >
                 Cancelar
               </button>
-              <button className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
+              <button className="flex-1 bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors">
                 Salvar
               </button>
             </div>
@@ -652,7 +652,7 @@ export default function CaixaPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <span className="text-sm font-medium text-gray-600">Comissão:</span>
-                  <p className="text-purple-600 font-bold">R$ {selectedTransaction.commissionAmount.toFixed(2)}</p>
+                  <p className="text-slate-600 font-bold">R$ {selectedTransaction.commissionAmount.toFixed(2)}</p>
                 </div>
                 <div>
                   <span className="text-sm font-medium text-gray-600">Forma de Pagamento:</span>
@@ -678,7 +678,7 @@ export default function CaixaPage() {
             <div className="mt-6">
               <button
                 onClick={() => setShowTransactionDetails(false)}
-                className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="w-full bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Fechar
               </button>
@@ -707,7 +707,7 @@ export default function CaixaPage() {
                     ...editingTransaction,
                     amount: parseFloat(e.target.value) || 0
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   step="0.01"
                   min="0"
                 />
@@ -724,7 +724,7 @@ export default function CaixaPage() {
                     ...editingTransaction,
                     commissionAmount: parseFloat(e.target.value) || 0
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   step="0.01"
                   min="0"
                 />
@@ -740,7 +740,7 @@ export default function CaixaPage() {
                     ...editingTransaction,
                     paymentMethod: e.target.value as any
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 >
                   <option value="dinheiro">Dinheiro</option>
                   <option value="cartao_credito">Cartão de Crédito</option>
@@ -760,7 +760,7 @@ export default function CaixaPage() {
                     ...editingTransaction,
                     status: e.target.value as any
                   })}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 >
                   <option value="concluido">Concluído</option>
                   <option value="pendente">Pendente</option>
@@ -778,7 +778,7 @@ export default function CaixaPage() {
               </button>
               <button
                 onClick={handleSaveTransaction}
-                className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                className="flex-1 bg-slate-600 text-white py-2 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 Salvar Alterações
               </button>
@@ -805,7 +805,7 @@ export default function CaixaPage() {
                   value={newService.name}
                   onChange={(e) => setNewService({...newService, name: e.target.value})}
                   placeholder="Ex: Corte Feminino"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 />
               </div>
 
@@ -816,7 +816,7 @@ export default function CaixaPage() {
                 <select
                   value={newService.category}
                   onChange={(e) => setNewService({...newService, category: e.target.value})}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                 >
                   <option value="">Selecione uma categoria</option>
                   <option value="cabelo">Cabelo</option>
@@ -836,7 +836,7 @@ export default function CaixaPage() {
                   value={newService.price}
                   onChange={(e) => setNewService({...newService, price: parseFloat(e.target.value) || 0})}
                   placeholder="0,00"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   step="0.01"
                   min="0"
                 />
@@ -851,7 +851,7 @@ export default function CaixaPage() {
                   value={newService.duration}
                   onChange={(e) => setNewService({...newService, duration: parseInt(e.target.value) || 60})}
                   placeholder="60"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   min="15"
                   step="15"
                 />
@@ -866,7 +866,7 @@ export default function CaixaPage() {
                   value={newService.commission}
                   onChange={(e) => setNewService({...newService, commission: parseFloat(e.target.value) || 0})}
                   placeholder="30"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
                   min="0"
                   max="100"
                 />

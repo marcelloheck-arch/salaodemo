@@ -147,8 +147,8 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
               <p className="text-sm font-medium text-gray-600">Taxa de Conversão</p>
               <p className="text-3xl font-bold text-gray-900">87%</p>
             </div>
-            <div className="p-3 bg-purple-100 rounded-lg">
-              <TrendingUp className="w-6 h-6 text-purple-600" />
+            <div className="p-3 bg-slate-100 rounded-lg">
+              <TrendingUp className="w-6 h-6 text-slate-600" />
             </div>
           </div>
         </div>

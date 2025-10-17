@@ -194,13 +194,13 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                   }}
                   className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md ${
                     servicoSelecionado?.id === servico.id
-                      ? 'border-purple-500 bg-purple-50'
+                      ? 'border-slate-500 bg-slate-50'
                       : 'border-gray-200 hover:border-purple-300'
                   }`}
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h4 className="font-medium text-gray-800">{servico.nome}</h4>
-                    <span className="text-purple-600 font-semibold">R$ {servico.preco}</span>
+                    <span className="text-slate-600 font-semibold">R$ {servico.preco}</span>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
@@ -231,12 +231,12 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                   }}
                   className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md ${
                     profissionalSelecionado?.id === profissional.id
-                      ? 'border-purple-500 bg-purple-50'
+                      ? 'border-slate-500 bg-slate-50'
                       : 'border-gray-200 hover:border-purple-300'
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="w-12 h-12 bg-gradient-to-br from-slate-400 to-blue-400 rounded-full flex items-center justify-center text-white font-semibold">
                       {profissional.nome.charAt(0)}
                     </div>
                     <div className="flex-1">
@@ -299,7 +299,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                   type="text"
                   value={dadosCliente.nome}
                   onChange={(e) => setDadosCliente({...dadosCliente, nome: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
                   placeholder="Digite o nome completo"
                 />
               </div>
@@ -311,7 +311,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                   type="tel"
                   value={dadosCliente.telefone}
                   onChange={(e) => setDadosCliente({...dadosCliente, telefone: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
                   placeholder="(11) 99999-9999"
                 />
               </div>
@@ -323,7 +323,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                   type="email"
                   value={dadosCliente.email}
                   onChange={(e) => setDadosCliente({...dadosCliente, email: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
                   placeholder="email@exemplo.com"
                 />
               </div>
@@ -334,7 +334,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                 <textarea
                   value={dadosCliente.observacoes}
                   onChange={(e) => setDadosCliente({...dadosCliente, observacoes: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-slate-500 focus:border-slate-500"
                   placeholder="Alguma observação especial..."
                   rows={3}
                 />
@@ -344,7 +344,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
               <button
                 onClick={proximaEtapa}
                 disabled={!dadosCliente.nome || !dadosCliente.telefone}
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 Continuar
               </button>
@@ -362,8 +362,8 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                 <div>
                   <h4 className="font-medium text-gray-800 mb-3">Serviço</h4>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-purple-600" />
+                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-slate-600" />
                     </div>
                     <div>
                       <p className="font-medium">{servicoSelecionado?.nome}</p>
@@ -377,7 +377,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
                 <div>
                   <h4 className="font-medium text-gray-800 mb-3">Profissional</h4>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="w-10 h-10 bg-gradient-to-br from-slate-400 to-blue-400 rounded-full flex items-center justify-center text-white font-semibold">
                       {profissionalSelecionado?.nome.charAt(0)}
                     </div>
                     <div>
@@ -435,7 +435,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
               <button
                 onClick={finalizarAgendamento}
                 disabled={loading}
-                className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-purple-400 flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-700 disabled:bg-purple-400 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -468,7 +468,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
               <div className="flex flex-col items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
                   etapaAtual >= etapa.numero
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-slate-600 text-white'
                     : 'bg-gray-200 text-gray-600'
                 }`}>
                   {etapa.numero}
@@ -480,7 +480,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
               </div>
               {index < etapas.length - 1 && (
                 <div className={`flex-1 h-0.5 mx-4 transition-colors ${
-                  etapaAtual > etapa.numero ? 'bg-purple-600' : 'bg-gray-200'
+                  etapaAtual > etapa.numero ? 'bg-slate-600' : 'bg-gray-200'
                 }`} />
               )}
             </React.Fragment>

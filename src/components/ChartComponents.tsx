@@ -71,7 +71,7 @@ export function KPICard({
     switch (color) {
       case 'green': return 'from-green-500 to-green-400 text-green-400';
       case 'red': return 'from-red-500 to-red-400 text-red-400';
-      case 'purple': return 'from-purple-500 to-purple-400 text-purple-400';
+      case 'purple': return 'from-slate-500 to-purple-400 text-purple-400';
       case 'orange': return 'from-orange-500 to-orange-400 text-orange-400';
       default: return 'from-blue-500 to-blue-400 text-blue-400';
     }
@@ -181,7 +181,7 @@ export function ProgressBar({
   const getColorClass = () => {
     switch (color) {
       case 'green': return 'from-green-500 to-green-400';
-      case 'purple': return 'from-purple-500 to-purple-400';
+      case 'purple': return 'from-slate-500 to-purple-400';
       case 'orange': return 'from-orange-500 to-orange-400';
       case 'red': return 'from-red-500 to-red-400';
       default: return 'from-blue-500 to-blue-400';

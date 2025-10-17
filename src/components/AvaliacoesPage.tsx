@@ -167,8 +167,8 @@ export default function AvaliacoesPage() {
           <div className="bg-white rounded-lg p-6 shadow-sm border">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Award className="w-4 h-4 text-purple-600" />
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Award className="w-4 h-4 text-blue-600" />
                 </div>
               </div>
               <div className="ml-4">
@@ -194,7 +194,7 @@ export default function AvaliacoesPage() {
               onClick={() => setActiveTab(tab.key as any)}
               className={`flex-1 px-6 py-4 text-center transition-all ${
                 activeTab === tab.key
-                  ? 'border-b-2 border-purple-500 text-purple-600 bg-purple-50'
+                  ? 'border-b-2 border-slate-500 text-blue-600 bg-blue-50'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
               }`}
             >
@@ -308,7 +308,7 @@ function VisaoGeralTab({ estatisticas, avaliacoes }: { estatisticas: Estatistica
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all"
+                      className="bg-gradient-to-r from-slate-600 to-blue-600 h-2 rounded-full transition-all"
                       style={{ width: `${percentual}%` }}
                     />
                   </div>
@@ -397,14 +397,14 @@ function TodasAvaliacoesTab({
               placeholder="Buscar por cliente, comentário ou serviço..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full bg-gray-50 border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`px-4 py-3 rounded-lg border transition-all ${
               showFilters 
-                ? 'bg-purple-100 border-purple-300 text-purple-700' 
+                ? 'bg-blue-100 border-blue-300 text-blue-700' 
                 : 'bg-gray-100 border-gray-300 text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -431,7 +431,7 @@ function TodasAvaliacoesTab({
                     }}
                     className={`px-3 py-2 rounded-lg text-sm transition-all ${
                       filtros.nota?.includes(nota)
-                        ? 'bg-purple-100 text-purple-700 border border-purple-300'
+                        ? 'bg-blue-100 text-blue-700 border border-blue-300'
                         : 'bg-gray-100 text-gray-600 hover:text-gray-900 border border-gray-300'
                     }`}
                   >
@@ -631,7 +631,7 @@ function ConfiguracoesTab() {
           />
         </div>
 
-        <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all">
+        <button className="w-full bg-gradient-to-r from-slate-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-slate-700 hover:to-blue-700 transition-all">
           Salvar Configurações
         </button>
       </div>
@@ -657,7 +657,7 @@ function AvaliacaoCard({ avaliacao, compact = false, showResponseForm = false }:
   return (
     <div className="bg-white rounded-lg shadow-sm border p-6">
       <div className="flex items-start space-x-4">
-        <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
+        <div className="w-12 h-12 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
           {avaliacao.clienteNome.charAt(0)}
         </div>
 

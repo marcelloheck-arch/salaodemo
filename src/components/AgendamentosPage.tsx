@@ -124,7 +124,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
             required
             value={formData.clientName}
             onChange={(e) => setFormData(prev => ({ ...prev, clientName: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
             placeholder="Digite o nome completo"
           />
         </div>
@@ -139,7 +139,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
             required
             value={formData.clientPhone}
             onChange={(e) => setFormData(prev => ({ ...prev, clientPhone: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
             placeholder="(11) 99999-9999"
           />
         </div>
@@ -153,7 +153,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
             required
             value={formData.service}
             onChange={(e) => setFormData(prev => ({ ...prev, service: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
           >
             <option value="">Selecione um serviço</option>
             {services.map((service) => (
@@ -173,7 +173,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
             required
             value={formData.professional}
             onChange={(e) => setFormData(prev => ({ ...prev, professional: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
           >
             <option value="">Selecione um profissional</option>
             {professionals.map((professional) => (
@@ -195,7 +195,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
             value={formData.date}
             min={format(new Date(), 'yyyy-MM-dd')}
             onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
           />
         </div>
 
@@ -208,7 +208,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
             required
             value={formData.time}
             onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
           >
             <option value="">Selecione um horário</option>
             {timeSlots.map((time) => (
@@ -229,16 +229,16 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
           value={formData.notes}
           onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500/50"
           placeholder="Observações especiais para o atendimento..."
         />
       </div>
 
       {/* Resumo do Agendamento */}
       {formData.service && (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h4 className="font-semibold text-purple-800 mb-2">📋 Resumo do Agendamento</h4>
-          <div className="text-sm text-purple-700 space-y-1">
+          <div className="text-sm text-blue-700 space-y-1">
             <div><strong>Cliente:</strong> {formData.clientName}</div>
             <div><strong>Serviço:</strong> {formData.service}</div>
             <div><strong>Profissional:</strong> {formData.professional}</div>
@@ -268,7 +268,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
         <button
           type="submit"
           disabled={!isFormValid}
-          className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          className="px-6 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         >
           🎯 Agendar
         </button>
@@ -354,7 +354,7 @@ export default function AgendamentosPage() {
         break;
       case 'completed':
         actions.push(
-          { label: '🔄 Reagendar', action: () => setSelectedAppointment(appointment), color: 'text-purple-600' }
+          { label: '🔄 Reagendar', action: () => setSelectedAppointment(appointment), color: 'text-blue-600' }
         );
         break;
       case 'cancelled':
@@ -415,7 +415,7 @@ export default function AgendamentosPage() {
                 console.log('Clicou em Visualizar Agenda');
                 setShowCalendarModal(true);
               }}
-              className="bg-white text-purple-600 border-2 border-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
+              className="bg-white text-blue-600 border-2 border-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
             >
               <Eye className="w-4 h-4" />
               <span>Visualizar Agenda</span>
@@ -424,7 +424,7 @@ export default function AgendamentosPage() {
             {/* Botão Novo Agendamento */}
             <button
               onClick={() => setShowNewAppointment(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
+              className="bg-gradient-to-r from-slate-600 to-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:from-slate-700 hover:to-blue-700 transition-all duration-200 flex items-center space-x-2 shadow-lg text-sm"
             >
               <Plus className="w-4 h-4" />
               <span>Novo Agendamento</span>
@@ -442,7 +442,7 @@ export default function AgendamentosPage() {
               placeholder="Buscar por cliente, telefone ou serviço..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent"
             />
           </div>
 
@@ -451,7 +451,7 @@ export default function AgendamentosPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
             >
               <option value="all">Todos os Status</option>
               <option value="confirmed">Confirmados</option>
@@ -469,7 +469,7 @@ export default function AgendamentosPage() {
                   onClick={() => setViewMode(mode as any)}
                   className={`px-4 py-2 text-sm font-medium capitalize ${
                     viewMode === mode
-                      ? 'bg-purple-600 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   } ${mode === 'day' ? 'rounded-l-lg' : mode === 'month' ? 'rounded-r-lg' : ''}`}
                 >
@@ -498,7 +498,7 @@ export default function AgendamentosPage() {
             {!isToday(selectedDate) && (
               <button
                 onClick={goToToday}
-                className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
               >
                 Ir para hoje
               </button>
@@ -529,7 +529,7 @@ export default function AgendamentosPage() {
             </p>
             <button
               onClick={() => setShowNewAppointment(true)}
-              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Criar Primeiro Agendamento
             </button>
@@ -636,10 +636,10 @@ export default function AgendamentosPage() {
 
       {/* Summary Footer */}
       {filteredAppointments.length > 0 && (
-        <div className="mt-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6">
+        <div className="mt-8 bg-gradient-to-r from-slate-50 to-blue-50 rounded-lg p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-blue-600">
                 {filteredAppointments.length}
               </div>
               <div className="text-sm text-gray-600">Agendamentos</div>
