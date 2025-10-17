@@ -164,11 +164,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       id: "migracao-supabase"
     },
     { 
-      icon: UserPlus, 
-      label: "Admin - Licenças", 
-      id: "admin-licencas"
-    },
-    { 
       icon: Shield, 
       label: "Cadastro Público", 
       id: "cadastro-publico"
@@ -573,8 +568,6 @@ export default function MainApp() {
         return <NotificationManager />;
       case 'migracao-supabase':
         return <MigrationManager />;
-      case 'admin-licencas':
-        return <LicenseManagementApp onLogin={() => setCurrentPage('dashboard')} showAdminPanel={true} />;
       case 'cadastro-publico':
         return <LicenseManagementApp onLogin={() => setCurrentPage('dashboard')} />;
       default:
