@@ -191,7 +191,7 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
                   <Calendar className="w-3.5 h-3.5 text-white" />
                 </div>
                 <h1 className={cn("font-bold text-gray-800", isMobile ? "text-base" : "text-lg")}>
-                  Agenda Salão
+                  Gerenciamento Master
                 </h1>
               </div>
               {isMobile && (
@@ -594,7 +594,7 @@ export default function MainApp() {
                 <div className="w-7 h-7 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
                   <Calendar className="w-3.5 h-3.5 text-white" />
                 </div>
-                <h1 className="text-base font-bold text-gray-800">Agenda Salão</h1>
+                <h1 className="text-base font-bold text-gray-800">Gerenciamento Master</h1>
               </div>
             </div>
             

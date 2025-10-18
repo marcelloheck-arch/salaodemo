@@ -352,7 +352,7 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
               <div className="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
                 <Key className="w-4 h-4 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-gray-900">Super Admin - Agenda Salão</h1>
+              <h1 className="text-xl font-bold text-gray-900">Super Admin - Gerenciamento Master</h1>
             </div>
             
             {/* Botão de Sair */}

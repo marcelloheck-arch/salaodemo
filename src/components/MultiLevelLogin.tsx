@@ -313,7 +313,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
           <div className="mx-auto h-12 w-12 bg-gradient-to-r from-slate-600 to-blue-600 rounded-full flex items-center justify-center mb-4">
             <Sparkles className="h-6 w-6 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Agenda Salão</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Gerenciamento Master</h2>
           <p className="mt-2 text-sm text-gray-600">Sistema de Gerenciamento de Salão de Beleza</p>
         </div>
 

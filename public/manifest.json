@@ -1,6 +1,6 @@
 {
-  "name": "Agenda Salão - Sistema de Agendamentos",
-  "short_name": "Agenda Salão",
+  "name": "Gerenciamento Master - Sistema de Agendamentos",
+  "short_name": "Gerenciamento Master",
   "description": "Sistema completo de agendamentos para salões de beleza com notificações automáticas",
   "start_url": "/",
   "display": "standalone",
