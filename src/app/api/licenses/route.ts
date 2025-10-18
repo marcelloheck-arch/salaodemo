@@ -5,14 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     // Mock data para não usar Prisma no build
     const mockLicenses = [
-      {
-        id: '1',
-        licenseKey: 'DEMO-LICENSE-123',
-        planType: 'Professional',
-        status: 'active',
-        clientName: 'Salão Demo',
-        expiresAt: new Date('2025-12-31')
-      }
+      // Lista vazia - sem dados pré-preenchidos
     ];
 
     const { searchParams } = new URL(request.url);
@@ -20,8 +13,8 @@ export async function GET(request: NextRequest) {
 
     if (action === 'stats') {
       return NextResponse.json({ 
-        totalLicenses: 1, 
-        activeLicenses: 1, 
+        totalLicenses: 0, 
+        activeLicenses: 0, 
         expiredLicenses: 0 
       });
     } else {

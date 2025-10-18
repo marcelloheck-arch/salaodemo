@@ -278,20 +278,7 @@ function NewAppointmentForm({ onSave, onCancel }: NewAppointmentFormProps) {
 }
 
 const mockAppointments: Appointment[] = [
-  {
-    id: "1",
-    clientName: "Cliente Exemplo",
-    clientPhone: "(11) 99999-0000",
-    service: "Serviço Exemplo",
-    professional: "Profissional",
-    date: "2025-10-15",
-    time: "10:00",
-    duration: 60,
-    price: 50.00,
-    status: "confirmed",
-    notes: "",
-    createdAt: "2025-10-15T08:00:00"
-  }
+  // Lista vazia - sem dados pré-preenchidos
 ];
 
 const statusColors = {

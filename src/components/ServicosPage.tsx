@@ -48,21 +48,7 @@ interface NewService {
 }
 
 const mockServices: Service[] = [
-  {
-    id: "1",
-    name: "Serviço Exemplo",
-    description: "Descrição do serviço",
-    category: "Cabelo",
-    duration: 60,
-    price: 50.00,
-    commission: 40,
-    isActive: true,
-    popularity: 80,
-    totalBookings: 10,
-    revenue: 500.00,
-    professionals: ["1"],
-    createdAt: "2025-01-01T10:00:00"
-  }
+  // Lista vazia - sem dados pré-preenchidos
 ];
 
 const categories = ["Todos", "Cabelo", "Unhas", "Masculino", "Estética"];

@@ -47,43 +47,7 @@ interface ExtendedClient extends Client {
 
 // Mock data - em produção viria do banco de dados
 const mockClients: ExtendedClient[] = [
-  {
-    id: '1',
-    name: 'Salão Beleza Total',
-    email: 'contato@belezatotal.com',
-    phone: '(11) 99999-9999',
-    company: 'Beleza Total Ltda',
-    cnpj: '12.345.678/0001-90',
-    address: {
-      street: 'Rua das Flores',
-      number: '123',
-      city: 'São Paulo',
-      state: 'SP',
-      zip: '01234-567'
-    },
-    licenses: [],
-    createdAt: new Date('2024-01-15'),
-    status: 'active',
-    totalRevenue: 149.70
-  },
-  {
-    id: '2',
-    name: 'Estúdio Hair & Beauty',
-    email: 'admin@studiobeauty.com',
-    phone: '(11) 88888-8888',
-    company: 'Studio Beauty ME',
-    address: {
-      street: 'Av. Paulista',
-      number: '456',
-      city: 'São Paulo',
-      state: 'SP',
-      zip: '01310-100'
-    },
-    licenses: [],
-    createdAt: new Date('2024-02-20'),
-    status: 'active',
-    totalRevenue: 299.40
-  }
+  // Lista vazia - sem dados pré-preenchidos
 ];
 
 interface SuperAdminDashboardProps {

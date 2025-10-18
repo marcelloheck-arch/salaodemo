@@ -26,41 +26,15 @@ import { Professional, FinancialTransaction, Commission, Service, FinancialSumma
 
 // Mock data
 const mockProfessionals: Professional[] = [
-  {
-    id: "1",
-    name: "Profissional Exemplo",
-    phone: "(11) 99999-0000",
-    email: "profissional@exemplo.com",
-    role: "Profissional",
-    commissionRate: 40,
-    isActive: true,
-    hireDate: "2025-01-01",
-    specialties: ["Serviço Exemplo"],
-    createdAt: "2025-01-01T10:00:00"
-  }
+  // Lista vazia - sem dados pré-preenchidos
 ];
 
 const mockServices: Service[] = [
-  { id: "1", name: "Serviço Exemplo", category: "Exemplo", price: 50, duration: 60, commission: 40, isActive: true }
+  // Lista vazia - sem dados pré-preenchidos
 ];
 
 const mockTransactions: FinancialTransaction[] = [
-  {
-    id: "1",
-    type: "service",
-    amount: 50,
-    date: "2025-10-15",
-    clientId: "1",
-    clientName: "Cliente Exemplo",
-    professionalId: "1",
-    professionalName: "Profissional Exemplo",
-    serviceId: "1",
-    serviceName: "Serviço Exemplo",
-    commissionAmount: 20,
-    paymentMethod: "card",
-    status: "paid",
-    createdAt: "2025-10-15T10:00:00"
-  }
+  // Lista vazia - sem dados pré-preenchidos
 ];
 
 const paymentMethodLabels = {

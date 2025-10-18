@@ -5,13 +5,7 @@ export async function GET() {
   try {
     // Mock data para não usar Prisma no build
     const mockClients = [
-      {
-        id: '1',
-        name: 'Salão Demo',
-        email: 'demo@salao.com',
-        phone: '(11) 99999-9999',
-        createdAt: new Date()
-      }
+      // Lista vazia - sem dados pré-preenchidos
     ];
     
     return NextResponse.json(mockClients);
