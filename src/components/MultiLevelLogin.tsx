@@ -488,7 +488,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
                 className="mt-4 w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 transition-all flex items-center justify-center space-x-2"
               >
                 <Users className="w-5 h-5" />
-                <span>Cadastrar Novo Salão</span>
+                <span>Novo Cadastro</span>
               </button>
               
               <p className="text-white/60 text-xs mt-2">
