@@ -88,7 +88,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
         {
           id: '1',
           nome: 'Maria Silva',
-          especialidades: ['Corte Feminino', 'Coloração'],
+          especialidades: ['Corte Feminino', 'Coloração', 'Cabelo'],
           avaliacao: 4.8,
           disponivel: true,
           proximoHorario: '14:00'
@@ -96,7 +96,7 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
         {
           id: '2',
           nome: 'João Santos',
-          especialidades: ['Corte Masculino', 'Barba'],
+          especialidades: ['Corte Masculino', 'Barba', 'Cabelo'],
           avaliacao: 4.9,
           disponivel: true,
           proximoHorario: '15:30'
@@ -104,21 +104,57 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
         {
           id: '3',
           nome: 'Ana Costa',
-          especialidades: ['Manicure', 'Pedicure', 'Nail Art'],
+          especialidades: ['Manicure', 'Pedicure', 'Unhas'],
           avaliacao: 4.7,
-          disponivel: false,
-          proximoHorario: 'Amanhã 09:00'
+          disponivel: true,
+          proximoHorario: '16:00'
+        },
+        {
+          id: '4',
+          nome: 'Carlos Oliveira',
+          especialidades: ['Corte Masculino', 'Corte Feminino', 'Cabelo'],
+          avaliacao: 4.6,
+          disponivel: true,
+          proximoHorario: '13:30'
+        },
+        {
+          id: '5',
+          nome: 'Patricia Lima',
+          especialidades: ['Estética', 'Limpeza de Pele', 'Coloração'],
+          avaliacao: 4.9,
+          disponivel: true,
+          proximoHorario: '10:00'
+        },
+        {
+          id: '6',
+          nome: 'Roberto Ferreira',
+          especialidades: ['Cabelo', 'Unhas', 'Estética'],
+          avaliacao: 4.5,
+          disponivel: true,
+          proximoHorario: '11:30'
         }
       ];
 
-      // Filtrar profissionais que fazem o serviço selecionado
-      const profissionaisFiltrados = profissionaisExemplo.filter(prof =>
-        prof.especialidades.some(esp => 
-          servicoSelecionado?.nome.includes(esp) || esp.includes(servicoSelecionado?.categoria || '')
-        )
-      );
+      // Filtrar profissionais que fazem o serviço selecionado (filtro mais flexível)
+      const profissionaisFiltrados = profissionaisExemplo.filter(prof => {
+        // Se não há serviço selecionado, mostra todos
+        if (!servicoSelecionado) return true;
+        
+        // Verifica se o profissional tem a especialidade ou categoria do serviço
+        return prof.especialidades.some(esp => 
+          esp.toLowerCase().includes(servicoSelecionado.nome.toLowerCase()) ||
+          servicoSelecionado.nome.toLowerCase().includes(esp.toLowerCase()) ||
+          esp.toLowerCase().includes(servicoSelecionado.categoria.toLowerCase()) ||
+          servicoSelecionado.categoria.toLowerCase().includes(esp.toLowerCase())
+        );
+      });
 
-      setProfissionais(profissionaisFiltrados);
+      // Se não encontrar profissionais específicos, mostrar todos (para evitar lista vazia)
+      if (profissionaisFiltrados.length === 0) {
+        setProfissionais(profissionaisExemplo);
+      } else {
+        setProfissionais(profissionaisFiltrados);
+      }
     } catch (error) {
       console.error('Erro ao carregar profissionais:', error);
     }

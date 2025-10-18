@@ -36,7 +36,13 @@ interface FiltrosAgendamento {
   busca: string;
 }
 
-const DashboardAgendamentos: React.FC = () => {
+interface DashboardAgendamentosProps {
+  onNavigateToNovoAgendamento?: () => void;
+}
+
+const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({ 
+  onNavigateToNovoAgendamento 
+}) => {
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [filtros, setFiltros] = useState<FiltrosAgendamento>({
     data: '',
@@ -211,7 +217,10 @@ const DashboardAgendamentos: React.FC = () => {
           <p className="text-gray-600">Gerencie todos os agendamentos em tempo real</p>
         </div>
         
-        <button className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 flex items-center gap-2">
+        <button 
+          onClick={() => onNavigateToNovoAgendamento?.()}
+          className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 flex items-center gap-2 transition-colors"
+        >
           <Plus className="w-4 h-4" />
           Novo Agendamento
         </button>

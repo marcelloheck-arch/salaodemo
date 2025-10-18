@@ -15,7 +15,6 @@ import {
   Bell,
   Clock,
   Scissors,
-  Star,
   FileText,
   CreditCard,
   Package,
@@ -37,7 +36,6 @@ import CaixaPage from './CaixaPage';
 import ConfiguracoesPage from './ConfiguracoesPage';
 import HorariosPage from './HorariosPage';
 import ProdutosPage from './ProdutosPage';
-import AvaliacoesPage from './AvaliacoesPage';
 import RelatoriosPage from './RelatoriosPage';
 import RelatoriosWidget from './RelatoriosWidget';
 import SystemIntegrationPage from './SystemIntegrationPage';
@@ -117,11 +115,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       icon: Settings, 
       label: "Config. Funcionamento", 
       id: "config-funcionamento"
-    },
-    { 
-      icon: Star, 
-      label: "Avaliações", 
-      id: "avaliacoes"
     },
     { 
       icon: FileText, 
@@ -540,7 +533,7 @@ export default function MainApp() {
           setCurrentPage('dashboard-agendamentos');
         }} />;
       case 'dashboard-agendamentos':
-        return <DashboardAgendamentos />;
+        return <DashboardAgendamentos onNavigateToNovoAgendamento={() => setCurrentPage('agendamento-rapido')} />;
       case 'clientes':
         return <ClientesPage />;
       case 'servicos':
@@ -553,8 +546,6 @@ export default function MainApp() {
         return <ConfiguracaoFuncionamento salaoId="salao-demo" />;
       case 'produtos':
         return <ProdutosPage />;
-      case 'avaliacoes':
-        return <AvaliacoesPage />;
       case 'relatorios':
         return <RelatoriosPage />;
       case 'whatsapp':
