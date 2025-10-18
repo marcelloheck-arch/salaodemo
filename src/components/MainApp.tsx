@@ -159,11 +159,6 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       id: "configuracoes"
     },
     { 
-      icon: Smartphone, 
-      label: "Migração Supabase", 
-      id: "migracao-supabase"
-    },
-    { 
       icon: Shield, 
       label: "Cadastro Público", 
       id: "cadastro-publico"
@@ -566,8 +561,6 @@ export default function MainApp() {
         return <WhatsAppIntegration />;
       case 'notificacoes':
         return <NotificationManager />;
-      case 'migracao-supabase':
-        return <MigrationManager />;
       case 'cadastro-publico':
         return <LicenseManagementApp onLogin={() => setCurrentPage('dashboard')} />;
       default:

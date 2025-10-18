@@ -21,11 +21,13 @@ import {
   Phone,
   Mail,
   Building,
-  LogOut
+  LogOut,
+  Database
 } from 'lucide-react';
 import { LicenseWithFeatures as License, SimpleClient as Client } from '@/lib/licenseDatabase';
 import { LicenseGenerator, PLAN_CONFIGS, PlanConfig } from '@/lib/licenseGenerator';
 import LicenseManagementPage from './LicenseManagementPage';
+import MigrationManager from './MigrationManager';
 
 // Tipos expandidos para o dashboard
 interface ExtendedClient extends Client {
@@ -374,6 +376,7 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
               { id: 'clients', label: 'Clientes', icon: Users },
               { id: 'licenses', label: 'Licenças', icon: Key },
               { id: 'plans', label: 'Planos', icon: DollarSign },
+              { id: 'migration', label: 'Migração', icon: Database },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -398,6 +401,7 @@ export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardPro
         {currentTab === 'clients' && <ClientsTab />}
         {currentTab === 'licenses' && <LicenseManagementPage />}
         {currentTab === 'plans' && <PlansTab />}
+        {currentTab === 'migration' && <MigrationManager />}
       </main>
     </div>
   );
