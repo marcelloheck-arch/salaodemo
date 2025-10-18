@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET() {
   try {
     // Mock data para não usar Prisma no build
-    const mockClients = [
+    const mockClients: any[] = [
       // Lista vazia - sem dados pré-preenchidos
     ];
     

@@ -55,7 +55,7 @@ interface SuperAdminDashboardProps {
 }
 
 export default function SuperAdminDashboard({ onLogout }: SuperAdminDashboardProps) {
-  const [currentTab, setCurrentTab] = useState<'overview' | 'clients' | 'licenses' | 'plans'>('overview');
+  const [currentTab, setCurrentTab] = useState<'overview' | 'clients' | 'licenses' | 'plans' | 'migration'>('overview');
   const [clients, setClients] = useState<Client[]>(mockClients);
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateLicense, setShowCreateLicense] = useState(false);
