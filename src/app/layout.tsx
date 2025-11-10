@@ -6,14 +6,14 @@ import { GlobalDataProvider } from "@/contexts/GlobalDataContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Agenda Salão - Sistema de Gerenciamento",
-  description: "Sistema completo para gerenciamento de salão de beleza",
+  title: "Agenda - Sistema de Gerenciamento",
+  description: "Sistema completo para gerenciamento",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   themeColor: "#8B5CF6",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Agenda Salão",
+    title: "Agenda",
   },
   manifest: "/manifest.json",
 };

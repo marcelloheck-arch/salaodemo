@@ -32,7 +32,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
   const clearLocalStorage = () => {
     localStorage.clear();
     setError('');
-    alert('✅ Dados limpos! Tente fazer login novamente.');
+    alert(' Dados limpos! Tente fazer login novamente.');
   };
 
   const handlePasswordSet = (success: boolean) => {
@@ -175,15 +175,15 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
                   setPendingUserData(userData);
                   setShowPasswordSetup(true);
                 } else {
-                  setError('❌ Chave de licença incorreta. Verifique a chave enviada por email.');
+                  setError(' Chave de licença incorreta. Verifique a chave enviada por email.');
                 }
               } else {
-                setError('❌ Para primeiro acesso, informe a chave de licença enviada por email.');
+                setError(' Para primeiro acesso, informe a chave de licença enviada por email.');
                 setRequiresLicense(true);
               }
             }
           } else {
-            setError('❌ Licença não encontrada ou inativa. Entre em contato com o suporte.');
+            setError(' Licença não encontrada ou inativa. Entre em contato com o suporte.');
           }
         } else if (email.toLowerCase().trim() === 'admin@salao.com' && password === 'admin123') {
           if (requiresLicense) {
@@ -226,16 +226,16 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
                 
                 onLogin(userData);
               } else {
-                setError(`❌ Chave de licença inválida. Use: TEST-1234-ABCD-5678 ou uma chave válida gerada pelo sistema`);
+                setError(` Chave de licença inválida. Use: TEST-1234-ABCD-5678 ou uma chave válida gerada pelo sistema`);
               }
             }
           } else {
             // Login demo sem licença
             const userData = {
               type: 'salon' as const,
-              name: 'Admin do Salão',
+              name: 'Admin do Estabelecimento',
               email: email.toLowerCase().trim(),
-              salonName: 'Salão Demo',
+              salonName: 'Estabelecimento Demo',
             };
             
             localStorage.setItem('userData', JSON.stringify(userData));
@@ -260,7 +260,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
             license.status === 'ativa'
           );
           
-          console.log('🎯 RESULTADO DA BUSCA:', {
+          console.log('RESULTADO DA BUSCA:', {
             licencaEncontrada: !!validLicense,
             detalhesLicenca: validLicense ? {
               chave: validLicense.chaveAtivacao,
@@ -279,7 +279,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
                 type: 'salon' as const,
                 name: `${validLicense.clientData?.name || 'Cliente'} - ${validLicense.clientData?.company || 'Empresa'}`,
                 email: email.toLowerCase().trim(),
-                salonName: validLicense.clientData?.company || 'Salão Cliente',
+                salonName: validLicense.clientData?.company || 'Estabelecimento Cliente',
                 licenseKey: licenseKey.toUpperCase().trim(),
               };
               
@@ -289,13 +289,13 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
               
               onLogin(userData);
             } else {
-              setError(`❌ Email não corresponde ao registrado na licença: ${validLicense.clientData.email}`);
+              setError(` Email não corresponde ao registrado na licença: ${validLicense.clientData.email}`);
             }
           } else {
-            setError('❌ Chave de licença inválida ou inativa');
+            setError(' Chave de licença inválida ou inativa');
           }
         } else {
-          setError('❌ Email não encontrado ou não aprovado.');
+          setError(' Email não encontrado ou não aprovado.');
         }
       }
     } catch (error) {
@@ -314,7 +314,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
             <Sparkles className="h-6 w-6 text-white" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Gerenciamento Master</h2>
-          <p className="mt-2 text-sm text-gray-600">Sistema de Gerenciamento de Salão de Beleza</p>
+          <p className="mt-2 text-sm text-gray-600">Sistema de Gerenciamento de Estabelecimento</p>
         </div>
 
         {/* Seletor de Tipo de Login */}
@@ -336,7 +336,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
               }`}
             >
               <Users className="h-4 w-4 mr-2" />
-              Salão
+              Estabelecimento
             </button>
             <button
               type="button"
@@ -492,7 +492,7 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
               </button>
               
               <p className="text-white/60 text-xs mt-2">
-                Crie sua conta e escolha o plano ideal para seu salão
+                Crie sua conta e escolha o plano ideal para seu estabelecimento
               </p>
             </div>
           )}

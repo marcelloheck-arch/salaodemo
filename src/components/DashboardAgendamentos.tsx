@@ -65,47 +65,8 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
     try {
       // Simulação de dados - substituir por API real
       const agendamentosExemplo: Agendamento[] = [
-        {
-          id: '1',
-          data: '2024-01-15',
-          hora: '09:00',
-          cliente: { nome: 'Maria Silva', telefone: '11999999999', email: 'maria@email.com' },
-          servico: { nome: 'Corte Feminino', duracao: 45, preco: 35 },
-          profissional: { nome: 'Ana Costa', id: 'prof1' },
-          status: 'agendado',
-          observacoes: 'Cliente nova, primeira vez no salão',
-          criadoEm: '2024-01-10T10:00:00Z'
-        },
-        {
-          id: '2',
-          data: '2024-01-15',
-          hora: '10:30',
-          cliente: { nome: 'João Santos', telefone: '11888888888' },
-          servico: { nome: 'Corte Masculino', duracao: 30, preco: 25 },
-          profissional: { nome: 'Carlos Mendes', id: 'prof2' },
-          status: 'confirmado',
-          criadoEm: '2024-01-12T14:30:00Z'
-        },
-        {
-          id: '3',
-          data: '2024-01-15',
-          hora: '14:00',
-          cliente: { nome: 'Laura Oliveira', telefone: '11777777777' },
-          servico: { nome: 'Coloração', duracao: 120, preco: 80 },
-          profissional: { nome: 'Ana Costa', id: 'prof1' },
-          status: 'em-andamento',
-          criadoEm: '2024-01-13T09:15:00Z'
-        },
-        {
-          id: '4',
-          data: '2024-01-14',
-          hora: '16:00',
-          cliente: { nome: 'Pedro Lima', telefone: '11666666666' },
-          servico: { nome: 'Barba', duracao: 20, preco: 15 },
-          profissional: { nome: 'Carlos Mendes', id: 'prof2' },
-          status: 'concluido',
-          criadoEm: '2024-01-14T12:00:00Z'
-        }
+        // Lista vazia - sem dados pré-preenchidos
+        // Adicione seus agendamentos reais aqui quando conectar ao banco de dados
       ];
       
       setAgendamentos(agendamentosExemplo);

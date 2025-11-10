@@ -1,5 +1,22 @@
 "use client";
 
+/*
+ * SIMPLIFICAÇÃO DE AGENDAMENTOS - Opção 1 Implementada
+ * =====================================================
+ * 
+ * ALTERAÇÃO: Removido menu "Agendamentos" duplicado
+ * - "Dashboard Agendamentos" renomeado para "Agendamentos" (tela principal)
+ * - "Agendamento Rápido" mantido (criação rápida)
+ * - AgendamentosPage antiga COMENTADA (não removida)
+ * 
+ * PARA RESTAURAR A PÁGINA ANTIGA:
+ * 1. Descomentar: import AgendamentosPage from './AgendamentosPage';
+ * 2. Descomentar o menu item com id: "agendamentos-old"
+ * 3. Descomentar: case 'agendamentos-old': return <AgendamentosPage />;
+ * 
+ * Data: 10/11/2025
+ */
+
 import React, { useState, useEffect } from 'react';
 import { 
   Calendar, 
@@ -29,7 +46,8 @@ import { cn } from '@/lib/utils';
 import IntegrationsPage from './IntegrationsPage';
 import ProfilePage from './ProfilePage';
 import AnalyticsPage from './pages/AnalyticsPage';
-import AgendamentosPage from './AgendamentosPage';
+// COMENTADO - AgendamentosPage antiga (para restaurar se necessário, descomentar esta linha)
+// import AgendamentosPage from './AgendamentosPage';
 import ClientesPage from './ClientesPage';
 import ServicosPage from './ServicosPage';
 import CaixaPage from './CaixaPage';
@@ -74,17 +92,18 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
     { 
       icon: Calendar, 
       label: "Agendamentos", 
-      id: "agendamentos"
+      id: "dashboard-agendamentos" // Renomeado: era "Dashboard Agendamentos", agora é a tela principal
     },
+    // COMENTADO - AgendamentosPage antiga (para restaurar se necessário)
+    // { 
+    //   icon: Calendar, 
+    //   label: "Agendamentos (Antigo)", 
+    //   id: "agendamentos-old"
+    // },
     { 
       icon: Zap, 
       label: "Agendamento Rápido", 
       id: "agendamento-rapido"
-    },
-    { 
-      icon: Calendar, 
-      label: "Dashboard Agendamentos", 
-      id: "dashboard-agendamentos"
     },
     { 
       icon: Users, 
@@ -525,8 +544,11 @@ export default function MainApp() {
         return <SystemIntegrationPage />;
       case 'perfil':
         return <ProfilePage />;
-      case 'agendamentos':
-        return <AgendamentosPage />;
+      
+      // COMENTADO - AgendamentosPage antiga (para restaurar se necessário)
+      // case 'agendamentos-old':
+      //   return <AgendamentosPage />;
+      
       case 'agendamento-rapido':
         return <AgendamentoMulti salaoId="salao-demo" onAgendamentoCriado={(agendamento) => {
           console.log('Agendamento criado:', agendamento);
