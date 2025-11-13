@@ -63,11 +63,14 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
   const carregarAgendamentos = async () => {
     setLoading(true);
     try {
-      // Simulação de dados - substituir por API real
-      const agendamentosExemplo: Agendamento[] = [
-        // Lista vazia - sem dados pré-preenchidos
-        // Adicione seus agendamentos reais aqui quando conectar ao banco de dados
-      ];
+      // Carregar do localStorage (persistência local)
+      const agendamentosSalvos = localStorage.getItem('agendamentos');
+      const agendamentosExemplo: Agendamento[] = agendamentosSalvos 
+        ? JSON.parse(agendamentosSalvos)
+        : [
+          // Lista vazia - sem dados pré-preenchidos
+          // Adicione seus agendamentos reais aqui quando conectar ao banco de dados
+        ];
       
       setAgendamentos(agendamentosExemplo);
     } catch (error) {
@@ -138,15 +141,17 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
 
   const atualizarStatus = async (agendamentoId: string, novoStatus: string) => {
     try {
-      setAgendamentos(prev => 
-        prev.map(agendamento => 
-          agendamento.id === agendamentoId 
-            ? { ...agendamento, status: novoStatus as any, atualizadoEm: new Date().toISOString() }
-            : agendamento
-        )
+      const agendamentosAtualizados = agendamentos.map(agendamento => 
+        agendamento.id === agendamentoId 
+          ? { ...agendamento, status: novoStatus as any, atualizadoEm: new Date().toISOString() }
+          : agendamento
       );
       
-      // Em produção, fazer chamada para API
+      setAgendamentos(agendamentosAtualizados);
+      
+      // Salvar no localStorage
+      localStorage.setItem('agendamentos', JSON.stringify(agendamentosAtualizados));
+      
       console.log(`Status do agendamento ${agendamentoId} alterado para ${novoStatus}`);
     } catch (error) {
       console.error('Erro ao atualizar status:', error);
@@ -157,7 +162,13 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
     if (!confirm('Tem certeza que deseja excluir este agendamento?')) return;
     
     try {
-      setAgendamentos(prev => prev.filter(a => a.id !== agendamentoId));
+      // Atualizar estado
+      const novosAgendamentos = agendamentos.filter(a => a.id !== agendamentoId);
+      setAgendamentos(novosAgendamentos);
+      
+      // Salvar no localStorage
+      localStorage.setItem('agendamentos', JSON.stringify(novosAgendamentos));
+      
       console.log(`Agendamento ${agendamentoId} excluído`);
     } catch (error) {
       console.error('Erro ao excluir agendamento:', error);

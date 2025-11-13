@@ -193,6 +193,11 @@ const AgendamentoMulti: React.FC<AgendamentoMultiProps> = ({
         criadoEm: new Date().toISOString()
       };
 
+      // Salvar no localStorage para persistência
+      const agendamentosExistentes = JSON.parse(localStorage.getItem('agendamentos') || '[]');
+      agendamentosExistentes.push(novoAgendamento);
+      localStorage.setItem('agendamentos', JSON.stringify(agendamentosExistentes));
+
       // Validar agendamento final
       const validacao = HorarioService.validarAgendamento(
         salaoId,

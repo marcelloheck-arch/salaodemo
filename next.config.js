@@ -14,10 +14,22 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    serverComponentsExternalPackages: [],
+    serverComponentsExternalPackages: ['whatsapp-web.js', 'puppeteer'],
   },
   outputFileTracing: false,
   webpack: (config, { isServer }) => {
+    // Excluir whatsapp-web.js do bundle do cliente
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        'whatsapp-web.js': false,
+        'puppeteer': false,
+        'fs': false,
+        'net': false,
+        'tls': false,
+      };
+    }
+    
     // Mock Prisma client during build for Vercel compatibility
     if (process.env.NODE_ENV === 'production') {
       config.resolve.alias = {

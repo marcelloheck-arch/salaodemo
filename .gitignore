@@ -49,6 +49,10 @@ jspm_packages/
 # MacOS
 .DS_Store
 
+# WhatsApp Web.js
+.wwebjs_auth/
+.wwebjs_cache/
+
 # Backups
 backups/
 *.backup.tsx

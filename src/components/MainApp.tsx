@@ -40,7 +40,9 @@ import {
   UserPlus,
   Shield,
   Smartphone,
-  Zap
+  Zap,
+  Briefcase,
+  MessageCircle
 } from "lucide-react";
 import { cn } from '@/lib/utils';
 import IntegrationsPage from './IntegrationsPage';
@@ -55,6 +57,8 @@ import ConfiguracoesPage from './ConfiguracoesPage';
 import HorariosPage from './HorariosPage';
 import ProdutosPage from './ProdutosPage';
 import RelatoriosPage from './RelatoriosPage';
+import PagamentosPage from './PagamentosPage';
+import RelatoriosFinanceirosPage from './RelatoriosFinanceirosPage';
 import RelatoriosWidget from './RelatoriosWidget';
 import SystemIntegrationPage from './SystemIntegrationPage';
 import LicenseManagementApp from './LicenseManagementApp';
@@ -64,6 +68,10 @@ import WhatsAppIntegration from './WhatsAppIntegration';
 import NotificationManager from './NotificationManager';
 import ConfiguracaoFuncionamento from './ConfiguracaoFuncionamento';
 import MigrationManager from './MigrationManager';
+import ClienteAuthPage from './ClienteAuthPage';
+import ProfissionalAuthPage from './ProfissionalAuthPage';
+import WhatsAppAIAssistant from './WhatsAppAIAssistant';
+import PublicLandingPage from './PublicLandingPage';
 import { useAuth, UserType } from '@/lib/auth';
 
 interface SidebarProps {
@@ -146,6 +154,11 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       id: "pagamentos"
     },
     { 
+      icon: DollarSign, 
+      label: "Relatórios Financeiros", 
+      id: "relatorios-financeiros"
+    },
+    { 
       icon: Smartphone, 
       label: "WhatsApp", 
       id: "whatsapp"
@@ -174,6 +187,26 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       icon: Shield, 
       label: "Cadastro Público", 
       id: "cadastro-publico"
+    },
+    { 
+      icon: User, 
+      label: "🌐 Portal Cliente", 
+      id: "portal-cliente"
+    },
+    { 
+      icon: Briefcase, 
+      label: "💼 Portal Profissional", 
+      id: "portal-profissional"
+    },
+    { 
+      icon: MessageCircle, 
+      label: "🤖 Assistente WhatsApp IA", 
+      id: "whatsapp-ai"
+    },
+    { 
+      icon: User, 
+      label: "🏠 Página Inicial Pública", 
+      id: "landing-page"
     },
   ];
 
@@ -570,12 +603,28 @@ export default function MainApp() {
         return <ProdutosPage />;
       case 'relatorios':
         return <RelatoriosPage />;
+      case 'pagamentos':
+        return <PagamentosPage />;
+      case 'relatorios-financeiros':
+        return <RelatoriosFinanceirosPage />;
       case 'whatsapp':
         return <WhatsAppIntegration />;
       case 'notificacoes':
         return <NotificationManager />;
       case 'cadastro-publico':
         return <LicenseManagementApp onLogin={() => setCurrentPage('dashboard')} />;
+      case 'portal-cliente':
+        return <ClienteAuthPage />;
+      case 'portal-profissional':
+        return <ProfissionalAuthPage />;
+      case 'whatsapp-ai':
+        return <WhatsAppAIAssistant />;
+      case 'landing-page':
+        return <PublicLandingPage 
+          onNavigateToCliente={() => setCurrentPage('portal-cliente')}
+          onNavigateToProfissional={() => setCurrentPage('portal-profissional')}
+          onNavigateToAdmin={() => setCurrentPage('dashboard')}
+        />;
       default:
         return <DashboardContent onPageChange={setCurrentPage} />;
     }

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { MessageCircle, Phone, QrCode, CheckCircle, AlertCircle, Settings, Send, Clock, Users } from 'lucide-react';
-import WhatsAppService from '@/services/WhatsAppService';
+import EvolutionAPIService from '@/services/EvolutionAPIService';
 
 interface WhatsAppStatus {
   connected: boolean;
@@ -41,7 +41,7 @@ const WhatsAppIntegration: React.FC = () => {
   const verificarStatusInicial = async () => {
     setLoading(true);
     try {
-      const statusAtual = await WhatsAppService.verificarStatus();
+      const statusAtual = await EvolutionAPIService.verificarStatus();
       setStatus(statusAtual);
     } catch (error) {
       console.error('Erro ao verificar status:', error);
@@ -61,22 +61,39 @@ const WhatsAppIntegration: React.FC = () => {
   const conectarWhatsApp = async () => {
     setLoading(true);
     try {
-      const novoStatus = await WhatsAppService.verificarStatus();
-      setStatus(novoStatus);
+      // Criar instância e obter QR Code
+      const resultado = await EvolutionAPIService.criarInstancia();
       
-      if (!novoStatus.connected && novoStatus.qrCode) {
-        // Atualizar QR Code periodicamente até conectar
+      if (resultado.error) {
+        alert(`Erro: ${resultado.error}`);
+        setLoading(false);
+        return;
+      }
+
+      if (resultado.qrCode) {
+        setStatus({ connected: false, qrCode: resultado.qrCode });
+        
+        // Verificar status periodicamente até conectar
         const interval = setInterval(async () => {
-          const statusAtualizado = await WhatsAppService.verificarStatus();
+          const statusAtualizado = await EvolutionAPIService.verificarStatus();
           setStatus(statusAtualizado);
           
           if (statusAtualizado.connected) {
             clearInterval(interval);
+            alert('WhatsApp conectado com sucesso! ✅');
           }
         }, 3000);
+
+        // Parar de verificar após 5 minutos
+        setTimeout(() => clearInterval(interval), 300000);
+      } else {
+        // Já está conectado
+        const statusAtual = await EvolutionAPIService.verificarStatus();
+        setStatus(statusAtual);
       }
     } catch (error) {
       console.error('Erro ao conectar WhatsApp:', error);
+      alert('Erro ao conectar WhatsApp. Verifique se a Evolution API está rodando.');
     } finally {
       setLoading(false);
     }
@@ -87,9 +104,9 @@ const WhatsAppIntegration: React.FC = () => {
     
     setEnviandoTeste(true);
     try {
-      const sucesso = await WhatsAppService.enviarMensagem(testeNumero, testeMensagem);
+      const resultado = await EvolutionAPIService.enviarMensagem(testeNumero, testeMensagem);
       
-      if (sucesso) {
+      if (resultado.success) {
         alert('Mensagem de teste enviada com sucesso! ✅');
         // Atualizar estatísticas
         setEstatisticas(prev => ({ 
@@ -97,7 +114,7 @@ const WhatsAppIntegration: React.FC = () => {
           mensagensEnviadas: prev.mensagensEnviadas + 1 
         }));
       } else {
-        alert('Erro ao enviar mensagem de teste. Verifique o número e tente novamente. ❌');
+        alert(`Erro ao enviar mensagem: ${resultado.error || 'Erro desconhecido'} ❌`);
       }
     } catch (error) {
       console.error('Erro no teste:', error);
