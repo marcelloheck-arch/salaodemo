@@ -49,6 +49,11 @@ jspm_packages/
 # MacOS
 .DS_Store
 
+# WhatsApp tokens and cache
+tokens/
+*.log
+server.log
+
 # WhatsApp Web.js
 .wwebjs_auth/
 .wwebjs_cache/

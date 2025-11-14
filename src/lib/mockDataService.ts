@@ -79,25 +79,18 @@ class MockDataService {
   private generateMockData() {
     if (this.data) return this.data;
 
-    // Clientes
-    const clients: MockClient[] = [];
-    const firstNames = ['Ana', 'Maria', 'Julia', 'Patricia', 'Carla', 'Fernanda', 'Gabriela', 'Mariana', 'Camila', 'Beatriz', 'Larissa', 'Rafaela', 'Vanessa', 'Priscila', 'Amanda', 'Bruna', 'Daniela', 'Luciana', 'Renata', 'Simone'];
-    const lastNames = ['Silva', 'Santos', 'Oliveira', 'Souza', 'Rodrigues', 'Ferreira', 'Alves', 'Pereira', 'Lima', 'Costa'];
+    // Sistema limpo - sem dados simulados para vendas/testes
+    // Novos usuários começam com dados vazios
+    this.data = {
+      clients: [],
+      services: [],
+      staff: [],
+      appointments: [],
+      transactions: []
+    };
 
-    for (let i = 1; i <= 80; i++) {
-      const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-      
-      clients.push({
-        id: `client_${i}`,
-        name: `${firstName} ${lastName}`,
-        email: `${firstName.toLowerCase()}${i}@email.com`,
-        phone: `11${Math.floor(Math.random() * 900000000 + 100000000)}`,
-        birthDate: format(subDays(new Date(), Math.floor(Math.random() * 365 * 40 + 365 * 18)), 'yyyy-MM-dd'),
-        createdAt: format(subDays(new Date(), Math.floor(Math.random() * 365)), 'yyyy-MM-dd'),
-        totalSpent: 0, // Será calculado depois
-        lastVisit: format(subDays(new Date(), Math.floor(Math.random() * 30)), 'yyyy-MM-dd'),
-        segment: ['premium', 'regular', 'occasional'][Math.floor(Math.random() * 3)] as 'premium' | 'regular' | 'occasional'
+    return this.data;
+  }
       });
     }
 

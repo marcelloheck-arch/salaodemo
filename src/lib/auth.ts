@@ -44,29 +44,12 @@ export class AuthService {
 
   static validateLicense(licenseKey: string): Promise<License | null> {
     return new Promise((resolve) => {
-      // Simular validação de licença
+      // Validação de licença - em produção conectar com banco de dados
       setTimeout(() => {
-        // Mock de licença válida
-        if (licenseKey === 'TEST-1234-ABCD-5678') {
-          resolve({
-            id: '1',
-            licenseKey,
-            planType: 'premium',
-            status: 'active',
-            clientId: '1',
-            clientName: 'Salão Teste',
-            clientEmail: 'teste@salao.com',
-            createdAt: new Date(),
-            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias
-            maxUsers: 10,
-            features: [],
-            paymentStatus: 'paid',
-            renewalDate: null
-          });
-        } else {
-          resolve(null);
-        }
-      }, 1000);
+        // Sistema limpo - sem licenças de teste
+        // Retorna null para forçar cadastro/validação real
+        resolve(null);
+      }, 500);
     });
   }
 

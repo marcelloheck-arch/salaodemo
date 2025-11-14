@@ -34,24 +34,25 @@ export default function WhatsAppReal({
       const response = await fetch('/api/whatsapp?action=status');
       const data = await response.json();
 
+      console.log('📊 Status recebido:', data);
+
       setIsConnected(data.connected);
       setPhoneNumber(data.phoneNumber || null);
 
       if (data.qrCode && !data.connected) {
-        // Gerar QR Code como imagem
-        const qrDataUrl = await QRCodeReact.toDataURL(data.qrCode, {
-          width: 300,
-          margin: 2,
-          color: {
-            dark: '#000000',
-            light: '#FFFFFF'
-          }
-        });
+        console.log('📱 QR Code recebido, tamanho:', data.qrCode.length);
+        // O WPPConnect retorna base64 puro, adicionar prefixo
+        const qrDataUrl = data.qrCode.startsWith('data:image')
+          ? data.qrCode
+          : `data:image/png;base64,${data.qrCode}`;
+        
         setQrCodeDataUrl(qrDataUrl);
         setStatusMessage('Escaneie o QR Code com seu WhatsApp');
+        setIsConnecting(false);
       } else if (data.connected) {
         setQrCodeDataUrl(null);
         setStatusMessage(`Conectado: ${data.phoneNumber || 'Número desconhecido'}`);
+        setIsConnecting(false);
         
         if (onConnected && data.phoneNumber) {
           onConnected(data.phoneNumber);

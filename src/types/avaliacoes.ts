@@ -90,114 +90,12 @@ export interface ConfiguracaoAvaliacoes {
   };
 }
 
-// Dados simulados para desenvolvimento
-export const AVALIACOES_MOCK: Avaliacao[] = [
-  {
-    id: 'av1',
-    clienteId: 'c1',
-    clienteNome: 'Maria Silva',
-    clienteEmail: 'maria@email.com',
-    clienteFoto: '/placeholder-avatar.jpg',
-    servicoId: 's1',
-    servicoNome: 'Corte e Escova',
-    funcionarioId: 'f1',
-    funcionarioNome: 'Ana Costa',
-    agendamentoId: 'ag1',
-    nota: 5,
-    comentario: 'Atendimento excepcional! A Ana é muito profissional e o resultado ficou perfeito. Super recomendo!',
-    dataAvaliacao: new Date('2025-10-12'),
-    dataServico: new Date('2025-10-10'),
-    status: 'ativa',
-    resposta: {
-      id: 'r1',
-      autorId: 'prop1',
-      autorNome: 'Salão Bella Vista',
-      autorCargo: 'proprietario',
-      texto: 'Muito obrigada Maria! Ficamos felizes que tenha gostado. Esperamos você sempre!',
-      dataResposta: new Date('2025-10-12')
-    },
-    fotos: ['/servico1.jpg', '/servico2.jpg'],
-    aspectos: [
-      { aspecto: 'qualidade', nota: 5 },
-      { aspecto: 'atendimento', nota: 5 },
-      { aspecto: 'limpeza', nota: 5 },
-      { aspecto: 'pontualidade', nota: 4 }
-    ],
-    recomenda: true,
-    verificada: true,
-    likes: 12,
-    dislikes: 0,
-    visualizacoes: 45
-  },
-  {
-    id: 'av2',
-    clienteId: 'c2',
-    clienteNome: 'João Santos',
-    clienteEmail: 'joao@email.com',
-    servicoId: 's2',
-    servicoNome: 'Barba e Bigode',
-    funcionarioId: 'f2',
-    funcionarioNome: 'Carlos Oliveira',
-    agendamentoId: 'ag2',
-    nota: 4,
-    comentario: 'Bom atendimento, mas demorou um pouco mais que o esperado. No geral, fiquei satisfeito.',
-    dataAvaliacao: new Date('2025-10-11'),
-    dataServico: new Date('2025-10-09'),
-    status: 'ativa',
-    aspectos: [
-      { aspecto: 'qualidade', nota: 4 },
-      { aspecto: 'atendimento', nota: 4 },
-      { aspecto: 'pontualidade', nota: 3 },
-      { aspecto: 'preco', nota: 4 }
-    ],
-    recomenda: true,
-    verificada: true,
-    likes: 5,
-    dislikes: 1,
-    visualizacoes: 23
-  },
-  {
-    id: 'av3',
-    clienteId: 'c3',
-    clienteNome: 'Fernanda Lima',
-    clienteEmail: 'fernanda@email.com',
-    servicoId: 's3',
-    servicoNome: 'Coloração + Corte',
-    funcionarioId: 'f1',
-    funcionarioNome: 'Ana Costa',
-    agendamentoId: 'ag3',
-    nota: 3,
-    comentario: 'O corte ficou bom, mas a cor não ficou exatamente como eu esperava. Talvez na próxima.',
-    dataAvaliacao: new Date('2025-10-08'),
-    dataServico: new Date('2025-10-05'),
-    status: 'respondida',
-    resposta: {
-      id: 'r2',
-      autorId: 'f1',
-      autorNome: 'Ana Costa',
-      autorCargo: 'funcionario',
-      texto: 'Oi Fernanda! Obrigada pelo feedback. Vamos ajustar a cor na próxima visita sem custo adicional!',
-      dataResposta: new Date('2025-10-09')
-    },
-    aspectos: [
-      { aspecto: 'qualidade', nota: 3 },
-      { aspecto: 'atendimento', nota: 4 },
-      { aspecto: 'preco', nota: 3 }
-    ],
-    recomenda: false,
-    verificada: true,
-    likes: 2,
-    dislikes: 0,
-    visualizacoes: 18
-  }
-];
+// Sistema limpo - sem dados simulados para vendas/testes
+export const AVALIACOES_MOCK: Avaliacao[] = [];
 
-export const SERVICOS_MOCK = [
-  { id: 's1', nome: 'Corte e Escova' },
-  { id: 's2', nome: 'Barba e Bigode' },
-  { id: 's3', nome: 'Coloração + Corte' },
-  { id: 's4', nome: 'Manicure e Pedicure' },
-  { id: 's5', nome: 'Massagem Relaxante' }
+export const SERVICOS_MOCK = [];
+
+export const FUNCIONARIOS_MOCK = [];
 ];
 
 export const FUNCIONARIOS_MOCK = [

@@ -51,31 +51,15 @@ export default function AdminLicensePanel() {
     const savedRegistrations = localStorageService.loadRegistrations();
     console.log('📋 Registros encontrados:', savedRegistrations.length);
     
-    // SEMPRE usar os dados do localStorage, mesmo se estiver vazio
+    // Sistema limpo - sem dados mock automáticos
     setRegistrations(savedRegistrations);
-    
-    // Se não há registros, adicionar apenas dados mock como exemplo (não sobrescrever)
-    if (savedRegistrations.length === 0) {
-      console.log('📝 Nenhum registro encontrado, adicionando dados mock como exemplo');
-      const mockData = USER_REGISTRATIONS_MOCK;
-      localStorageService.saveRegistrations(mockData);
-      setRegistrations(mockData);
-    }
 
     // Carregar licenças salvas
     const savedLicenses = localStorageService.loadLicenses();
     console.log('🔑 Licenças encontradas:', savedLicenses.length);
     
-    // SEMPRE usar os dados do localStorage, mesmo se estiver vazio
+    // Sistema limpo - sem dados mock automáticos
     setLicenses(savedLicenses);
-    
-    // Se não há licenças, adicionar apenas dados mock como exemplo (não sobrescrever)
-    if (savedLicenses.length === 0) {
-      console.log('🔐 Nenhuma licença encontrada, adicionando dados mock como exemplo');
-      const mockLicenses = SYSTEM_LICENSES_MOCK;
-      localStorageService.saveLicenses(mockLicenses);
-      setLicenses(mockLicenses);
-    }
 
     console.log('✅ Dados carregados:', {
       totalRegistrations: savedRegistrations.length,

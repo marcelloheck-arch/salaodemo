@@ -14,16 +14,14 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
-    serverComponentsExternalPackages: ['whatsapp-web.js', 'puppeteer'],
+    serverComponentsExternalPackages: [],
   },
   outputFileTracing: false,
   webpack: (config, { isServer }) => {
-    // Excluir whatsapp-web.js do bundle do cliente
+    // Evolution API usa apenas HTTP requests - sem dependências pesadas
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
-        'whatsapp-web.js': false,
-        'puppeteer': false,
         'fs': false,
         'net': false,
         'tls': false,
