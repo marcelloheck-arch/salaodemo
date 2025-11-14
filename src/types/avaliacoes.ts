@@ -96,11 +96,3 @@ export const AVALIACOES_MOCK: Avaliacao[] = [];
 export const SERVICOS_MOCK = [];
 
 export const FUNCIONARIOS_MOCK = [];
-];
-
-export const FUNCIONARIOS_MOCK = [
-  { id: 'f1', nome: 'Ana Costa' },
-  { id: 'f2', nome: 'Carlos Oliveira' },
-  { id: 'f3', nome: 'Mariana Santos' },
-  { id: 'f4', nome: 'Pedro Silva' }
-];

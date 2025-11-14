@@ -1,3 +1,27 @@
+/*
+ * ⚠️ COMPONENTE NÃO INTEGRADO AO SISTEMA ⚠️
+ * ==========================================
+ * 
+ * Este componente de Avaliações FOI CRIADO mas NUNCA FOI ADICIONADO ao menu principal.
+ * 
+ * STATUS ATUAL:
+ * - ❌ NÃO está no MainApp.tsx (sem import, sem menu item, sem case no switch)
+ * - ❌ NÃO é acessível pela interface do usuário
+ * - ✅ Dados mock foram limpos (AVALIACOES_MOCK = [] em types/avaliacoes.ts)
+ * 
+ * PARA INTEGRAR NO FUTURO:
+ * 1. Adicionar import no MainApp.tsx: import AvaliacoesPage from './AvaliacoesPage';
+ * 2. Adicionar item no menu:
+ *    { icon: Star, label: "Avaliações", id: "avaliacoes" }
+ * 3. Adicionar case no renderPage():
+ *    case 'avaliacoes': return <AvaliacoesPage />;
+ * 
+ * MOTIVO DA NÃO INTEGRAÇÃO:
+ * Cliente não precisa do sistema de avaliações no momento (14/11/2025)
+ * 
+ * Data: 14/11/2025
+ */
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
