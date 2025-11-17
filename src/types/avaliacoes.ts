@@ -93,6 +93,6 @@ export interface ConfiguracaoAvaliacoes {
 // Sistema limpo - sem dados simulados para vendas/testes
 export const AVALIACOES_MOCK: Avaliacao[] = [];
 
-export const SERVICOS_MOCK = [];
+export const SERVICOS_MOCK: Array<{ id: string; nome: string }> = [];
 
-export const FUNCIONARIOS_MOCK = [];
+export const FUNCIONARIOS_MOCK: Array<{ id: string; nome: string }> = [];

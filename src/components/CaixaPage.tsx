@@ -24,11 +24,6 @@ import { format, parseISO, isWithinInterval } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Professional, FinancialTransaction, Commission, Service, FinancialSummary, DateFilter } from '../types/financial';
 
-// Mock data
-const mockProfessionals: Professional[] = [
-  // Lista vazia - sem dados pré-preenchidos
-];
-
 // Arrays vazios - sistema inicia limpo sem dados fictícios
 const mockProfessionals: Professional[] = [];
 const mockServices: Service[] = [];
