@@ -74,7 +74,31 @@ export default function ConfiguracoesPage() {
   }, []);
 
   const handleSave = () => {
-    // Simular salvamento
+    // Atualizar localStorage para refletir mudanças no header
+    const currentUser = JSON.parse(localStorage.getItem('agenda_salao_user') || '{}');
+    const updatedUser = {
+      ...currentUser,
+      salonName: config.general.salonName,
+      name: config.general.ownerName,
+      email: config.general.email,
+      phone: config.general.phone
+    };
+    localStorage.setItem('agenda_salao_user', JSON.stringify(updatedUser));
+    
+    // Atualizar também authUser
+    const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+    const mergedAuthUser = { ...authUser, ...updatedUser };
+    localStorage.setItem('authUser', JSON.stringify(mergedAuthUser));
+    
+    // Disparar evento customizado para atualizar MainApp
+    window.dispatchEvent(new CustomEvent('userUpdated', { detail: mergedAuthUser }));
+    
+    // Salvar configurações
+    localStorage.setItem('agenda_salao_config', JSON.stringify(config));
+    
+    console.log('Saving config:', config);
+    console.log('Updated user in localStorage:', updatedUser);
+    
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };

@@ -274,8 +274,8 @@ export default function PagamentosPage() {
 
         {/* Modal Novo Pagamento */}
         {mostrarModal && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-slate-900 border border-white/20 rounded-2xl p-6 max-w-md w-full">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
+            <div className="bg-slate-900 border border-white/20 rounded-2xl p-6 max-w-md w-full my-8 max-h-[90vh] overflow-y-auto">
               <h2 className="text-2xl font-bold text-white mb-4">Novo Pagamento</h2>
 
               <div className="space-y-4">
@@ -316,14 +316,14 @@ export default function PagamentosPage() {
                         metodoPagamento: e.target.value as MetodoPagamento
                       })
                     }
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white"
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-gray-900 font-semibold"
                   >
-                    <option value="pix">PIX</option>
-                    <option value="cartao_credito">Cartão de Crédito</option>
-                    <option value="cartao_debito">Cartão de Débito</option>
-                    <option value="dinheiro">Dinheiro</option>
-                    <option value="boleto">Boleto</option>
-                    <option value="transferencia">Transferência</option>
+                    <option value="pix" className="bg-white text-gray-900">PIX</option>
+                    <option value="cartao_credito" className="bg-white text-gray-900">Cartão de Crédito</option>
+                    <option value="cartao_debito" className="bg-white text-gray-900">Cartão de Débito</option>
+                    <option value="dinheiro" className="bg-white text-gray-900">Dinheiro</option>
+                    <option value="boleto" className="bg-white text-gray-900">Boleto</option>
+                    <option value="transferencia" className="bg-white text-gray-900">Transferência</option>
                   </select>
                 </div>
 

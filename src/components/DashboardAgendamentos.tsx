@@ -85,11 +85,11 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
     return agendamentos.filter(agendamento => {
       const matchData = !filtros.data || agendamento.data === filtros.data;
       const matchStatus = !filtros.status || agendamento.status === filtros.status;
-      const matchProfissional = !filtros.profissional || agendamento.profissional.id === filtros.profissional;
+      const matchProfissional = !filtros.profissional || agendamento.profissional?.id === filtros.profissional;
       const matchBusca = !filtros.busca || 
-        agendamento.cliente.nome.toLowerCase().includes(filtros.busca.toLowerCase()) ||
-        agendamento.cliente.telefone.includes(filtros.busca) ||
-        agendamento.servico.nome.toLowerCase().includes(filtros.busca.toLowerCase());
+        agendamento.cliente?.nome?.toLowerCase().includes(filtros.busca.toLowerCase()) ||
+        agendamento.cliente?.telefone?.includes(filtros.busca) ||
+        agendamento.servico?.nome?.toLowerCase().includes(filtros.busca.toLowerCase());
 
       return matchData && matchStatus && matchProfissional && matchBusca;
     });
@@ -177,7 +177,11 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
 
   const enviarWhatsApp = async (agendamento: Agendamento) => {
     // Integrar com WhatsAppService
-    console.log('Enviando WhatsApp para:', agendamento.cliente.telefone);
+    if (agendamento.cliente?.telefone) {
+      console.log('Enviando WhatsApp para:', agendamento.cliente.telefone);
+    } else {
+      console.warn('Cliente sem telefone cadastrado');
+    }
   };
 
   return (
@@ -383,10 +387,10 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
                         <div className="text-sm font-medium text-gray-900">
-                          {agendamento.cliente.nome}
+                          {agendamento.cliente?.nome || 'Cliente não informado'}
                         </div>
                         <div className="text-sm text-gray-500">
-                          {agendamento.cliente.telefone}
+                          {agendamento.cliente?.telefone || '-'}
                         </div>
                       </div>
                     </td>
@@ -400,15 +404,15 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {agendamento.servico.nome}
+                        {agendamento.servico?.nome || 'Serviço não informado'}
                       </div>
                       <div className="text-sm text-gray-500">
-                        {agendamento.servico.duracao}min • R$ {agendamento.servico.preco}
+                        {agendamento.servico?.duracao || 0}min • R$ {agendamento.servico?.preco || '0,00'}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {agendamento.profissional.nome}
+                        {agendamento.profissional?.nome || 'Profissional não informado'}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -489,9 +493,9 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
                 <div>
                   <h4 className="font-medium text-gray-800 mb-2">Cliente</h4>
                   <div className="bg-gray-50 rounded-lg p-3">
-                    <p className="font-medium">{agendamentoSelecionado.cliente.nome}</p>
-                    <p className="text-sm text-gray-600">{agendamentoSelecionado.cliente.telefone}</p>
-                    {agendamentoSelecionado.cliente.email && (
+                    <p className="font-medium">{agendamentoSelecionado.cliente?.nome || 'Cliente não informado'}</p>
+                    <p className="text-sm text-gray-600">{agendamentoSelecionado.cliente?.telefone || '-'}</p>
+                    {agendamentoSelecionado.cliente?.email && (
                       <p className="text-sm text-gray-600">{agendamentoSelecionado.cliente.email}</p>
                     )}
                   </div>
@@ -506,11 +510,11 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
                     </div>
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4 text-gray-600" />
-                      <span>{agendamentoSelecionado.profissional.nome}</span>
+                      <span>{agendamentoSelecionado.profissional?.nome || 'Profissional não informado'}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-gray-600" />
-                      <span>{agendamentoSelecionado.servico.nome} ({agendamentoSelecionado.servico.duracao}min)</span>
+                      <span>{agendamentoSelecionado.servico?.nome || 'Serviço não informado'} ({agendamentoSelecionado.servico?.duracao || 0}min)</span>
                     </div>
                   </div>
                 </div>

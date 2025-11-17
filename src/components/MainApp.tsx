@@ -108,11 +108,12 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
     //   label: "Agendamentos (Antigo)", 
     //   id: "agendamentos-old"
     // },
-    { 
-      icon: Zap, 
-      label: "Agendamento Rápido", 
-      id: "agendamento-rapido"
-    },
+    // REMOVIDO - Agendamento Rápido (14/11/2025)
+    // { 
+    //   icon: Zap, 
+    //   label: "Agendamento Rápido", 
+    //   id: "agendamento-rapido"
+    // },
     { 
       icon: Users, 
       label: "Clientes", 
@@ -153,11 +154,12 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       label: "Pagamentos", 
       id: "pagamentos"
     },
-    { 
-      icon: DollarSign, 
-      label: "Relatórios Financeiros", 
-      id: "relatorios-financeiros"
-    },
+    // REMOVIDO - Relatórios Financeiros (14/11/2025) - Já existe "Relatórios" completo
+    // { 
+    //   icon: DollarSign, 
+    //   label: "Relatórios Financeiros", 
+    //   id: "relatorios-financeiros"
+    // },
     { 
       icon: Smartphone, 
       label: "WhatsApp", 
@@ -183,11 +185,12 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       label: "Configurações", 
       id: "configuracoes"
     },
-    { 
-      icon: Shield, 
-      label: "Cadastro Público", 
-      id: "cadastro-publico"
-    },
+    // REMOVIDO - Cadastro Público (14/11/2025) - Funcionalidade administrativa interna
+    // { 
+    //   icon: Shield, 
+    //   label: "Cadastro Público", 
+    //   id: "cadastro-publico"
+    // },
     { 
       icon: User, 
       label: "🌐 Portal Cliente", 
@@ -442,6 +445,30 @@ export default function MainApp() {
       console.log('🔓 Nenhum usuário logado, redirecionando para login');
     }
 
+    // Listener para detectar mudanças no localStorage (quando atualiza perfil/config)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'agenda_salao_user' && e.newValue) {
+        console.log('🔄 Detectada atualização do usuário, recarregando dados...');
+        const updatedUser = JSON.parse(e.newValue);
+        
+        // Atualizar também o authUser
+        const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+        const mergedUser = { ...authUser, ...updatedUser };
+        localStorage.setItem('authUser', JSON.stringify(mergedUser));
+        setCurrentUser(mergedUser);
+      }
+    };
+    
+    // Listener para CustomEvent disparado por ProfilePage/ConfiguracoesPage
+    const handleUserUpdated = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      console.log('🔄 Usuário atualizado via CustomEvent:', customEvent.detail);
+      setCurrentUser(customEvent.detail);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('userUpdated', handleUserUpdated);
+
     // Atalho de teclado: Ctrl+Shift+L para logout rápido
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.shiftKey && event.key === 'L') {
@@ -451,7 +478,12 @@ export default function MainApp() {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userUpdated', handleUserUpdated);
+    };
   }, []);
 
   useEffect(() => {

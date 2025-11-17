@@ -36,15 +36,32 @@ export default function PublicLandingPage({
     setTimeout(() => setCopiedLink(null), 2000);
   };
 
-  // Dados do salão (podem vir de configurações)
-  const salaoInfo = {
-    nome: "Salão de Beleza Exemplo",
-    telefone: "(11) 98765-4321",
-    endereco: "Rua Exemplo, 123 - Centro, São Paulo - SP",
-    horario: "Seg-Sex: 09:00-19:00 | Sáb: 09:00-18:00",
-    avaliacoes: 4.8,
-    totalAvaliacoes: 127
+  // Dados do salão (carregados do perfil do usuário logado)
+  const getUserData = () => {
+    try {
+      const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+      const config = JSON.parse(localStorage.getItem('agenda_salao_config') || '{}');
+      return {
+        nome: authUser.salonName || config?.general?.salonName || "Salão de Beleza",
+        telefone: authUser.phone || config?.general?.phone || "(00) 00000-0000",
+        endereco: config?.general?.address || "Endereço não informado",
+        horario: "Seg-Sex: 09:00-19:00 | Sáb: 09:00-18:00",
+        avaliacoes: 4.8,
+        totalAvaliacoes: 127
+      };
+    } catch {
+      return {
+        nome: "Salão de Beleza",
+        telefone: "(00) 00000-0000",
+        endereco: "Endereço não informado",
+        horario: "Seg-Sex: 09:00-19:00 | Sáb: 09:00-18:00",
+        avaliacoes: 4.8,
+        totalAvaliacoes: 127
+      };
+    }
   };
+
+  const salaoInfo = getUserData();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100">

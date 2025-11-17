@@ -90,10 +90,29 @@ export default function ProfilePage() {
   };
 
   const handleSave = () => {
-    // Aqui você salvaria no backend
+    // Atualizar localStorage para refletir mudanças no header
+    const currentUser = JSON.parse(localStorage.getItem('agenda_salao_user') || '{}');
+    const updatedUser = {
+      ...currentUser,
+      name: profile.ownerName,
+      email: profile.email,
+      salonName: profile.name,
+      phone: profile.phone
+    };
+    localStorage.setItem('agenda_salao_user', JSON.stringify(updatedUser));
+    
+    // Atualizar também authUser
+    const authUser = JSON.parse(localStorage.getItem('authUser') || '{}');
+    const mergedAuthUser = { ...authUser, ...updatedUser };
+    localStorage.setItem('authUser', JSON.stringify(mergedAuthUser));
+    
+    // Disparar evento customizado para atualizar MainApp
+    window.dispatchEvent(new CustomEvent('userUpdated', { detail: mergedAuthUser }));
+    
     console.log('Saving profile:', profile);
+    console.log('Updated user in localStorage:', updatedUser);
     setIsEditing(false);
-    alert('Perfil salvo com sucesso!');
+    alert('Perfil salvo com sucesso! O nome será atualizado automaticamente.');
   };
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
