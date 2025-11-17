@@ -153,6 +153,17 @@ const DashboardAgendamentos: React.FC<DashboardAgendamentosProps> = ({
       localStorage.setItem('agendamentos', JSON.stringify(agendamentosAtualizados));
       
       console.log(`Status do agendamento ${agendamentoId} alterado para ${novoStatus}`);
+
+      // 🔥 SE MUDOU PARA "CONCLUÍDO", DISPARAR EVENTO PARA O CAIXA
+      if (novoStatus === 'concluido') {
+        const agendamentoConcluido = agendamentosAtualizados.find(a => a.id === agendamentoId);
+        if (agendamentoConcluido) {
+          console.log('💰 Disparando evento para criar transação no caixa...');
+          window.dispatchEvent(new CustomEvent('agendamentoConcluido', {
+            detail: agendamentoConcluido
+          }));
+        }
+      }
     } catch (error) {
       console.error('Erro ao atualizar status:', error);
     }

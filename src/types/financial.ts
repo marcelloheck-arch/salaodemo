@@ -24,15 +24,18 @@ export interface Service {
 
 export interface FinancialTransaction {
   id: string;
+  appointmentId?: string; // ID do agendamento que gerou esta transação
   type: 'service' | 'product' | 'commission' | 'expense';
   amount: number;
   date: string;
+  time?: string; // Hora da transação
   clientId: string;
   clientName: string;
   professionalId: string;
   professionalName: string;
   serviceId: string;
   serviceName: string;
+  commissionRate?: number; // Percentual da comissão
   commissionAmount: number;
   paymentMethod: 'cash' | 'card' | 'pix' | 'transfer';
   status: 'pending' | 'paid' | 'cancelled';

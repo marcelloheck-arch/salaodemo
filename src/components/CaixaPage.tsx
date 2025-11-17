@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   DollarSign, 
   Users, 
@@ -57,7 +57,7 @@ const statusColors = {
 };
 
 export default function CaixaPage() {
-  const [transactions, setTransactions] = useState<FinancialTransaction[]>(mockTransactions);
+  const [transactions, setTransactions] = useState<FinancialTransaction[]>([]);
   const [professionals, setProfessionals] = useState<Professional[]>(mockProfessionals);
   const [services, setServices] = useState<Service[]>(mockServices);
   
@@ -82,6 +82,83 @@ export default function CaixaPage() {
     duration: 60,
     commission: 30
   });
+
+  // 🔥 CARREGAR DADOS DO LOCALSTORAGE E ESCUTAR AGENDAMENTOS
+  useEffect(() => {
+    // Carregar transações existentes
+    const savedTransactions = localStorage.getItem('caixa_transactions');
+    if (savedTransactions) {
+      try {
+        setTransactions(JSON.parse(savedTransactions));
+      } catch (error) {
+        console.error('Erro ao carregar transações:', error);
+      }
+    }
+
+    // Listener para novos agendamentos concluídos
+    const handleAgendamentoConcluido = (event: CustomEvent) => {
+      const agendamento = event.detail;
+      console.log('🎯 Agendamento concluído detectado:', agendamento);
+
+      // Criar transação automaticamente
+      criarTransacaoDeAgendamento(agendamento);
+    };
+
+    // Registrar listener
+    window.addEventListener('agendamentoConcluido' as any, handleAgendamentoConcluido);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('agendamentoConcluido' as any, handleAgendamentoConcluido);
+    };
+  }, []);
+
+  // 💰 CRIAR TRANSAÇÃO QUANDO AGENDAMENTO É CONCLUÍDO
+  const criarTransacaoDeAgendamento = (agendamento: any) => {
+    // Calcular comissão (padrão 30% se não especificado)
+    const percentualComissao = agendamento.servico?.commission || 30;
+    const valorServico = agendamento.servico?.preco || 0;
+    const valorComissao = (valorServico * percentualComissao) / 100;
+
+    const novaTransacao: FinancialTransaction = {
+      id: `txn-${Date.now()}`,
+      appointmentId: agendamento.id,
+      clientId: agendamento.cliente?.id || 'unknown',
+      clientName: agendamento.cliente?.nome || 'Cliente não informado',
+      professionalId: agendamento.profissional?.id || 'unknown',
+      professionalName: agendamento.profissional?.nome || 'Profissional não informado',
+      serviceId: agendamento.servico?.id || 'unknown',
+      serviceName: agendamento.servico?.nome || 'Serviço não informado',
+      amount: valorServico,
+      paymentMethod: 'cash', // Padrão, pode ser alterado depois
+      commissionRate: percentualComissao,
+      commissionAmount: valorComissao,
+      date: agendamento.data || new Date().toISOString().split('T')[0],
+      time: agendamento.hora || new Date().toTimeString().split(' ')[0],
+      status: 'paid', // Já pago quando serviço é concluído
+      type: 'service',
+      createdAt: new Date().toISOString()
+    };
+
+    // Adicionar à lista de transações
+    setTransactions(prev => {
+      const novasTransacoes = [...prev, novaTransacao];
+      // Salvar no localStorage
+      localStorage.setItem('caixa_transactions', JSON.stringify(novasTransacoes));
+      return novasTransacoes;
+    });
+
+    console.log('✅ Transação criada:', novaTransacao);
+    console.log(`💵 Valor: R$ ${valorServico.toFixed(2)}`);
+    console.log(`💰 Comissão (${percentualComissao}%): R$ ${valorComissao.toFixed(2)}`);
+  };
+
+  // 💾 SALVAR TRANSAÇÕES NO LOCALSTORAGE QUANDO HOUVER MUDANÇAS
+  useEffect(() => {
+    if (transactions.length > 0) {
+      localStorage.setItem('caixa_transactions', JSON.stringify(transactions));
+    }
+  }, [transactions]);
 
   // Filtrar transações
   const filteredTransactions = useMemo(() => {
