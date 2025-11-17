@@ -45,10 +45,14 @@ async function fetchWithAuth<T = any>(
 ): Promise<T> {
   const token = getToken();
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
   };
+
+  // Adicionar headers do options
+  if (options.headers) {
+    Object.assign(headers, options.headers);
+  }
 
   // Adicionar Authorization header se houver token
   if (token) {

@@ -22,7 +22,7 @@ interface MultiLevelLoginProps {
 }
 
 export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLoginProps) {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [loginType, setLoginType] = useState<'superadmin' | 'salon'>('salon');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,23 +68,29 @@ export default function MultiLevelLogin({ onLogin, onRegister }: MultiLevelLogin
       } else {
         // Login de salão via API
         try {
-          const response = await login(email, password);
+          await login(email, password);
+          
+          // Aguardar um tick para o estado atualizar
+          await new Promise(resolve => setTimeout(resolve, 100));
+          
+          // Buscar dados do sessionStorage diretamente (mais confiável)
+          const userData = JSON.parse(sessionStorage.getItem('user_data') || '{}');
           
           // Converter resposta da API para formato esperado
-          const userData = {
+          const formattedUserData = {
             type: 'salon' as const,
-            name: response.user.name,
-            email: response.user.email,
-            salonName: response.user.salon?.name || 'Salão',
-            licenseKey: response.user.salon?.licenseKey,
+            name: userData.name || 'Usuário',
+            email: userData.email || email,
+            salonName: userData.salon?.name || 'Salão',
+            licenseKey: userData.salon?.licenseKey,
           };
           
           // Salvar no localStorage para compatibilidade com componentes antigos
-          localStorage.setItem('userData', JSON.stringify(userData));
-          localStorage.setItem('authUser', JSON.stringify({ ...userData, type: 'salon_admin' }));
+          localStorage.setItem('userData', JSON.stringify(formattedUserData));
+          localStorage.setItem('authUser', JSON.stringify({ ...formattedUserData, type: 'salon_admin' }));
           localStorage.setItem('isAuthenticated', 'true');
           
-          onLogin(userData);
+          onLogin(formattedUserData);
         } catch (apiError: any) {
           console.error('Erro no login:', apiError);
           setError(apiError.message || '❌ Email ou senha incorretos. Verifique suas credenciais.');
