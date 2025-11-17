@@ -1,29 +1,56 @@
-/**
- * Área Pública do Cliente
- * Página acessível via link direto para clientes finais consultarem seus agendamentos
- */
+/**/**
 
-'use client';
+ * Área Pública do Cliente - Redirect para Portal * Área Pública do Cliente
 
-import React, { useState } from 'react';
-import { Calendar, Clock, User, Phone, Mail, Search, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+ * Redireciona para a página principal onde o cliente pode fazer login/cadastro * Página acessível via link direto para clientes finais consultarem seus agendamentos
 
-export default function ClientePage() {
-  const [phone, setPhone] = useState('');
+ */ */
+
+
+
+'use client';'use client';
+
+
+
+import { useEffect } from 'react';import React, { useState } from 'react';
+
+import { useRouter } from 'next/navigation';import { Calendar, Clock, User, Phone, Mail, Search, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+
+
+
+export default function ClientePage() {export default function ClientePage() {
+
+  const router = useRouter();  const [phone, setPhone] = useState('');
+
   const [clientData, setClientData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
-  // Formatar telefone
+  useEffect(() => {  const [loading, setLoading] = useState(false);
+
+    // Redirecionar para a página principal com flag para abrir portal do cliente  const [error, setError] = useState('');
+
+    router.push('/?portal=cliente');
+
+  }, [router]);  // Formatar telefone
+
   const formatPhone = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-    if (numbers.length <= 11) {
-      return numbers
-        .replace(/(\d{2})(\d)/, '($1) $2')
-        .replace(/(\d{5})(\d)/, '$1-$2');
-    }
-    return value;
-  };
+
+  return (    const numbers = value.replace(/\D/g, '');
+
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center">    if (numbers.length <= 11) {
+
+      <div className="text-center">      return numbers
+
+        <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>        .replace(/(\d{2})(\d)/, '($1) $2')
+
+        <p className="text-gray-600">Redirecionando para o Portal do Cliente...</p>        .replace(/(\d{5})(\d)/, '$1-$2');
+
+      </div>    }
+
+    </div>    return value;
+
+  );  };
+
+}
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPhone(e.target.value);
@@ -98,14 +125,24 @@ export default function ClientePage() {
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+                <Calendar className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Área do Cliente</h1>
+                <p className="text-sm text-gray-600">Consulte seus agendamentos</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Área do Cliente</h1>
-              <p className="text-sm text-gray-600">Consulte seus agendamentos</p>
-            </div>
+            
+            <a
+              href="/"
+              className="px-4 py-2 bg-white border-2 border-purple-600 text-purple-600 rounded-lg font-medium hover:bg-purple-50 transition-colors flex items-center space-x-2"
+            >
+              <User className="w-4 h-4" />
+              <span>Portal do Cliente</span>
+            </a>
           </div>
         </div>
       </div>

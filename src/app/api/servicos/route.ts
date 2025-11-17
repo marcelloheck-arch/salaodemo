@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
     });
 
     // Converter Decimal para number no retorno
-    const servicosFormatted = servicos.map(s => ({
+    const servicosFormatted = servicos.map((s: any) => ({
       ...s,
       price: s.price.toNumber(),
     }));

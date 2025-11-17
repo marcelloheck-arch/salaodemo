@@ -62,7 +62,7 @@ export default function ClienteAuthPage() {
     setClienteLogado(cliente);
   };
 
-  const fazerCadastro = () => {
+  const fazerCadastro = async () => {
     // Validações
     if (!dadosCadastro.nome || !dadosCadastro.email || !dadosCadastro.telefone || !dadosCadastro.senha) {
       alert('Preencha todos os campos obrigatórios (nome, email, telefone e senha)');
@@ -86,32 +86,58 @@ export default function ClienteAuthPage() {
       return;
     }
 
-    // Verificar se email já existe
-    const clientes: Cliente[] = JSON.parse(localStorage.getItem('clientes') || '[]');
-    if (clientes.some(c => c.email === dadosCadastro.email)) {
-      alert('Este email já está cadastrado');
-      return;
+    try {
+      // Criar cliente via API pública
+      const response = await fetch('/api/public/cliente/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: dadosCadastro.nome,
+          email: dadosCadastro.email,
+          phone: dadosCadastro.telefone,
+          password: dadosCadastro.senha,
+          birthDate: dadosCadastro.dataNascimento || undefined,
+          cpf: dadosCadastro.cpf || undefined,
+          address: dadosCadastro.endereco || undefined,
+          notes: dadosCadastro.observacoes || undefined
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erro ao criar cliente');
+      }
+
+      const data = await response.json();
+      
+      // Criar cliente local também (para compatibilidade e login)
+      const novoCliente: Cliente = {
+        id: data.cliente.id,
+        nome: data.cliente.name,
+        email: data.cliente.email,
+        telefone: data.cliente.phone,
+        senha: dadosCadastro.senha,
+        dataNascimento: data.cliente.birthDate,
+        cpf: data.cliente.cpf,
+        endereco: data.cliente.address,
+        observacoes: data.cliente.notes,
+        criadoEm: data.cliente.createdAt
+      };
+
+      // Salvar também no localStorage (para login funcionar)
+      const clientes: Cliente[] = JSON.parse(localStorage.getItem('clientes') || '[]');
+      clientes.push(novoCliente);
+      localStorage.setItem('clientes', JSON.stringify(clientes));
+
+      alert('Cadastro realizado com sucesso! Você já pode fazer login.');
+      // Fazer login automático
+      setClienteLogado(novoCliente);
+    } catch (error: any) {
+      console.error('Erro ao cadastrar:', error);
+      alert(error.message || 'Erro ao realizar cadastro. Tente novamente.');
     }
-
-    // Criar novo cliente
-    const novoCliente: Cliente = {
-      id: Date.now().toString(),
-      nome: dadosCadastro.nome,
-      email: dadosCadastro.email,
-      telefone: dadosCadastro.telefone,
-      senha: dadosCadastro.senha,
-      dataNascimento: dadosCadastro.dataNascimento,
-      cpf: dadosCadastro.cpf,
-      endereco: dadosCadastro.endereco,
-      observacoes: dadosCadastro.observacoes,
-      criadoEm: new Date().toISOString()
-    };
-
-    clientes.push(novoCliente);
-    localStorage.setItem('clientes', JSON.stringify(clientes));
-
-    alert('Cadastro realizado com sucesso!');
-    setClienteLogado(novoCliente);
   };
 
   const sair = () => {

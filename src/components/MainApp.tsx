@@ -415,6 +415,18 @@ export default function MainApp() {
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
+    // Verificar parâmetro da URL para abrir portal do cliente
+    const urlParams = new URLSearchParams(window.location.search);
+    const portalParam = urlParams.get('portal');
+    
+    if (portalParam === 'cliente') {
+      console.log('🔗 Parâmetro portal=cliente detectado, redirecionando...');
+      setCurrentPage('portal-cliente');
+      // Limpar parâmetro da URL
+      window.history.replaceState({}, '', '/');
+      return;
+    }
+    
     // Verificar se há sessão ativa (sessionStorage - limpa ao fechar navegador)
     const sessionActive = isSessionActive();
     const sessionUser = getSessionUser();
