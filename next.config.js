@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   images: {
     domains: ['localhost'],
   },
@@ -16,7 +17,6 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: [],
   },
-  outputFileTracing: false,
   webpack: (config, { isServer }) => {
     // Evolution API usa apenas HTTP requests - sem dependências pesadas
     if (!isServer) {
