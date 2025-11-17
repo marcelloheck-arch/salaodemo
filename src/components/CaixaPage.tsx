@@ -29,13 +29,10 @@ const mockProfessionals: Professional[] = [
   // Lista vazia - sem dados pré-preenchidos
 ];
 
-const mockServices: Service[] = [
-  // Lista vazia - sem dados pré-preenchidos
-];
-
-const mockTransactions: FinancialTransaction[] = [
-  // Lista vazia - sem dados pré-preenchidos
-];
+// Arrays vazios - sistema inicia limpo sem dados fictícios
+const mockProfessionals: Professional[] = [];
+const mockServices: Service[] = [];
+const mockTransactions: FinancialTransaction[] = [];
 
 const paymentMethodLabels = {
   cash: 'Dinheiro',

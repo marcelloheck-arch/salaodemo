@@ -42,7 +42,8 @@ import {
   Smartphone,
   Zap,
   Briefcase,
-  MessageCircle
+  MessageCircle,
+  Trash2
 } from "lucide-react";
 import { cn } from '@/lib/utils';
 import IntegrationsPage from './IntegrationsPage';
@@ -72,7 +73,8 @@ import ClienteAuthPage from './ClienteAuthPage';
 import ProfissionalAuthPage from './ProfissionalAuthPage';
 import WhatsAppAIAssistant from './WhatsAppAIAssistant';
 import PublicLandingPage from './PublicLandingPage';
-import { useAuth, UserType } from '@/lib/auth';
+import SystemCleanup from './SystemCleanup';
+import { isSessionActive, getSessionUser, startSession, endSession, type AuthUser } from '@/lib/sessionAuth';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -210,6 +212,11 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
       icon: User, 
       label: "🏠 Página Inicial Pública", 
       id: "landing-page"
+    },
+    { 
+      icon: Trash2, 
+      label: "🧹 Limpar Dados Fictícios", 
+      id: "system-cleanup"
     },
   ];
 
@@ -408,41 +415,30 @@ export default function MainApp() {
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
-    // Verificar se há usuário logado no localStorage
-    const user = localStorage.getItem('authUser');
-    const isAuth = localStorage.getItem('isAuthenticated');
+    // Verificar se há sessão ativa (sessionStorage - limpa ao fechar navegador)
+    const sessionActive = isSessionActive();
+    const sessionUser = getSessionUser();
     
-    console.log('🔍 Verificando estado de autenticação:', { user: !!user, isAuth });
+    console.log('🔍 Verificando estado de autenticação:', { 
+      sessionActive, 
+      sessionUser: !!sessionUser 
+    });
     
-    if (user && isAuth === 'true') {
-      try {
-        const authUser = JSON.parse(user);
-        console.log('👤 Usuário encontrado no localStorage:', authUser);
-        setIsAuthenticated(true);
-        setCurrentUser(authUser); // Armazenar dados do usuário no estado
-        
-        // Definir tipo de usuário baseado no campo 'type'
-        console.log('🔍 Analisando tipo de usuário:', {
-          authUser_type: authUser.type,
-          authUser_name: authUser.name,
-          authUser_email: authUser.email
-        });
-        
-        if (authUser.type === 'superadmin' || authUser.type === 'super_admin') {
-          setUserType('super_admin');
-          console.log('🔧 Usuário identificado como Super Admin');
-        } else {
-          setUserType('salon_admin');
-          console.log('🏪 Usuário identificado como Salão Admin');
-        }
-      } catch {
-        console.log('❌ Erro ao recuperar dados do usuário, limpando localStorage');
-        localStorage.removeItem('authUser');
-        localStorage.removeItem('isAuthenticated');
-        localStorage.removeItem('userData');
+    if (sessionActive && sessionUser) {
+      console.log('👤 Sessão ativa encontrada:', sessionUser);
+      setIsAuthenticated(true);
+      setCurrentUser(sessionUser);
+      
+      // Definir tipo de usuário
+      if (sessionUser.type === 'superadmin') {
+        setUserType('super_admin');
+        console.log('🔧 Usuário identificado como Super Admin');
+      } else {
+        setUserType('salon_admin');
+        console.log('🏪 Usuário identificado como Salão Admin');
       }
     } else {
-      console.log('🔓 Nenhum usuário logado, redirecionando para login');
+      console.log('🔓 Nenhuma sessão ativa - Fechar navegador = Logout automático');
     }
 
     // Listener para detectar mudanças no localStorage (quando atualiza perfil/config)
@@ -510,23 +506,22 @@ export default function MainApp() {
     licenseKey?: string;
     isNewUser?: boolean;
   }) => {
+    // Iniciar sessão (usa sessionStorage - limpa ao fechar navegador)
+    startSession(userData);
+    
     setIsAuthenticated(true);
     setUserType(userData.type === 'superadmin' ? 'super_admin' : 'salon_admin');
     setCurrentUser(userData);
     setCurrentPage('dashboard');
     
-    // Salvar dados do usuário no localStorage
-    localStorage.setItem('userData', JSON.stringify(userData));
-    localStorage.setItem('isAuthenticated', 'true');
+    console.log('✅ Login realizado - Sessão será encerrada ao fechar o navegador');
   };
 
   const handleLogout = () => {
-    console.log('🚪 Fazendo logout e limpando todos os dados');
+    console.log('🚪 Fazendo logout e encerrando sessão');
     
-    // Limpar TODOS os dados de autenticação
-    localStorage.removeItem('authUser');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('isAuthenticated');
+    // Encerrar sessão (limpa sessionStorage e dados de autenticação)
+    endSession();
     
     // Reset completo dos estados
     setIsAuthenticated(false);
@@ -534,9 +529,9 @@ export default function MainApp() {
     setCurrentPage('dashboard');
     setUserDropdownOpen(false);
     setSidebarOpen(false);
-    setCurrentUser(null); // Limpar dados do usuário
+    setCurrentUser(null);
     
-    console.log('✅ Logout completo realizado');
+    console.log('✅ Logout completo - Dados de sessão removidos');
   };
 
   const toggleSidebar = () => {
@@ -657,6 +652,8 @@ export default function MainApp() {
           onNavigateToProfissional={() => setCurrentPage('portal-profissional')}
           onNavigateToAdmin={() => setCurrentPage('dashboard')}
         />;
+      case 'system-cleanup':
+        return <SystemCleanup />;
       default:
         return <DashboardContent onPageChange={setCurrentPage} />;
     }

@@ -47,9 +47,8 @@ interface NewService {
   professionals: string[];
 }
 
-const mockServices: Service[] = [
-  // Lista vazia - sem dados pré-preenchidos
-];
+// Sistema inicia limpo - sem dados fictícios
+const mockServices: Service[] = [];
 
 const categories = ["Todos", "Cabelo", "Unhas", "Masculino", "Estética"];
 
