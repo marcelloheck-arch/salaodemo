@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { GlobalDataProvider } from "@/contexts/GlobalDataContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,9 +36,11 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className={inter.className}>
-        <GlobalDataProvider>
-          {children}
-        </GlobalDataProvider>
+        <AuthProvider>
+          <GlobalDataProvider>
+            {children}
+          </GlobalDataProvider>
+        </AuthProvider>
       </body>
     </html>
   );
