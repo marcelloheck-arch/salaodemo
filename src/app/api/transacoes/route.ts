@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest } from '@/lib/auth-utils';
-import { Decimal } from '@prisma/client/runtime/library';
 
 // GET - Listar transações
 export async function GET(req: NextRequest) {
@@ -138,12 +137,12 @@ export async function POST(req: NextRequest) {
     const transacao = await prisma.transaction.create({
       data: {
         type: type.toUpperCase(),
-        amount: new Decimal(amount),
+        amount: amount,
         description,
         category: category || 'Outros',
         paymentMethod: paymentMethod || 'CASH',
         commissionRate,
-        commissionAmount: new Decimal(commissionAmount),
+        commissionAmount: commissionAmount,
         professionalId: professionalId || null,
         date: date ? new Date(date) : new Date(),
         salonId: auth.user.salonId,

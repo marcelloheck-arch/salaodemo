@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest } from '@/lib/auth-utils';
-import { Decimal } from '@prisma/client/runtime/library';
 
 // GET - Listar serviços
 export async function GET(req: NextRequest) {
@@ -136,7 +135,7 @@ export async function POST(req: NextRequest) {
       data: {
         name,
         description: description || null,
-        price: new Decimal(price),
+        price: price,
         duration,
         category: category || 'Geral',
         commission: commission || 0,

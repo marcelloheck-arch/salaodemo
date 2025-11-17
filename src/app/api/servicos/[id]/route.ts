@@ -8,7 +8,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest, validateTenantAccess } from '@/lib/auth-utils';
-import { Decimal } from '@prisma/client/runtime/library';
 
 // GET - Buscar serviço específico
 export async function GET(
@@ -136,7 +135,7 @@ export async function PUT(
       data: {
         ...(name && { name }),
         ...(description !== undefined && { description }),
-        ...(price !== undefined && { price: new Decimal(price) }),
+        ...(price !== undefined && { price: price }),
         ...(duration !== undefined && { duration }),
         ...(category && { category }),
         ...(commission !== undefined && { commission }),

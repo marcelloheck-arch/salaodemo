@@ -8,7 +8,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest, validateTenantAccess } from '@/lib/auth-utils';
-import { Decimal } from '@prisma/client/runtime/library';
 
 // GET - Buscar agendamento
 export async function GET(
@@ -104,7 +103,7 @@ export async function PUT(
         ...(status && { status }),
         ...(notes !== undefined && { notes }),
         ...(paymentStatus && { paymentStatus }),
-        ...(totalPrice !== undefined && { totalPrice: new Decimal(totalPrice) }),
+        ...(totalPrice !== undefined && { totalPrice: totalPrice }),
       },
       include: {
         client: { select: { id: true, name: true, phone: true } },
@@ -126,12 +125,12 @@ export async function PUT(
       await prisma.transaction.create({
         data: {
           type: 'INCOME',
-          amount: new Decimal(amount),
+          amount: amount,
           description: `Serviço: ${agendamento.service.name}`,
           category: 'Serviço',
           paymentMethod: 'CASH', // Default, pode ser atualizado depois
           commissionRate,
-          commissionAmount: new Decimal(commissionAmount),
+          commissionAmount: commissionAmount,
           appointmentId: agendamento.id,
           professionalId: agendamento.professionalId,
           salonId: auth.user.salonId,

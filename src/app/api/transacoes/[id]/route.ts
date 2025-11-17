@@ -8,7 +8,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { authenticateRequest, validateTenantAccess } from '@/lib/auth-utils';
-import { Decimal } from '@prisma/client/runtime/library';
 
 // GET - Buscar transação
 export async function GET(
@@ -119,11 +118,11 @@ export async function PUT(
     };
 
     if (amount !== undefined) {
-      updateData.amount = new Decimal(amount);
+      updateData.amount = amount;
 
       if (existing.professionalId && existing.commissionRate > 0) {
         const newCommission = (amount * existing.commissionRate) / 100;
-        updateData.commissionAmount = new Decimal(newCommission);
+        updateData.commissionAmount = newCommission;
       }
     }
 
