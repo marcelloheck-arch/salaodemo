@@ -579,6 +579,17 @@ export default function MainApp() {
     return currentUser.salonName;
   };
 
+  // Permitir acesso ao portal do cliente e profissional sem autenticação
+  if (currentPage === 'portal-cliente') {
+    console.log('🔓 Renderizando Portal do Cliente (sem autenticação necessária)');
+    return <ClienteAuthPage />;
+  }
+
+  if (currentPage === 'portal-profissional') {
+    console.log('🔓 Renderizando Portal do Profissional (sem autenticação necessária)');
+    return <ProfissionalAuthPage />;
+  }
+
   // Se não está autenticado, mostrar sistema de gerenciamento de licenças/login
   if (!isAuthenticated) {
     console.log('🔓 Usuário não autenticado, mostrando tela de login');
