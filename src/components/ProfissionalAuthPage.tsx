@@ -107,7 +107,7 @@ export default function ProfissionalAuthPage() {
     setProfissionalLogado(profissional);
   };
 
-  const fazerCadastro = () => {
+  const fazerCadastro = async () => {
     // Validações
     if (
       !dadosCadastro.nome ||
@@ -141,17 +141,8 @@ export default function ProfissionalAuthPage() {
       return;
     }
 
-    // Verificar se email já existe
-    const profissionais: Profissional[] = JSON.parse(
-      localStorage.getItem('profissionais') || '[]'
-    );
-    if (profissionais.some(p => p.email === dadosCadastro.email)) {
-      alert('Este email já está cadastrado');
-      return;
-    }
-
     // Converter disponibilidade para formato correto
-    const disponibilidade: { diaSemana: number; horaInicio: string; horaFim: string }[] = [];
+    const workingHours: { dayOfWeek: number; startTime: string; endTime: string }[] = [];
     const diasMap: Record<string, number> = {
       domingo: 0,
       segunda: 1,
@@ -164,38 +155,76 @@ export default function ProfissionalAuthPage() {
 
     Object.entries(dadosCadastro.disponibilidade).forEach(([dia, config]) => {
       if (config.ativo) {
-        disponibilidade.push({
-          diaSemana: diasMap[dia],
-          horaInicio: config.inicio,
-          horaFim: config.fim
+        workingHours.push({
+          dayOfWeek: diasMap[dia],
+          startTime: config.inicio,
+          endTime: config.fim
         });
       }
     });
 
-    if (disponibilidade.length === 0) {
+    if (workingHours.length === 0) {
       alert('Selecione pelo menos um dia de disponibilidade');
       return;
     }
 
-    // Criar novo profissional
-    const novoProfissional: Profissional = {
-      id: Date.now().toString(),
-      nome: dadosCadastro.nome,
-      email: dadosCadastro.email,
-      telefone: dadosCadastro.telefone,
-      senha: dadosCadastro.senha,
-      especialidades: dadosCadastro.especialidades,
-      cpf: dadosCadastro.cpf,
-      bio: dadosCadastro.bio,
-      disponibilidade,
-      criadoEm: new Date().toISOString()
-    };
+    try {
+      // Criar profissional via API pública
+      const response = await fetch('/api/public/profissional/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: dadosCadastro.nome,
+          email: dadosCadastro.email,
+          phone: dadosCadastro.telefone,
+          password: dadosCadastro.senha,
+          specialties: dadosCadastro.especialidades,
+          cpf: dadosCadastro.cpf || undefined,
+          bio: dadosCadastro.bio || undefined,
+          workingHours
+        })
+      });
 
-    profissionais.push(novoProfissional);
-    localStorage.setItem('profissionais', JSON.stringify(profissionais));
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erro ao criar profissional');
+      }
 
-    alert('Cadastro realizado com sucesso! Aguarde aprovação do administrador.');
-    setModo('login');
+      const data = await response.json();
+      
+      // Criar profissional local também (para compatibilidade e login)
+      const novoProfissional: Profissional = {
+        id: data.profissional.id,
+        nome: data.profissional.name,
+        email: data.profissional.email,
+        telefone: data.profissional.phone,
+        senha: dadosCadastro.senha,
+        especialidades: data.profissional.specialties,
+        cpf: data.profissional.cpf,
+        bio: data.profissional.bio,
+        disponibilidade: workingHours.map(wh => ({
+          diaSemana: wh.dayOfWeek,
+          horaInicio: wh.startTime,
+          horaFim: wh.endTime
+        })),
+        criadoEm: data.profissional.createdAt
+      };
+
+      // Salvar também no localStorage (para login funcionar)
+      const profissionais: Profissional[] = JSON.parse(
+        localStorage.getItem('profissionais') || '[]'
+      );
+      profissionais.push(novoProfissional);
+      localStorage.setItem('profissionais', JSON.stringify(profissionais));
+
+      alert('Cadastro realizado com sucesso! Aguarde aprovação do administrador.');
+      setModo('login');
+    } catch (error: any) {
+      console.error('Erro ao cadastrar:', error);
+      alert(error.message || 'Erro ao realizar cadastro. Tente novamente.');
+    }
   };
 
   const sair = () => {
