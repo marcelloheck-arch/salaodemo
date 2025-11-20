@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyToken } from '@/lib/auth';
+import { authenticateRequest } from '@/lib/auth-utils';
 
 /**
  * GET /api/produtos/[id]
@@ -11,20 +11,15 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Token não fornecido' }, { status: 401 });
-    }
-
-    const decoded = verifyToken(token);
-    if (!decoded?.salonId) {
-      return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
+    const authResult = await authenticateRequest(request);
+    if (!authResult.success || !authResult.salonId) {
+      return NextResponse.json({ error: authResult.error || 'Não autorizado' }, { status: 401 });
     }
 
     const produto = await prisma.product.findFirst({
       where: {
         id: params.id,
-        salonId: decoded.salonId,
+        salonId: authResult.salonId,
       },
     });
 
@@ -130,21 +125,16 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Token não fornecido' }, { status: 401 });
-    }
-
-    const decoded = verifyToken(token);
-    if (!decoded?.salonId) {
-      return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
+    const authResult = await authenticateRequest(request);
+    if (!authResult.success || !authResult.salonId) {
+      return NextResponse.json({ error: authResult.error || 'Não autorizado' }, { status: 401 });
     }
 
     // Verificar se produto existe e pertence ao salão
     const produtoExistente = await prisma.product.findFirst({
       where: {
         id: params.id,
-        salonId: decoded.salonId,
+        salonId: authResult.salonId,
       },
     });
 

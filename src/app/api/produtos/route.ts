@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { verifyToken } from '@/lib/auth';
+import { authenticateRequest } from '@/lib/auth-utils';
 
 /**
  * GET /api/produtos
@@ -8,14 +8,9 @@ import { verifyToken } from '@/lib/auth';
  */
 export async function GET(request: NextRequest) {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Token não fornecido' }, { status: 401 });
-    }
-
-    const decoded = verifyToken(token);
-    if (!decoded?.salonId) {
-      return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
+    const authResult = await authenticateRequest(request);
+    if (!authResult.success || !authResult.salonId) {
+      return NextResponse.json({ error: authResult.error || 'Não autorizado' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -23,7 +18,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
 
     const where: any = {
-      salonId: decoded.salonId,
+      salonId: authResult.salonId,
       isActive: true,
     };
 
@@ -54,14 +49,9 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
-    if (!token) {
-      return NextResponse.json({ error: 'Token não fornecido' }, { status: 401 });
-    }
-
-    const decoded = verifyToken(token);
-    if (!decoded?.salonId) {
-      return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
+    const authResult = await authenticateRequest(request);
+    if (!authResult.success || !authResult.salonId) {
+      return NextResponse.json({ error: authResult.error || 'Não autorizado' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -89,7 +79,7 @@ export async function POST(request: NextRequest) {
 
     const produto = await prisma.product.create({
       data: {
-        salonId: decoded.salonId,
+        salonId: authResult.salonId,
         name,
         description,
         category,
