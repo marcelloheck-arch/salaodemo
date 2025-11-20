@@ -553,9 +553,6 @@ export default function ProdutosPage() {
       }
     }
   };
-    setSelectedProduct(null);
-    setShowProductDetails(false);
-  };
 
   const totalValue = products.reduce((sum, product) => sum + (product.price * product.stock), 0);
   const lowStockProducts = products.filter(product => product.stock <= product.minStock);
