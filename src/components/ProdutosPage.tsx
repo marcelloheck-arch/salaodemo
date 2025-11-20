@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { produtosApi } from '@/lib/api';
 
 interface Product {
   id: string;
@@ -395,59 +396,41 @@ export default function ProdutosPage() {
   const [showNewProduct, setShowNewProduct] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showProductDetails, setShowProductDetails] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data para produtos
+  // Carregar produtos da API
   useEffect(() => {
-    const mockProducts: Product[] = [
-      {
-        id: '1',
-        name: 'Shampoo Hidratante 500ml',
-        description: 'Shampoo hidratante para cabelos secos e danificados',
-        category: 'Shampoo',
-        brand: 'L\'Oréal Professional',
-        price: 89.90,
-        costPrice: 45.00,
-        stock: 25,
-        minStock: 5,
-        unit: 'unidade',
-        barcode: '7891010101010',
-        status: 'active',
-        createdAt: new Date('2024-01-15'),
-        updatedAt: new Date('2024-01-15')
-      },
-      {
-        id: '2',
-        name: 'Coloração Chocolate 6.0',
-        description: 'Tintura permanente cor chocolate',
-        category: 'Coloração',
-        brand: 'Wella',
-        price: 32.50,
-        costPrice: 18.00,
-        stock: 8,
-        minStock: 10,
-        unit: 'unidade',
-        barcode: '7891020202020',
-        status: 'active',
-        createdAt: new Date('2024-02-20'),
-        updatedAt: new Date('2024-02-20')
-      },
-      {
-        id: '3',
-        name: 'Máscara Reparadora 250g',
-        description: 'Máscara de tratamento intensivo',
-        category: 'Máscara de Tratamento',
-        brand: 'Kerastase',
-        price: 125.00,
-        costPrice: 75.00,
-        stock: 12,
-        minStock: 3,
-        unit: 'unidade',
-        status: 'active',
-        createdAt: new Date('2024-03-10'),
-        updatedAt: new Date('2024-03-10')
+    async function fetchProducts() {
+      try {
+        setLoading(true);
+        const response = await produtosApi.list();
+        if (response.success && response.data) {
+          const mappedProducts = response.data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            description: p.description || '',
+            category: p.category,
+            brand: p.brand || '',
+            price: parseFloat(p.price),
+            costPrice: p.costPrice ? parseFloat(p.costPrice) : 0,
+            stock: p.stock,
+            minStock: p.minStock,
+            unit: p.unit,
+            barcode: p.barcode,
+            status: p.status.toLowerCase() as 'active' | 'inactive' | 'discontinued',
+            createdAt: new Date(p.createdAt),
+            updatedAt: new Date(p.updatedAt),
+          }));
+          setProducts(mappedProducts);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+      } finally {
+        setLoading(false);
       }
-    ];
-    setProducts(mockProducts);
+    }
+
+    fetchProducts();
   }, []);
 
   const getStatusColor = (status: string) => {
@@ -489,25 +472,101 @@ export default function ProdutosPage() {
 
   const categories = Array.from(new Set(products.map(p => p.category)));
 
-  const handleNewProduct = (newProduct: Product) => {
-    setProducts(prev => [newProduct, ...prev]);
-    setShowNewProduct(false);
+  const handleNewProduct = async (newProduct: Product) => {
+    try {
+      const response = await produtosApi.create({
+        name: newProduct.name,
+        description: newProduct.description,
+        category: newProduct.category,
+        brand: newProduct.brand,
+        price: newProduct.price,
+        costPrice: newProduct.costPrice,
+        stock: newProduct.stock,
+        minStock: newProduct.minStock,
+        unit: newProduct.unit,
+        barcode: newProduct.barcode,
+        status: newProduct.status.toUpperCase(),
+      });
+
+      if (response.success && response.data) {
+        const mappedProduct = {
+          ...response.data,
+          price: parseFloat(response.data.price),
+          costPrice: response.data.costPrice ? parseFloat(response.data.costPrice) : 0,
+          status: response.data.status.toLowerCase() as 'active' | 'inactive' | 'discontinued',
+          createdAt: new Date(response.data.createdAt),
+          updatedAt: new Date(response.data.updatedAt),
+        };
+        setProducts(prev => [mappedProduct, ...prev]);
+        setShowNewProduct(false);
+      }
+    } catch (error) {
+      console.error('Erro ao criar produto:', error);
+      alert('Erro ao criar produto. Tente novamente.');
+    }
   };
 
-  const handleEditProduct = (updatedProduct: Product) => {
-    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+  const handleEditProduct = async (updatedProduct: Product) => {
+    try {
+      const response = await produtosApi.update(updatedProduct.id, {
+        name: updatedProduct.name,
+        description: updatedProduct.description,
+        category: updatedProduct.category,
+        brand: updatedProduct.brand,
+        price: updatedProduct.price,
+        costPrice: updatedProduct.costPrice,
+        stock: updatedProduct.stock,
+        minStock: updatedProduct.minStock,
+        unit: updatedProduct.unit,
+        barcode: updatedProduct.barcode,
+        status: updatedProduct.status.toUpperCase(),
+      });
+
+      if (response.success && response.data) {
+        const mappedProduct = {
+          ...response.data,
+          price: parseFloat(response.data.price),
+          costPrice: response.data.costPrice ? parseFloat(response.data.costPrice) : 0,
+          status: response.data.status.toLowerCase() as 'active' | 'inactive' | 'discontinued',
+          createdAt: new Date(response.data.createdAt),
+          updatedAt: new Date(response.data.updatedAt),
+        };
+        setProducts(prev => prev.map(p => p.id === mappedProduct.id ? mappedProduct : p));
+        setSelectedProduct(null);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar produto:', error);
+      alert('Erro ao atualizar produto. Tente novamente.');
+    }
+  };
+
+  const handleDeleteProduct = async (productId: string) => {
+    if (confirm('Tem certeza que deseja excluir este produto?')) {
+      try {
+        const response = await produtosApi.delete(productId);
+        if (response.success) {
+          setProducts(prev => prev.filter(p => p.id !== productId));
+        }
+      } catch (error) {
+        console.error('Erro ao deletar produto:', error);
+        alert('Erro ao deletar produto. Tente novamente.');
+      }
+    }
+  };
     setSelectedProduct(null);
     setShowProductDetails(false);
   };
 
-  const handleDeleteProduct = (productId: string) => {
-    if (confirm('Tem certeza que deseja excluir este produto?')) {
-      setProducts(prev => prev.filter(p => p.id !== productId));
-    }
-  };
-
   const totalValue = products.reduce((sum, product) => sum + (product.price * product.stock), 0);
   const lowStockProducts = products.filter(product => product.stock <= product.minStock);
+
+  if (loading) {
+    return (
+      <div className="p-4 flex items-center justify-center h-64">
+        <div className="text-gray-600">Carregando produtos...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 space-y-4">

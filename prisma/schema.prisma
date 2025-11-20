@@ -1,582 +1,402 @@
-// Schema Prisma - Sistema Multi-Tenant para Salões de Beleza// Schema Prisma - Sistema de Gerenciamento de Salão
-
-// PostgreSQL (Render.com) - Produção// Multi-Tenant: Todos os dados isolados por salonId
-
-// PostgreSQL para produção (Render.com)
+// Schema Prisma - Sistema Multi-Tenant para Salões de Beleza
+// PostgreSQL (Render.com) - Produção
+// Multi-Tenant: Todos os dados isolados por salonId
 
 generator client {
-
-  provider = "prisma-client-js"generator client {
-
-}  provider = "prisma-client-js"
-
+  provider = "prisma-client-js"
 }
 
 datasource db {
-
-  provider = "postgresql"datasource db {
-
-  url      = env("DATABASE_URL")  provider = "postgresql"
-
-}  url      = env("DATABASE_URL")
-
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
-// ========== USUÁRIOS E AUTENTICAÇÃO ==========
 
 // ============================================
+// MODELOS PRINCIPAIS - MULTI-TENANT
+// ============================================
 
-model User {// MODELOS PRINCIPAIS - MULTI-TENANT
-
-  id          String   @id @default(cuid())// ============================================
-
+model User {
+  id          String   @id @default(cuid())
   email       String   @unique
-
-  name        String// Modelos do banco de dados
-
+  name        String
   password    String   // bcrypt hash
-
-  role        Role     @default(OWNER)model User {
-
-  isActive    Boolean  @default(true)  id          String   @id @default(cuid())
-
-  createdAt   DateTime @default(now())  email       String   @unique
-
-  updatedAt   DateTime @updatedAt  name        String
-
-    password    String
-
-  salon        Salon?  role        Role     @default(OWNER)
-
-  appointments Appointment[]  isActive    Boolean  @default(true)
-
-    createdAt   DateTime @default(now())
-
-  @@map("users")  updatedAt   DateTime @updatedAt
-
-}  
-
+  role        Role     @default(OWNER)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
   // Relacionamentos
-
-// ========== SALÕES (TENANTS) ==========  salon       Salon?
-
+  salon        Salon?
   appointments Appointment[]
-
-model Salon {  
-
-  id            String   @id @default(cuid())  @@map("users")
-
-  name          String}
-
-  ownerName     String
-
-  email         String   @uniquemodel Salon {
-
-  phone         String  id            String   @id @default(cuid())
-
-  address       String?  name          String
-
-  city          String?  ownerName     String
-
-  state         String?  email         String
-
-  zipCode       String?  phone         String
-
-    address       String
-
-  // Licenciamento  city          String
-
-  licenseKey    String   @unique  state         String
-
-  planType      PlanType @default(STARTER)  zipCode       String
-
-  licenseStatus LicenseStatus @default(ACTIVE)  description   String?
-
-  expiresAt     DateTime  logo          String?
-
-  maxUsers      Int      @default(5)  isActive      Boolean  @default(true)
-
-    createdAt     DateTime @default(now())
-
-  isActive      Boolean  @default(true)  updatedAt     DateTime @updatedAt
-
-  createdAt     DateTime @default(now())  
-
-  updatedAt     DateTime @updatedAt  // Relacionamentos
-
-    ownerId       String   @unique
-
-  // Relacionamentos (CASCADE para isolamento)  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-
-  ownerId       String   @unique  clients       Client[]
-
-  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)  services      Service[]
-
-    appointments  Appointment[]
-
-  clients       Client[]  transactions  Transaction[]
-
-  services      Service[]  workingHours  WorkingHours[]
-
-  professionals Professional[]  integrations  Integration[]
-
-  appointments  Appointment[]  
-
-  transactions  Transaction[]  @@map("salons")
-
-  workingHours  WorkingHours[]}
-
   
-
-  @@map("salons")model Client {
-
-  @@index([licenseKey])  id          String   @id @default(cuid())
-
-  @@index([email])  name        String
-
-}  email       String?
-
-  phone       String
-
-// ========== CLIENTES DO SALÃO ==========  birthDate   DateTime?
-
-  address     String?
-
-model Client {  notes       String?
-
-  id          String   @id @default(cuid())  isActive    Boolean  @default(true)
-
-  name        String  createdAt   DateTime @default(now())
-
-  email       String?  updatedAt   DateTime @updatedAt
-
-  phone       String  
-
-  birthDate   DateTime?  // Relacionamentos
-
-  address     String?  salonId     String
-
-  notes       String?  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-  preferences String[]  appointments Appointment[]
-
-  totalSpent  Decimal  @default(0) @db.Decimal(10, 2)  
-
-  totalVisits Int      @default(0)  @@map("clients")
-
-  lastVisit   DateTime?}
-
-  status      ClientStatus @default(ACTIVE)
-
-  createdAt   DateTime @default(now())model Service {
-
-  updatedAt   DateTime @updatedAt  id          String   @id @default(cuid())
-
-    name        String
-
-  salonId     String  description String?
-
-  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)  price       Float        // em SQLite usamos Float ao invés de Decimal
-
-  appointments Appointment[]  duration    Int      // em minutos
-
-    category    String
-
-  @@map("clients")  isActive    Boolean  @default(true)
-
-  @@index([salonId])  createdAt   DateTime @default(now())
-
-  @@index([salonId, phone])  updatedAt   DateTime @updatedAt
-
-}  
-
-  // Relacionamentos
-
-// ========== SERVIÇOS ==========  salonId     String
-
-  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-model Service {  appointments Appointment[]
-
-  id          String   @id @default(cuid())  
-
-  name        String  @@map("services")
-
-  description String?}
-
-  price       Decimal  @db.Decimal(10, 2)
-
-  duration    Int      // minutosmodel Appointment {
-
-  category    String  id          String            @id @default(cuid())
-
-  commission  Int      @default(30) // %  date        DateTime
-
-  isActive    Boolean  @default(true)  startTime   DateTime
-
-  createdAt   DateTime @default(now())  endTime     DateTime
-
-  updatedAt   DateTime @updatedAt  status      AppointmentStatus @default(SCHEDULED)
-
-    notes       String?
-
-  salonId     String  totalPrice  Float             // em SQLite usamos Float
-
-  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)  createdAt   DateTime          @default(now())
-
-  appointments Appointment[]  updatedAt   DateTime          @updatedAt
-
-    
-
-  @@map("services")  // Relacionamentos
-
-  @@index([salonId])  clientId    String
-
-}  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-
-  serviceId   String
-
-// ========== PROFISSIONAIS ==========  service     Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-
-  userId      String
-
-model Professional {  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  id          String   @id @default(cuid())  salonId     String
-
-  name        String  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-  email       String?  
-
-  phone       String?  @@map("appointments")
-
-  specialties String[]}
-
-  commission  Int      @default(30) // %
-
-  isActive    Boolean  @default(true)model Transaction {
-
-  createdAt   DateTime @default(now())  id          String          @id @default(cuid())
-
-  updatedAt   DateTime @updatedAt  type        TransactionType
-
-    amount      Float           // em SQLite usamos Float
-
-  salonId     String  description String
-
-  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)  category    String
-
-  appointments Appointment[]  paymentMethod PaymentMethod
-
-  transactions Transaction[]  date        DateTime        @default(now())
-
-    createdAt   DateTime        @default(now())
-
-  @@map("professionals")  updatedAt   DateTime        @updatedAt
-
-  @@index([salonId])  
-
-}  // Relacionamentos
-
-  salonId     String
-
-// ========== AGENDAMENTOS ==========  salon       Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-  
-
-model Appointment {  @@map("transactions")
-
-  id            String            @id @default(cuid())}
-
-  date          DateTime
-
-  startTime     Stringmodel WorkingHours {
-
-  endTime       String  id        String    @id @default(cuid())
-
-  status        AppointmentStatus @default(SCHEDULED)  dayOfWeek Int       // 0-6 (Domingo-Sábado)
-
-  notes         String?  startTime String    // "09:00"
-
-  totalPrice    Decimal           @db.Decimal(10, 2)  endTime   String    // "18:00"
-
-  paymentStatus PaymentStatus     @default(PENDING)  isClosed  Boolean   @default(false)
-
-  createdAt     DateTime          @default(now())  createdAt DateTime  @default(now())
-
-  updatedAt     DateTime          @updatedAt  updatedAt DateTime  @updatedAt
-
-    
-
-  clientId      String  // Relacionamentos
-
-  client        Client   @relation(fields: [clientId], references: [id])  salonId   String
-
-    salon     Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-  serviceId     String  
-
-  service       Service  @relation(fields: [serviceId], references: [id])  @@unique([salonId, dayOfWeek])
-
-    @@map("working_hours")
-
-  professionalId String}
-
-  professional  Professional @relation(fields: [professionalId], references: [id])
-
-  model Integration {
-
-  userId        String  id            String          @id @default(cuid())
-
-  user          User     @relation(fields: [userId], references: [id])  type          IntegrationType
-
-    isEnabled     Boolean         @default(false)
-
-  salonId       String  config        Json            // Configurações específicas de cada integração
-
-  salon         Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)  createdAt     DateTime        @default(now())
-
-    updatedAt     DateTime        @updatedAt
-
-  @@map("appointments")  
-
-  @@index([salonId])  // Relacionamentos
-
-  @@index([salonId, date])  salonId       String
-
-}  salon         Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
-
-  
-
-// ========== TRANSAÇÕES FINANCEIRAS ==========  @@unique([salonId, type])
-
-  @@map("integrations")
-
-model Transaction {}
-
-  id              String          @id @default(cuid())
-
-  type            TransactionType// Enums
-
-  amount          Decimal         @db.Decimal(10, 2)enum Role {
-
-  description     String  OWNER
-
-  category        String  EMPLOYEE
-
-  paymentMethod   PaymentMethod  ADMIN
-
-  }
-
-  commissionRate  Int?
-
-  commissionAmount Decimal?       @db.Decimal(10, 2)enum AppointmentStatus {
-
-    SCHEDULED
-
-  appointmentId   String?  CONFIRMED
-
-  clientName      String?  IN_PROGRESS
-
-  serviceName     String?  COMPLETED
-
-    CANCELLED
-
-  date            DateTime        @default(now())  NO_SHOW
-
-  createdAt       DateTime        @default(now())}
-
-  updatedAt       DateTime        @updatedAt
-
-  enum TransactionType {
-
-  salonId         String  INCOME
-
-  salon           Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)  EXPENSE
-
-  }
-
-  professionalId  String?
-
-  professional    Professional? @relation(fields: [professionalId], references: [id])enum PaymentMethod {
-
-    CASH
-
-  @@map("transactions")  CREDIT_CARD
-
-  @@index([salonId])  DEBIT_CARD
-
-  @@index([salonId, date])  PIX
-
-}  BANK_TRANSFER
-
+  @@map("users")
 }
 
-// ========== HORÁRIOS DE FUNCIONAMENTO ==========
-
-enum IntegrationType {
-
-model WorkingHours {  WHATSAPP
-
-  id        String    @id @default(cuid())  GOOGLE_CALENDAR
-
-  dayOfWeek Int       // 0-6  PAYMENT_GATEWAY
-
-  startTime String}
-
-  endTime   String
-
-  isClosed  Boolean   @default(false)// Modelos para sistema de licenças
-
-  createdAt DateTime  @default(now())model License {
-
-  updatedAt DateTime  @updatedAt  id              String          @id @default(cuid())
-
-    licenseKey      String          @unique
-
-  salonId   String  planType        LicensePlanType
-
-  salon     Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)  status          LicenseStatus   @default(PENDING)
-
-    clientId        String
-
-  @@unique([salonId, dayOfWeek])  clientName      String
-
-  @@map("working_hours")  clientEmail     String
-
-}  createdAt       DateTime        @default(now())
-
-  expiresAt       DateTime
-
-// ========== ENUMS ==========  maxUsers        Int
-
-  paymentStatus   PaymentStatus   @default(PENDING)
-
-enum Role {  renewalDate     DateTime?
-
-  OWNER  updatedAt       DateTime        @updatedAt
-
-  EMPLOYEE  
-
-  ADMIN  // Relacionamento com recursos
-
-}  features        LicenseFeature[]
-
+model Salon {
+  id            String        @id @default(cuid())
+  name          String
+  ownerName     String
+  email         String        @unique
+  phone         String
+  address       String?
+  city          String?
+  state         String?
+  zipCode       String?
+  description   String?
+  logo          String?
   
+  // Licenciamento
+  licenseKey    String        @unique
+  planType      PlanType      @default(STARTER)
+  licenseStatus LicenseStatus @default(ACTIVE)
+  expiresAt     DateTime
+  maxUsers      Int           @default(5)
+  
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relacionamentos
+  ownerId       String        @unique
+  owner         User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  clients       Client[]
+  services      Service[]
+  professionals Professional[]
+  appointments  Appointment[]
+  transactions  Transaction[]
+  workingHours  WorkingHours[]
+  integrations  Integration[]
+  products      Product[]
+  
+  @@map("salons")
+  @@index([licenseKey])
+  @@index([email])
+}
 
-enum PlanType {  @@map("licenses")
+model Client {
+  id          String        @id @default(cuid())
+  name        String
+  email       String?
+  phone       String
+  birthDate   DateTime?
+  address     String?
+  notes       String?
+  preferences String[]
+  totalSpent  Decimal       @default(0) @db.Decimal(10, 2)
+  totalVisits Int           @default(0)
+  lastVisit   DateTime?
+  status      ClientStatus  @default(ACTIVE)
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relacionamentos
+  salonId     String
+  salon       Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  
+  @@map("clients")
+  @@index([salonId])
+  @@index([salonId, phone])
+}
 
-  STARTER}
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  duration    Int      // minutos
+  category    String
+  commission  Int      @default(30) // %
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relacionamentos
+  salonId      String
+  salon        Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  
+  @@map("services")
+  @@index([salonId])
+}
 
-  PROFESSIONAL
+model Professional {
+  id          String        @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  specialties String[]
+  commission  Int           @default(30) // %
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relacionamentos
+  salonId      String
+  salon        Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+  transactions Transaction[]
+  
+  @@map("professionals")
+  @@index([salonId])
+}
 
-  PREMIUMmodel LicenseFeature {
+model Appointment {
+  id            String            @id @default(cuid())
+  date          DateTime
+  startTime     String
+  endTime       String
+  status        AppointmentStatus @default(SCHEDULED)
+  notes         String?
+  totalPrice    Decimal           @db.Decimal(10, 2)
+  paymentStatus PaymentStatus     @default(PENDING)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  
+  // Relacionamentos
+  clientId       String
+  client         Client       @relation(fields: [clientId], references: [id])
+  serviceId      String
+  service        Service      @relation(fields: [serviceId], references: [id])
+  professionalId String
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  salonId        String
+  salon          Salon        @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  
+  @@map("appointments")
+  @@index([salonId])
+  @@index([salonId, date])
+}
 
-  ENTERPRISE  id          String   @id @default(cuid())
+model Transaction {
+  id               String          @id @default(cuid())
+  type             TransactionType
+  amount           Decimal         @db.Decimal(10, 2)
+  description      String
+  category         String
+  paymentMethod    PaymentMethod
+  commissionRate   Int?
+  commissionAmount Decimal?        @db.Decimal(10, 2)
+  appointmentId    String?
+  clientName       String?
+  serviceName      String?
+  date             DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  
+  // Relacionamentos
+  salonId        String
+  salon          Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  professionalId String?
+  professional   Professional? @relation(fields: [professionalId], references: [id])
+  
+  @@map("transactions")
+  @@index([salonId])
+  @@index([salonId, date])
+}
 
-}  name        String
+model WorkingHours {
+  id        String   @id @default(cuid())
+  dayOfWeek Int      // 0-6 (Domingo-Sábado)
+  startTime String   // "09:00"
+  endTime   String   // "18:00"
+  isClosed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relacionamentos
+  salonId   String
+  salon     Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  
+  @@unique([salonId, dayOfWeek])
+  @@map("working_hours")
+}
 
+model Integration {
+  id        String          @id @default(cuid())
+  type      IntegrationType
+  isEnabled Boolean         @default(false)
+  config    Json            // Configurações específicas de cada integração
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  
+  // Relacionamentos
+  salonId   String
+  salon     Salon           @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  
+  @@unique([salonId, type])
+  @@map("integrations")
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  category    String
+  brand       String?
+  price       Decimal       @db.Decimal(10, 2)
+  costPrice   Decimal?      @db.Decimal(10, 2)
+  stock       Int           @default(0)
+  minStock    Int           @default(0)
+  unit        String        @default("un") // un, kg, l, etc
+  barcode     String?
+  status      ProductStatus @default(ACTIVE)
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relacionamentos
+  salonId     String
+  salon       Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  
+  @@map("products")
+  @@index([salonId])
+  @@index([salonId, category])
+  @@index([salonId, status])
+}
+
+// ============================================
+// SISTEMA DE LICENÇAS
+// ============================================
+
+model License {
+  id            String          @id @default(cuid())
+  licenseKey    String          @unique
+  planType      LicensePlanType
+  status        LicenseStatus   @default(PENDING)
+  clientId      String
+  clientName    String
+  clientEmail   String
+  createdAt     DateTime        @default(now())
+  expiresAt     DateTime
+  maxUsers      Int
+  paymentStatus PaymentStatus   @default(PENDING)
+  renewalDate   DateTime?
+  updatedAt     DateTime        @updatedAt
+  
+  // Relacionamentos
+  features      LicenseFeature[]
+  
+  @@map("licenses")
+}
+
+model LicenseFeature {
+  id          String   @id @default(cuid())
+  name        String
   enabled     Boolean  @default(true)
-
-enum LicenseStatus {  description String?
-
-  ACTIVE  createdAt   DateTime @default(now())
-
-  TRIAL  updatedAt   DateTime @updatedAt
-
-  EXPIRED  
-
-  SUSPENDED  // Relacionamentos
-
-}  licenseId   String
-
-  license     License  @relation(fields: [licenseId], references: [id], onDelete: Cascade)
-
-enum ClientStatus {  
-
-  ACTIVE  @@map("license_features")
-
-  INACTIVE}
-
-  VIP
-
-}// Modelo estendido de Cliente para sistema de licenças
-
-model LicenseClient {
-
-enum AppointmentStatus {  id          String   @id @default(cuid())
-
-  SCHEDULED  name        String
-
-  CONFIRMED  email       String   @unique
-
-  IN_PROGRESS  phone       String?
-
-  COMPLETED  company     String?
-
-  CANCELLED  cnpj        String?
-
-  NO_SHOW  licenseKey  String?
-
-}  totalRevenue Float?   @default(0) // em SQLite usamos Float
-
-  status      ClientStatus @default(ACTIVE)
-
-enum PaymentStatus {  createdAt   DateTime @default(now())
-
-  PENDING  updatedAt   DateTime @updatedAt
-
-  PAID  
-
-  CANCELLED  // Endereço
-
-}  street      String?
-
-  number      String?
-
-enum TransactionType {  city        String?
-
-  INCOME  state       String?
-
-  EXPENSE  zipCode     String?
-
-}  country     String?
-
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   
+  // Relacionamentos
+  licenseId   String
+  license     License  @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  
+  @@map("license_features")
+}
 
-enum PaymentMethod {  @@map("license_clients")
+model UserRegistration {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  company     String?
+  cnpj        String?
+  licenseKey  String?
+  totalRevenue Float?  @default(0)
+  status      ClientStatus @default(ACTIVE)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Endereço
+  street      String?
+  number      String?
+  city        String?
+  state       String?
+  zipCode     String?
+  country     String?
+  
+  @@map("user_registrations")
+}
 
-  CASH}
+// ============================================
+// ENUMS
+// ============================================
 
-  CREDIT_CARD
+enum Role {
+  OWNER
+  EMPLOYEE
+  ADMIN
+}
 
-  DEBIT_CARD// Enums para sistema de licenças
-
-  PIXenum LicensePlanType {
-
-  BANK_TRANSFER  BASIC
-
-}  PREMIUM
-
+enum PlanType {
+  STARTER
+  PROFESSIONAL
+  PREMIUM
   ENTERPRISE
 }
 
 enum LicenseStatus {
   ACTIVE
+  TRIAL
   EXPIRED
   SUSPENDED
   PENDING
 }
 
-enum PaymentStatus {
-  PAID
-  PENDING
-  FAILED
-  CANCELLED
+enum LicensePlanType {
+  BASIC
+  PREMIUM
+  ENTERPRISE
 }
 
 enum ClientStatus {
   ACTIVE
   INACTIVE
   VIP
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+  BANK_TRANSFER
+}
+
+enum IntegrationType {
+  WHATSAPP
+  GOOGLE_CALENDAR
+  PAYMENT_GATEWAY
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+  DISCONTINUED
 }

@@ -48,6 +48,7 @@ import {
 import { cn } from '@/lib/utils';
 import IntegrationsPage from './IntegrationsPage';
 import ProfilePage from './ProfilePage';
+import { agendamentosApi, transacoesApi, clientesApi } from '@/lib/api';
 import AnalyticsPage from './pages/AnalyticsPage';
 // COMENTADO - AgendamentosPage antiga (para restaurar se necessário, descomentar esta linha)
 // import AgendamentosPage from './AgendamentosPage';
@@ -292,6 +293,78 @@ function Sidebar({ isOpen, onToggle, currentPage, onPageChange }: SidebarProps) 
 }
 
 function DashboardContent({ onPageChange }: { onPageChange: (page: string) => void }) {
+  const [metrics, setMetrics] = useState({
+    agendamentosHoje: 0,
+    faturamento: 0,
+    clientesAtivos: 0,
+    taxaOcupacao: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchDashboardData() {
+      try {
+        // Buscar agendamentos de hoje
+        const hoje = new Date().toISOString().split('T')[0];
+        const agendamentosRes = await agendamentosApi.list({
+          dateFrom: hoje,
+          dateTo: hoje,
+        });
+        const agendamentos = agendamentosRes.data || [];
+
+        // Buscar transações do mês atual para faturamento
+        const primeiroDiaMes = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+          .toISOString()
+          .split('T')[0];
+        const ultimoDiaMes = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+          .toISOString()
+          .split('T')[0];
+        
+        const transacoesRes = await transacoesApi.list({
+          dateFrom: primeiroDiaMes,
+          dateTo: ultimoDiaMes,
+          type: 'receita',
+        });
+        const transacoes = transacoesRes.data || [];
+        const faturamentoTotal = transacoes.reduce((sum: number, t: any) => sum + (t.valor || 0), 0);
+
+        // Buscar total de clientes ativos
+        const clientesRes = await clientesApi.list();
+        const clientes = clientesRes.data || [];
+        const clientesAtivos = clientes.filter((c: any) => c.status === 'active').length;
+
+        // Calcular taxa de ocupação (agendamentos confirmados / total)
+        const confirmados = agendamentos.filter((a: any) => a.status === 'confirmado').length;
+        const taxaOcupacao = agendamentos.length > 0 
+          ? Math.round((confirmados / agendamentos.length) * 100) 
+          : 0;
+
+        setMetrics({
+          agendamentosHoje: agendamentos.length,
+          faturamento: faturamentoTotal,
+          clientesAtivos: clientesAtivos,
+          taxaOcupacao: taxaOcupacao,
+        });
+      } catch (error) {
+        console.error('Erro ao buscar dados do dashboard:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-4 max-w-6xl mx-auto">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-gray-600">Carregando dados...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4 max-w-6xl mx-auto">
       <div className="mb-6">
@@ -302,10 +375,10 @@ function DashboardContent({ onPageChange }: { onPageChange: (page: string) => vo
       {/* Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {[
-          { label: "Agendamentos Hoje", value: "12", color: "bg-blue-100 text-blue-600" },
-          { label: "Faturamento", value: "R$ 850", color: "bg-green-100 text-green-600" },
-          { label: "Clientes Ativos", value: "347", color: "bg-slate-100 text-slate-600" },
-          { label: "Taxa Ocupação", value: "85%", color: "bg-orange-100 text-orange-600" },
+          { label: "Agendamentos Hoje", value: metrics.agendamentosHoje.toString(), color: "bg-blue-100 text-blue-600" },
+          { label: "Faturamento Mês", value: `R$ ${metrics.faturamento.toFixed(2)}`, color: "bg-green-100 text-green-600" },
+          { label: "Clientes Ativos", value: metrics.clientesAtivos.toString(), color: "bg-slate-100 text-slate-600" },
+          { label: "Taxa Ocupação", value: `${metrics.taxaOcupacao}%`, color: "bg-orange-100 text-orange-600" },
         ].map((metric, index) => (
           <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h3 className="text-sm font-medium text-gray-600 mb-1">{metric.label}</h3>

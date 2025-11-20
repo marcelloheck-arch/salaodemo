@@ -452,3 +452,66 @@ export const transacoesApi = {
     return fetchWithAuth(`/api/transacoes/dashboard?${query.toString()}`);
   },
 };
+
+// ========== PRODUTOS API ==========
+
+export const produtosApi = {
+  async list(params?: {
+    category?: string;
+    status?: string;
+  }) {
+    const query = new URLSearchParams();
+    if (params?.category) query.append('category', params.category);
+    if (params?.status) query.append('status', params.status);
+    
+    return fetchWithAuth(`/api/produtos?${query.toString()}`);
+  },
+
+  async getById(id: string) {
+    return fetchWithAuth(`/api/produtos/${id}`);
+  },
+
+  async create(produto: {
+    name: string;
+    description?: string;
+    category: string;
+    brand?: string;
+    price: number;
+    costPrice?: number;
+    stock?: number;
+    minStock?: number;
+    unit?: string;
+    barcode?: string;
+    status?: string;
+  }) {
+    return fetchWithAuth('/api/produtos', {
+      method: 'POST',
+      body: JSON.stringify(produto),
+    });
+  },
+
+  async update(id: string, produto: {
+    name?: string;
+    description?: string;
+    category?: string;
+    brand?: string;
+    price?: number;
+    costPrice?: number;
+    stock?: number;
+    minStock?: number;
+    unit?: string;
+    barcode?: string;
+    status?: string;
+  }) {
+    return fetchWithAuth(`/api/produtos/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(produto),
+    });
+  },
+
+  async delete(id: string) {
+    return fetchWithAuth(`/api/produtos/${id}`, {
+      method: 'DELETE',
+    });
+  },
+};
