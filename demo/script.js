@@ -442,9 +442,11 @@ function navigateTo(page) {
     
     // Atualizar menu ativo
     document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active', 'bg-white/20', 'text-white');
+        item.classList.remove('active', 'bg-purple-50', 'text-purple-600');
+        item.classList.add('text-gray-600');
         if (item.getAttribute('data-page') === page) {
-            item.classList.add('active', 'bg-white/20', 'text-white');
+            item.classList.add('active', 'bg-purple-50', 'text-purple-600');
+            item.classList.remove('text-gray-600');
         }
     });
     
@@ -515,7 +517,7 @@ function loadPageContent(page) {
                 contentContainer.innerHTML = renderConfiguracoes();
                 break;
             default:
-                contentContainer.innerHTML = '<div class="text-center text-white">Página não encontrada</div>';
+                contentContainer.innerHTML = '<div class="text-center text-gray-900">Página não encontrada</div>';
         }
         
         // Animação de entrada
@@ -548,11 +550,11 @@ function renderDashboard() {
             <!-- Estatísticas Principais -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Agendamentos Hoje -->
-                <div class="glassmorphism rounded-xl p-6 card-hover">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 card-hover">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Agendamentos Hoje</p>
-                            <p class="text-3xl font-bold text-white mt-2">${agendamentosHoje.length}</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">${agendamentosHoje.length}</p>
                             <p class="text-green-400 text-xs mt-1">
                                 <i data-lucide="trending-up" class="w-3 h-3 inline mr-1"></i>
                                 +12% vs ontem
@@ -565,11 +567,11 @@ function renderDashboard() {
                 </div>
                 
                 <!-- Total de Clientes -->
-                <div class="glassmorphism rounded-xl p-6 card-hover">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 card-hover">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Total de Clientes</p>
-                            <p class="text-3xl font-bold text-white mt-2">${totalClientes}</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">${totalClientes}</p>
                             <p class="text-purple-400 text-xs mt-1">
                                 <i data-lucide="users" class="w-3 h-3 inline mr-1"></i>
                                 ${clientesVip} VIP
@@ -582,11 +584,11 @@ function renderDashboard() {
                 </div>
                 
                 <!-- Receita do Mês -->
-                <div class="glassmorphism rounded-xl p-6 card-hover">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 card-hover">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Receita do Mês</p>
-                            <p class="text-3xl font-bold text-white mt-2">R$ ${receitaMes.toFixed(2)}</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">R$ ${receitaMes.toFixed(2)}</p>
                             <p class="text-green-400 text-xs mt-1">
                                 <i data-lucide="trending-up" class="w-3 h-3 inline mr-1"></i>
                                 +8% vs mês anterior
@@ -599,11 +601,11 @@ function renderDashboard() {
                 </div>
                 
                 <!-- Profissionais Ativos -->
-                <div class="glassmorphism rounded-xl p-6 card-hover">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 card-hover">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Profissionais</p>
-                            <p class="text-3xl font-bold text-white mt-2">${demoData.profissionais.filter(p => p.status === 'ativo').length}</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">${demoData.profissionais.filter(p => p.status === 'ativo').length}</p>
                             <p class="text-blue-400 text-xs mt-1">
                                 <i data-lucide="user-check" class="w-3 h-3 inline mr-1"></i>
                                 Todos ativos
@@ -619,23 +621,23 @@ function renderDashboard() {
             <!-- Gráficos -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Gráfico de Receitas -->
-                <div class="glassmorphism rounded-xl p-6">
-                    <h3 class="text-xl font-bold text-white mb-6">Receitas dos Últimos 7 Dias</h3>
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Receitas dos Últimos 7 Dias</h3>
                     <canvas id="revenueChart" width="400" height="200"></canvas>
                 </div>
                 
                 <!-- Gráfico de Serviços -->
-                <div class="glassmorphism rounded-xl p-6">
-                    <h3 class="text-xl font-bold text-white mb-6">Serviços Mais Realizados</h3>
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Serviços Mais Realizados</h3>
                     <canvas id="servicesChart" width="400" height="200"></canvas>
                 </div>
             </div>
             
             <!-- Agendamentos de Hoje -->
-            <div class="glassmorphism rounded-xl p-6">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-bold text-white">Agendamentos de Hoje</h3>
-                    <button onclick="navigateTo('agendamentos')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm transition-colors">
+                    <h3 class="text-xl font-bold text-gray-900">Agendamentos de Hoje</h3>
+                    <button onclick="navigateTo('agendamentos')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-gray-900 rounded-lg text-sm transition-colors">
                         Ver Todos
                     </button>
                 </div>
@@ -644,16 +646,16 @@ function renderDashboard() {
                     ${agendamentosHoje.length > 0 ? agendamentosHoje.map(agendamento => `
                         <div class="bg-white/5 rounded-lg p-4 flex items-center justify-between hover:bg-white/10 transition-colors">
                             <div class="flex items-center space-x-4">
-                                <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                                <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-gray-900 font-bold">
                                     ${agendamento.clienteNome.charAt(0)}
                                 </div>
                                 <div>
-                                    <p class="text-white font-medium">${agendamento.clienteNome}</p>
+                                    <p class="text-gray-900 font-medium">${agendamento.clienteNome}</p>
                                     <p class="text-white/70 text-sm">${agendamento.servico} • ${agendamento.profissional}</p>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="text-white font-medium">${agendamento.horario}</p>
+                                <p class="text-gray-900 font-medium">${agendamento.horario}</p>
                                 <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(agendamento.status)}">
                                     ${getStatusText(agendamento.status)}
                                 </span>
@@ -670,24 +672,24 @@ function renderDashboard() {
             
             <!-- Ações Rápidas -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <button onclick="openModal('novoAgendamento')" class="glassmorphism rounded-xl p-6 text-center hover:bg-white/20 transition-colors">
+                <button onclick="openModal('novoAgendamento')" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:bg-white/20 transition-colors">
                     <i data-lucide="plus" class="w-8 h-8 text-purple-400 mx-auto mb-2"></i>
-                    <p class="text-white font-medium">Novo Agendamento</p>
+                    <p class="text-gray-900 font-medium">Novo Agendamento</p>
                 </button>
                 
-                <button onclick="openModal('novoCliente')" class="glassmorphism rounded-xl p-6 text-center hover:bg-white/20 transition-colors">
+                <button onclick="openModal('novoCliente')" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:bg-white/20 transition-colors">
                     <i data-lucide="user-plus" class="w-8 h-8 text-blue-400 mx-auto mb-2"></i>
-                    <p class="text-white font-medium">Cadastrar Cliente</p>
+                    <p class="text-gray-900 font-medium">Cadastrar Cliente</p>
                 </button>
                 
-                <button onclick="navigateTo('financeiro')" class="glassmorphism rounded-xl p-6 text-center hover:bg-white/20 transition-colors">
+                <button onclick="navigateTo('financeiro')" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:bg-white/20 transition-colors">
                     <i data-lucide="calculator" class="w-8 h-8 text-green-400 mx-auto mb-2"></i>
-                    <p class="text-white font-medium">Fluxo de Caixa</p>
+                    <p class="text-gray-900 font-medium">Fluxo de Caixa</p>
                 </button>
                 
-                <button onclick="navigateTo('relatorios')" class="glassmorphism rounded-xl p-6 text-center hover:bg-white/20 transition-colors">
+                <button onclick="navigateTo('relatorios')" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center hover:bg-white/20 transition-colors">
                     <i data-lucide="bar-chart-3" class="w-8 h-8 text-blue-400 mx-auto mb-2"></i>
-                    <p class="text-white font-medium">Relatórios</p>
+                    <p class="text-gray-900 font-medium">Relatórios</p>
                 </button>
             </div>
         </div>
@@ -698,14 +700,14 @@ function renderAgendamentos() {
     return `
         <div class="space-y-6">
             <!-- Header com filtros -->
-            <div class="glassmorphism rounded-xl p-6">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h2 class="text-xl font-bold text-white">Agendamentos</h2>
+                        <h2 class="text-xl font-bold text-gray-900">Agendamentos</h2>
                         <p class="text-white/70 text-sm">Gerencie todos os agendamentos</p>
                     </div>
                     
-                    <button onclick="openModal('novoAgendamento')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="openModal('novoAgendamento')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-gray-900 rounded-lg font-medium transition-all">
                         <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>
                         Novo Agendamento
                     </button>
@@ -715,12 +717,12 @@ function renderAgendamentos() {
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-white/70 text-sm mb-2">Data</label>
-                        <input type="date" class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400" value="${new Date().toISOString().split('T')[0]}">
+                        <input type="date" class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400" value="${new Date().toISOString().split('T')[0]}">
                     </div>
                     
                     <div>
                         <label class="block text-white/70 text-sm mb-2">Profissional</label>
-                        <select class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        <select class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400">
                             <option value="">Todos</option>
                             ${demoData.profissionais.map(p => `<option value="${p.id}">${p.nome}</option>`).join('')}
                         </select>
@@ -728,7 +730,7 @@ function renderAgendamentos() {
                     
                     <div>
                         <label class="block text-white/70 text-sm mb-2">Status</label>
-                        <select class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        <select class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400">
                             <option value="">Todos</option>
                             <option value="agendado">Agendado</option>
                             <option value="confirmado">Confirmado</option>
@@ -741,7 +743,7 @@ function renderAgendamentos() {
                     <div>
                         <label class="block text-white/70 text-sm mb-2">Buscar Cliente</label>
                         <div class="relative">
-                            <input type="text" placeholder="Nome do cliente..." class="w-full pl-10 pr-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            <input type="text" placeholder="Nome do cliente..." class="w-full pl-10 pr-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400">
                             <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-white/50"></i>
                         </div>
                     </div>
@@ -749,7 +751,7 @@ function renderAgendamentos() {
             </div>
             
             <!-- Lista de Agendamentos -->
-            <div class="glassmorphism rounded-xl overflow-hidden">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead class="bg-white/5">
@@ -768,25 +770,25 @@ function renderAgendamentos() {
                                 <tr class="hover:bg-white/5">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                            <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-gray-900 text-sm font-bold mr-3">
                                                 ${agendamento.clienteNome.charAt(0)}
                                             </div>
                                             <div>
-                                                <div class="text-white font-medium">${agendamento.clienteNome}</div>
+                                                <div class="text-gray-900 font-medium">${agendamento.clienteNome}</div>
                                                 <div class="text-white/70 text-sm">${agendamento.clienteTelefone}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-white font-medium">${agendamento.servico}</div>
+                                        <div class="text-gray-900 font-medium">${agendamento.servico}</div>
                                         <div class="text-white/70 text-sm">${agendamento.duracao} min</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-white">${agendamento.profissional}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900">${agendamento.profissional}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-white">${formatDate(agendamento.data)}</div>
+                                        <div class="text-gray-900">${formatDate(agendamento.data)}</div>
                                         <div class="text-white/70 text-sm">${agendamento.horario}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-white font-medium">R$ ${agendamento.valor.toFixed(2)}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900 font-medium">R$ ${agendamento.valor.toFixed(2)}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(agendamento.status)}">
                                             ${getStatusText(agendamento.status)}
@@ -816,14 +818,14 @@ function renderClientes() {
     return `
         <div class="space-y-6">
             <!-- Header -->
-            <div class="glassmorphism rounded-xl p-6">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h2 class="text-xl font-bold text-white">Clientes</h2>
+                        <h2 class="text-xl font-bold text-gray-900">Clientes</h2>
                         <p class="text-white/70 text-sm">Gerencie sua base de clientes</p>
                     </div>
                     
-                    <button onclick="openModal('novoCliente')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="openModal('novoCliente')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-gray-900 rounded-lg font-medium transition-all">
                         <i data-lucide="user-plus" class="w-4 h-4 inline mr-2"></i>
                         Novo Cliente
                     </button>
@@ -833,13 +835,13 @@ function renderClientes() {
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="md:col-span-2">
                         <div class="relative">
-                            <input type="text" placeholder="Buscar por nome, telefone ou email..." class="w-full pl-10 pr-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            <input type="text" placeholder="Buscar por nome, telefone ou email..." class="w-full pl-10 pr-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-400">
                             <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-white/50"></i>
                         </div>
                     </div>
                     
                     <div>
-                        <select class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        <select class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400">
                             <option value="">Todos os clientes</option>
                             <option value="ativo">Ativos</option>
                             <option value="vip">VIP</option>
@@ -851,31 +853,31 @@ function renderClientes() {
             
             <!-- Estatísticas -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glassmorphism rounded-xl p-6">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Total de Clientes</p>
-                            <p class="text-2xl font-bold text-white mt-1">${demoData.clientes.length}</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">${demoData.clientes.length}</p>
                         </div>
                         <i data-lucide="users" class="w-8 h-8 text-blue-400"></i>
                     </div>
                 </div>
                 
-                <div class="glassmorphism rounded-xl p-6">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Clientes VIP</p>
-                            <p class="text-2xl font-bold text-white mt-1">${demoData.clientes.filter(c => c.vip).length}</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">${demoData.clientes.filter(c => c.vip).length}</p>
                         </div>
                         <i data-lucide="crown" class="w-8 h-8 text-yellow-400"></i>
                     </div>
                 </div>
                 
-                <div class="glassmorphism rounded-xl p-6">
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-white/70 text-sm">Novos Este Mês</p>
-                            <p class="text-2xl font-bold text-white mt-1">8</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">8</p>
                         </div>
                         <i data-lucide="user-plus" class="w-8 h-8 text-green-400"></i>
                     </div>
@@ -885,14 +887,14 @@ function renderClientes() {
             <!-- Lista de Clientes -->
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 ${demoData.clientes.map(cliente => `
-                    <div class="glassmorphism rounded-xl p-6 card-hover">
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 card-hover">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                <div class="w-12 h-12 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-gray-900 font-bold text-lg">
                                     ${cliente.nome.charAt(0)}
                                 </div>
                                 <div>
-                                    <h3 class="text-white font-semibold">${cliente.nome}</h3>
+                                    <h3 class="text-gray-900 font-semibold">${cliente.nome}</h3>
                                     <div class="flex items-center space-x-2 mt-1">
                                         ${cliente.vip ? '<span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded-full"><i data-lucide="crown" class="w-3 h-3 mr-1"></i>VIP</span>' : ''}
                                         <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full">${cliente.status}</span>
@@ -901,7 +903,7 @@ function renderClientes() {
                             </div>
                             
                             <div class="flex space-x-2">
-                                <button onclick="editCliente(${cliente.id})" class="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all">
+                                <button onclick="editCliente(${cliente.id})" class="p-2 text-white/70 hover:text-gray-900 hover:bg-white/10 rounded-lg transition-all">
                                     <i data-lucide="edit-2" class="w-4 h-4"></i>
                                 </button>
                                 <button onclick="deleteCliente(${cliente.id})" class="p-2 text-white/70 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all">
@@ -930,18 +932,18 @@ function renderClientes() {
                         <div class="mt-4 pt-4 border-t border-white/10">
                             <div class="grid grid-cols-2 gap-4 text-center">
                                 <div>
-                                    <p class="text-white font-semibold">R$ ${cliente.totalGasto.toFixed(2)}</p>
+                                    <p class="text-gray-900 font-semibold">R$ ${cliente.totalGasto.toFixed(2)}</p>
                                     <p class="text-white/70 text-xs">Total Gasto</p>
                                 </div>
                                 <div>
-                                    <p class="text-white font-semibold">${cliente.totalVisitas}</p>
+                                    <p class="text-gray-900 font-semibold">${cliente.totalVisitas}</p>
                                     <p class="text-white/70 text-xs">Visitas</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="mt-4">
-                            <button onclick="viewClienteDetalhes(${cliente.id})" class="w-full px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm transition-all">
+                            <button onclick="viewClienteDetalhes(${cliente.id})" class="w-full px-4 py-2 bg-white/10 hover:bg-white/20 text-gray-900 rounded-lg text-sm transition-all">
                                 Ver Detalhes
                             </button>
                         </div>
@@ -1043,10 +1045,10 @@ function showToast(message, type = 'info', duration = 3000) {
     const toast = document.createElement('div');
     
     const colors = {
-        success: 'bg-green-500 text-white',
-        error: 'bg-red-500 text-white',
+        success: 'bg-green-500 text-gray-900',
+        error: 'bg-red-500 text-gray-900',
         warning: 'bg-yellow-500 text-black',
-        info: 'bg-blue-500 text-white'
+        info: 'bg-blue-500 text-gray-900'
     };
     
     const icons = {

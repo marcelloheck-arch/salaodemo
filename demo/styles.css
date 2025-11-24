@@ -490,11 +490,11 @@
    ============================================================================= */
 
 :root {
-    --primary-gradient: linear-gradient(135deg, #8B5CF6 0%, #6366f1 100%);
-    --glass-bg: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
+    --primary-gradient: linear-gradient(135deg, #8B5CF6 0%, #7c3aed 100%);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(226, 232, 240, 0.5);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
     --success-color: #10B981;
     --warning-color: #F59E0B;
     --error-color: #EF4444;

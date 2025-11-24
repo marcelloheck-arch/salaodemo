@@ -86,15 +86,9 @@
             animation: fadeIn 0.3s ease-out;
         }
         
-        /* Professional neutral gradient background */
+        /* Clean professional background like original */
         .bg-salao-gradient {
-            background: linear-gradient(135deg, 
-                #4f46e5 0%, 
-                #6366f1 25%, 
-                #8b5cf6 50%, 
-                #6366f1 75%, 
-                #4f46e5 100%
-            );
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         }
         
         /* Hover effects */
@@ -283,47 +277,47 @@
         <!-- Dashboard Container -->
         <div id="dashboard" class="hidden min-h-screen">
             <!-- Sidebar -->
-            <div id="sidebar" class="sidebar fixed left-0 top-12 bottom-0 w-64 glassmorphism-dark z-30 overflow-y-auto">
+            <div id="sidebar" class="sidebar fixed left-0 top-12 bottom-0 w-64 bg-white border-r border-gray-200 shadow-sm z-30 overflow-y-auto">
                 <div class="p-6">
                     <!-- User Profile -->
                     <div class="flex items-center space-x-3 mb-8">
-                        <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-700 rounded-full flex items-center justify-center text-white font-bold">
                             A
                         </div>
                         <div>
-                            <p class="text-white font-semibold text-sm" id="user-name">Admin Sistema</p>
-                            <p class="text-white/60 text-xs" id="user-role">Administrador</p>
+                            <p class="text-gray-900 font-semibold text-sm" id="user-name">Admin Sistema</p>
+                            <p class="text-gray-500 text-xs" id="user-role">Administrador</p>
                         </div>
                     </div>
 
                     <!-- Navigation Menu -->
                     <nav class="space-y-2">
-                        <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all active" data-page="dashboard">
+                        <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all active" data-page="dashboard">
                             <i data-lucide="home" class="w-5 h-5"></i>
                             <span>Dashboard</span>
                         </button>
                         
-                        <button onclick="navigateTo('agendamentos')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all" data-page="agendamentos">
+                        <button onclick="navigateTo('agendamentos')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all" data-page="agendamentos">
                             <i data-lucide="calendar" class="w-5 h-5"></i>
                             <span>Agendamentos</span>
                         </button>
                         
-                        <button onclick="navigateTo('clientes')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all" data-page="clientes">
+                        <button onclick="navigateTo('clientes')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all" data-page="clientes">
                             <i data-lucide="users" class="w-5 h-5"></i>
                             <span>Clientes</span>
                         </button>
                         
-                        <button onclick="navigateTo('profissionais')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all" data-page="profissionais">
+                        <button onclick="navigateTo('profissionais')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all" data-page="profissionais">
                             <i data-lucide="user-check" class="w-5 h-5"></i>
                             <span>Profissionais</span>
                         </button>
                         
-                        <button onclick="navigateTo('servicos')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all" data-page="servicos">
+                        <button onclick="navigateTo('servicos')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all" data-page="servicos">
                             <i data-lucide="scissors" class="w-5 h-5"></i>
                             <span>Serviços</span>
                         </button>
                         
-                        <button onclick="navigateTo('financeiro')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all" data-page="financeiro">
+                        <button onclick="navigateTo('financeiro')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all" data-page="financeiro">
                             <i data-lucide="dollar-sign" class="w-5 h-5"></i>
                             <span>Financeiro</span>
                         </button>
@@ -359,13 +353,13 @@
             </button>
 
             <!-- Main Content -->
-            <div class="md:ml-64 min-h-screen">
+            <div class="md:ml-64 min-h-screen bg-gray-50">
                 <!-- Header -->
-                <header class="glassmorphism-dark sticky top-12 z-20 px-6 py-4">
+                <header class="bg-white border-b border-gray-200 sticky top-12 z-20 px-6 py-4">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h1 class="text-2xl font-bold text-white" id="page-title">Dashboard</h1>
-                            <p class="text-white/60 text-sm" id="page-subtitle">Visão geral do sistema</p>
+                            <h1 class="text-2xl font-bold text-gray-900" id="page-title">Dashboard</h1>
+                            <p class="text-gray-500" id="page-subtitle">Visão geral do seu salão de beleza</p>
                         </div>
                         
                         <div class="flex items-center space-x-4">

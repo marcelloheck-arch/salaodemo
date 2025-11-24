@@ -1,15 +1,37 @@
-/* CACHE BUSTER - v3.0 - 24/11/2025 */
-/* Este arquivo força a atualização completa do sistema */
+/* CACHE BUSTER - v4.0 - Clean Original Style - 24/11/2025 */
+/* Este arquivo força o estilo clean original */
 
-/* Confirmação de que as cores neutras foram aplicadas */
+/* Aplicando o tema clean como no original */
 .neutral-theme-confirmed {
-    /* Gradiente principal neutro */
-    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 25%, #8b5cf6 50%, #6366f1 75%, #4f46e5 100%);
+    /* Fundo claro clean */
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     
-    /* ZERO ROSA - Apenas tons neutros */
-    --confirmed-no-pink: true;
-    --theme: "professional-unisex";
-    --version: "3.0";
+    /* Estilo clean original */
+    --confirmed-clean-style: true;
+    --theme: "clean-original";
+    --version: "4.0";
+}
+
+/* Cards brancos com sombra sutil */
+body {
+    background: #f8fafc !important;
+}
+
+/* Sidebar roxa como original */
+.sidebar {
+    background: #8b5cf6 !important;
+}
+
+/* Cards brancos */
+.dashboard-card, .card {
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Texto escuro para contraste */
+.text-white {
+    color: #1e293b !important;
 }
 
 /* Sobrescrever qualquer cor rosa que possa ter restado */
@@ -19,6 +41,6 @@
 .bg-pink-400,
 .bg-pink-500,
 .bg-pink-600 {
-    color: #6366f1 !important;
-    background-color: #6366f1 !important;
+    color: #8b5cf6 !important;
+    background-color: #8b5cf6 !important;
 }
