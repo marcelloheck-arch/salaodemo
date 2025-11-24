@@ -1,46 +1,53 @@
-/* CACHE BUSTER - v4.0 - Clean Original Style - 24/11/2025 */
-/* Este arquivo força o estilo clean original */
+/* DESIGN EXATO ORIGINAL - v5.0 - 24/11/2025 */
+/* Replicando EXATAMENTE o design original mostrado na imagem */
 
-/* Aplicando o tema clean como no original */
-.neutral-theme-confirmed {
-    /* Fundo claro clean */
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    
-    /* Estilo clean original */
-    --confirmed-clean-style: true;
-    --theme: "clean-original";
-    --version: "4.0";
-}
-
-/* Cards brancos com sombra sutil */
+/* Fundo totalmente branco como original */
 body {
-    background: #f8fafc !important;
+    background: #ffffff !important;
 }
 
-/* Sidebar roxa como original */
+/* Sidebar 100% branca */
 .sidebar {
+    background: #ffffff !important;
+    border-right: 1px solid #f3f4f6 !important;
+}
+
+/* Area principal branca */
+.content {
+    background: #ffffff !important;
+}
+
+/* Cards totalmente brancos como original */
+.bg-white {
+    background: #ffffff !important;
+    border: 1px solid #f3f4f6 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Menu - cinza normal, roxo só no ativo */
+.nav-item {
+    color: #6b7280 !important;
+}
+
+.nav-item.active {
     background: #8b5cf6 !important;
+    color: #ffffff !important;
 }
 
-/* Cards brancos */
+/* Header clean */
+header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+}
+
+/* Remove qualquer gradiente restante */
+* {
+    background-image: none !important;
+}
+
+/* Garantir que cards são brancos */
 .dashboard-card, .card {
-    background: white !important;
-    border: 1px solid #e2e8f0 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Texto escuro para contraste */
-.text-white {
-    color: #1e293b !important;
-}
-
-/* Sobrescrever qualquer cor rosa que possa ter restado */
-.text-pink-400,
-.text-pink-500,
-.text-pink-600,
-.bg-pink-400,
-.bg-pink-500,
-.bg-pink-600 {
-    color: #8b5cf6 !important;
-    background-color: #8b5cf6 !important;
+    background: #ffffff !important;
+    border: 1px solid #f3f4f6 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }

@@ -442,11 +442,11 @@ function navigateTo(page) {
     
     // Atualizar menu ativo
     document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active', 'bg-purple-50', 'text-purple-600');
-        item.classList.add('text-gray-600');
+        item.classList.remove('active', 'bg-purple-600', 'text-white');
+        item.classList.add('text-gray-500');
         if (item.getAttribute('data-page') === page) {
-            item.classList.add('active', 'bg-purple-50', 'text-purple-600');
-            item.classList.remove('text-gray-600');
+            item.classList.add('active', 'bg-purple-600', 'text-white');
+            item.classList.remove('text-gray-500');
         }
     });
     
