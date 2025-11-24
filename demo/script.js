@@ -604,13 +604,13 @@ function renderDashboard() {
                         <div>
                             <p class="text-white/70 text-sm">Profissionais</p>
                             <p class="text-3xl font-bold text-white mt-2">${demoData.profissionais.filter(p => p.status === 'ativo').length}</p>
-                            <p class="text-pink-400 text-xs mt-1">
+                            <p class="text-blue-400 text-xs mt-1">
                                 <i data-lucide="user-check" class="w-3 h-3 inline mr-1"></i>
                                 Todos ativos
                             </p>
                         </div>
-                        <div class="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center">
-                            <i data-lucide="user-check" class="w-6 h-6 text-pink-400"></i>
+                        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="user-check" class="w-6 h-6 text-blue-400"></i>
                         </div>
                     </div>
                 </div>
@@ -686,7 +686,7 @@ function renderDashboard() {
                 </button>
                 
                 <button onclick="navigateTo('relatorios')" class="glassmorphism rounded-xl p-6 text-center hover:bg-white/20 transition-colors">
-                    <i data-lucide="bar-chart-3" class="w-8 h-8 text-pink-400 mx-auto mb-2"></i>
+                    <i data-lucide="bar-chart-3" class="w-8 h-8 text-blue-400 mx-auto mb-2"></i>
                     <p class="text-white font-medium">Relatórios</p>
                 </button>
             </div>
@@ -1187,7 +1187,7 @@ function initServicesChart() {
                 data: [35, 25, 20, 15, 5],
                 backgroundColor: [
                     '#8B5CF6',
-                    '#EC4899',
+                    '#6366f1',
                     '#10B981',
                     '#F59E0B',
                     '#6B7280'
@@ -1284,7 +1284,7 @@ function initExpenseChart() {
                     '#F59E0B',
                     '#6B7280',
                     '#8B5CF6',
-                    '#EC4899'
+                    '#6366f1'
                 ],
                 borderWidth: 0
             }]
@@ -1371,7 +1371,7 @@ function initProfessionalPerformanceChart() {
                 data: [65, 45, 38],
                 backgroundColor: [
                     '#8B5CF6',
-                    '#EC4899',
+                    '#6366f1',
                     '#10B981'
                 ],
                 borderWidth: 0
