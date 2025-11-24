@@ -1,0 +1,24 @@
+/* CACHE BUSTER - v3.0 - 24/11/2025 */
+/* Este arquivo força a atualização completa do sistema */
+
+/* Confirmação de que as cores neutras foram aplicadas */
+.neutral-theme-confirmed {
+    /* Gradiente principal neutro */
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 25%, #8b5cf6 50%, #6366f1 75%, #4f46e5 100%);
+    
+    /* ZERO ROSA - Apenas tons neutros */
+    --confirmed-no-pink: true;
+    --theme: "professional-unisex";
+    --version: "3.0";
+}
+
+/* Sobrescrever qualquer cor rosa que possa ter restado */
+.text-pink-400,
+.text-pink-500,
+.text-pink-600,
+.bg-pink-400,
+.bg-pink-500,
+.bg-pink-600 {
+    color: #6366f1 !important;
+    background-color: #6366f1 !important;
+}
