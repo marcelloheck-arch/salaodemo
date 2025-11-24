@@ -644,7 +644,7 @@ function renderDashboard() {
                     ${agendamentosHoje.length > 0 ? agendamentosHoje.map(agendamento => `
                         <div class="bg-white/5 rounded-lg p-4 flex items-center justify-between hover:bg-white/10 transition-colors">
                             <div class="flex items-center space-x-4">
-                                <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+                                <div class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
                                     ${agendamento.clienteNome.charAt(0)}
                                 </div>
                                 <div>
@@ -705,7 +705,7 @@ function renderAgendamentos() {
                         <p class="text-white/70 text-sm">Gerencie todos os agendamentos</p>
                     </div>
                     
-                    <button onclick="openModal('novoAgendamento')" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="openModal('novoAgendamento')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
                         <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>
                         Novo Agendamento
                     </button>
@@ -768,7 +768,7 @@ function renderAgendamentos() {
                                 <tr class="hover:bg-white/5">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                            <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
                                                 ${agendamento.clienteNome.charAt(0)}
                                             </div>
                                             <div>
@@ -823,7 +823,7 @@ function renderClientes() {
                         <p class="text-white/70 text-sm">Gerencie sua base de clientes</p>
                     </div>
                     
-                    <button onclick="openModal('novoCliente')" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="openModal('novoCliente')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
                         <i data-lucide="user-plus" class="w-4 h-4 inline mr-2"></i>
                         Novo Cliente
                     </button>
@@ -888,7 +888,7 @@ function renderClientes() {
                     <div class="glassmorphism rounded-xl p-6 card-hover">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                <div class="w-12 h-12 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                                     ${cliente.nome.charAt(0)}
                                 </div>
                                 <div>

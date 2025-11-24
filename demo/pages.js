@@ -24,7 +24,7 @@ function renderProfissionais() {
                         <p class="text-white/70 text-sm">Gerencie sua equipe e especialidades</p>
                     </div>
                     
-                    <button onclick="openModal('novoProfissional')" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="openModal('novoProfissional')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
                         <i data-lucide="user-plus" class="w-4 h-4 inline mr-2"></i>
                         Novo Profissional
                     </button>
@@ -69,7 +69,7 @@ function renderProfissionais() {
                             <p class="text-white/70 text-sm">Comissão Média</p>
                             <p class="text-2xl font-bold text-white mt-1">40%</p>
                         </div>
-                        <i data-lucide="percent" class="w-8 h-8 text-pink-400"></i>
+                        <i data-lucide="percent" class="w-8 h-8 text-blue-400"></i>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@ function renderProfissionais() {
                     <div class="glassmorphism rounded-xl p-6 card-hover">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center space-x-4">
-                                <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                                <div class="w-16 h-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                                     ${profissional.nome.charAt(0)}
                                 </div>
                                 <div>
@@ -161,7 +161,7 @@ function renderServicos() {
                         <p class="text-white/70 text-sm">Gerencie o catálogo de serviços</p>
                     </div>
                     
-                    <button onclick="openModal('novoServico')" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="openModal('novoServico')" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
                         <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>
                         Novo Serviço
                     </button>
@@ -231,7 +231,7 @@ function renderServicos() {
                             <p class="text-white/70 text-sm">Preço Médio</p>
                             <p class="text-2xl font-bold text-white mt-1">R$ ${(demoData.servicos.reduce((sum, s) => sum + s.preco, 0) / demoData.servicos.length).toFixed(0)}</p>
                         </div>
-                        <i data-lucide="dollar-sign" class="w-8 h-8 text-pink-400"></i>
+                        <i data-lucide="dollar-sign" class="w-8 h-8 text-blue-400"></i>
                     </div>
                 </div>
             </div>
@@ -559,7 +559,7 @@ function renderRelatorios() {
                     ].map((servico, index) => `
                         <div class="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
                             <div class="flex items-center space-x-4">
-                                <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                                     ${index + 1}
                                 </div>
                                 <div>
@@ -752,7 +752,7 @@ function renderConfiguracoes() {
                 
                 <!-- Botão Salvar -->
                 <div class="p-6 border-t border-white/10">
-                    <button onclick="saveConfiguracoes()" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all">
+                    <button onclick="saveConfiguracoes()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all">
                         <i data-lucide="save" class="w-4 h-4 inline mr-2"></i>
                         Salvar Configurações
                     </button>
